@@ -1,3 +1,3 @@
-MOGL 모글
+MOGL
 =======
-MOGL is light weight & high performance mobile webgl library.
+MOGL is light weight & high performance **MO**bile web**GL** library.
