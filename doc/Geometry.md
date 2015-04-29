@@ -26,33 +26,41 @@
 ## Constructor
 
 ```javascript
-Mesh( geometry:*, material:* )
+Geometry( vertexBuffer:Array, indexBuffer:Array[, vertexInfo:Array]  )
 ```
 
 **description**
 
-기하구조와 재질을 포함하는 하나의 렌더링 단위인 Mesh를 생성함.
-* id를 인자로 지정하면 Scene에 addMesh하는 순간 id를 바인딩하며 실패하면 등록되지 않음.
-* 객체를 인자로 지정하면 Scene에 addMesh하는 Geometry나 Material이 임의의 id로 자동등록되며, shaderId가 존재하지 않으면 실패함.
+정점배열과 인덱스 배열을 이용하여 기하구조를 정의함. 
 
 **param**
 
-1. geometry:* - 기하구조체를 받으며 다음과 같은 형식이 올 수 있음.
-    * string - Mesh가 등록될 Scene에 이미 등록되어있는 Geometry의 id를 지정함.
-    * Geometry - 직접 Geometry 객체를 지정함.
-    * null - null로 지정되면 scene의 렌더링 대상에서 제외됨(그룹, 카메라등에서 사용)
-2. material:* - 해당 기하구조에 적용할 재질을 받으며 다음과 같은 형식이 올 수 있음.
-    * string - Mesh가 등록될 Scene에 이미 등록되어있는 Material의 id를 지정함.
-    * Geometry - 직접 Material 객체를 지정함.
-    * null - null로 지정되면 scene의 렌더링 대상에서 제외됨(그룹, 카메라등에서 사용)
+1. vertexBuffer:Array or TypedArray - 정점 배열.
+2. indexBuffer:Array or TypedArray - 인덱스배열.
+3. ?vertexInfo:Array - 정점하나에 대한 정의. 생략시에는 ['x', 'y', 'z']로 정의됨. 다음과 같은 상수항을 사용할 수 있음.
+    * Geometry.x or 'x' - x좌표.
+    * Geometry.y or 'y' - y좌표.
+    * Geometry.z or 'z' - z좌표.
+    * Geometry.r or 'r' - 색상Red값.
+    * Geometry.g or 'g' - 색상Green값.
+    * Geometry.b or 'b' - 색상Blue값.
+    * Geometry.a or 'a' - 색상Alpha값.
+    * Geometry.normalX or 'nx' - 법선벡터의 x값.
+    * Geometry.normalY or 'ny' - 법선벡터의 y값.
+    * Geometry.normalZ or 'nz' - 법선벡터의 z값.
 
 **sample**
 
 ```javascript
-var mesh1 = new Mesh( 'cube', 'mat1' );
-var mesh2 = new Mesh(
-    new Geometry( vertex, index, 'baseShader' ),
-    new Material('#f00')
+var cube = new Geometry( 
+    //vertexBuffer
+    [1,0,0, 0,0,1, 0,1,1,
+     1,0,0, 0,0,1, 0,1,1, 
+     1,0,0, 0,0,1, 0,1,1],
+    //indexBuffer
+    [0,1,2, 2,3,4, 4,5,6],
+    //vertextInfo
+    [Geometry.x, Geometry.y, Geometry.z]
 );
 ```
 
