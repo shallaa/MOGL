@@ -1,17 +1,17 @@
 * APIs
     * Ani
-    * [Camera](camera.md)
+    * [Camera](Camera.md)
     * DirLight
     * Emitter
-    * [Geometry](geometry.md)
-    * [Group](group.md)
+    * [Geometry](Geometry.md)
+    * [Group](Group.md)
     * Light
-    * [Material](material.md)
+    * [Material](Material.md)
     * Matrix
-    * [Mesh](mesh.md)
+    * [Mesh](Mesh.md)
     * OmniLight
     * Particle
     * Physics
-    * [Scene](scene.md)
+    * [Scene](Scene.md)
     * SpotLight
-    * [World](world.md)
+    * [World](World.md)
