@@ -1,4 +1,4 @@
-# Geometry
+# Material
 * [Constructor](#constructor)
 
 **method**
