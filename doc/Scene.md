@@ -1,11 +1,6 @@
 # Scene
 * [Constructor](#Constructor)
 
-**field**
-* [light](#light)
-* [mesh](#mesh)
-
-
 **method**
 
 * [addCamera](#addcamera-idstring-cameracamera-)
@@ -31,21 +26,6 @@
 * [removeTexture](#removetexture-idstring-)
 * [removeVertextShader](#removevertexshader-idstring-)
 
-**static method**
-
-* [Mesh.getColorTexture](#worldcube)
-
-**const**
-
-* [Mesh.fragment.normalMap](#worldcube)
-* [Mesh.fragment.water](#worldgeodesic)
-* [Mesh.fragment.fresnel](#worldline)
-* [Mesh.fragment.cartoon](#worldplane)
-* [Mesh.fragment.phong](#worldplane)
-* [Mesh.fragment.goraud](#worldplane)
-* [Mesh.fragment.flat](#worldplane)
-* [Mesh.geometry.waffle](#worldpoint)
-
 
 ## Constructor
 
@@ -66,38 +46,6 @@ Scene()
 
 ```javascript
 var scene = new Scene();
-```
-
-## light
-
-**description**
-
-Scene이 소유한 조명객체의 오브젝트.
-* add, get, remove 대신 직접 속성객체를 통제해도 됨.
-
-**sample**
-```javascript
-var lobby = world.getScene('lobby');
-var key;
-for( key in lobby.light ){
-    console.log( 'light', key, lobby.light[key] );
-}
-```
-
-## mesh
-
-**description**
-
-Scene이 소유한 Mesh의 오브젝트.
-* add, get, remove 대신 직접 속성객체를 통제해도 됨.
-
-**sample**
-```javascript
-var lobby = world.getScene('lobby');
-var key;
-for( key in lobby.mesh ){
-    console.log( 'mesh', key, lobby.mesh[key] );
-}
 ```
 
 ## addCamera( id:string, camera:Camera )
