@@ -2,24 +2,25 @@
 * [Constructor](#constructor)
 
 **field**
-* [rotateX, rotateY, rotateZ](#rotateX)
-* [scaleX, scaleY, scaleZ](#scaleX)
-* [x, y, z](#x)
+* [rotateX, rotateY, rotateZ](#rotatex-rotatey-rotatez)
+* [scaleX, scaleY, scaleZ](#scalex-scaley-scalez)
+* [x, y, z](#x-y-z)
 
 **method**
 
-* [getGeometry](#getgeomtry-idstring-)
-* [getMaterial](#getmaterial-idstring-)
-* [getMatrix](#getmesh-idstring-)
-* [getParent](#getmesh-idstring-)
-* [getPosition](#getmesh-idstring-)
-* [getRotate](#getmesh-idstring-)
-* [getScale](#getmesh-idstring-)
-* [setMatrix](#getmesh-idstring-)
-* [setGeometry](#removegeometry-idstring-)
-* [setMaterial](#removematerial-idstring-)
-* [setRotate](#getmesh-idstring-)
-* [setScale](#getmesh-idstring-)
+* [getGeometry](#getgeometry)
+* [getMaterial](#getmaterial)
+* [getMatrix](#getmatrix)
+* [getParent](#getparent)
+* [getPosition](#getposition)
+* [getRotate](#getrotate)
+* [getScale](#getscale)
+* [setGeometry](#setgeometry-geometry-)
+* [setMaterial](#setmaterial-material-)
+* [setMatrix](#setmatrix-matrix-)
+* [setPosition](#setposition-positionarray-)
+* [setRotate](#setrotate-rotatearray-)
+* [setScale](#setscale-scalearray-)
 
 
 ## Constructor
@@ -54,6 +55,7 @@ var mesh2 = new Mesh(
     new Material('#f00')
 );
 ```
+[top][#]
 
 ## rotateX, rotateY, rotateZ
 
