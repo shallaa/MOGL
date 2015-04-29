@@ -353,404 +353,51 @@ mesh.setPosition( [20,5, 6] );
 ```
 
 
-
-## setRotate( id:string )
+### setRotate( [rotate:Array] )
+   └ setRotate( rx:number, ry:number, rz:number )
 
 **description**
 
-id에 해당되는 Camera를 얻음.
+현재 Mesh의 회전을 재설정함. 인자를 생략하면 0으로 초기화됨.
 
 **param**
 
-1. id:string - 등록시 사용한 id.
+1. ?rotate:Array or TypedArray - [rx, ry, rz] 형태의 배열.
+2. rx:number, ry:number, rz:number - 각각의 x, y, z 회전값.
 
 **return**
 
-Camera - id에 해당되는 Camera 인스턴스.
+Float32Array - [rx,ry,rz]형태의 좌표배열.
 
 **sample**
 
 ```javascript
-var lobby = world.getScene('lobby');
-lobby.addCamera( 'frontView', new Camera() );
-var frontView = lobby.getCamera('frontView');
+var mesh = world.getScene('lobby').getMesh('cube');
+mesh.setRotate( 20, 180, 0 );
+mesh.setRotate( [20, 180, 6] );
 ```
 
 
-## getGeomtry( id:string )
+### setScale( [scale:Array] )
+   └ setScale( sx:number, sy:number, sz:number )
 
 **description**
 
-id에 해당되는 Geometry를 얻음.
+현재 Mesh의 확대를 재설정함. 인자를 생략하면 1로 초기화됨.
 
 **param**
 
-1. id:string - 등록시 사용한 id.
+1. ?scale:Array or TypedArray - [sx, sy, sz] 형태의 배열.
+2. sx:number, sy:number, sz:number - 각각의 x, y, z 확대값.
 
 **return**
 
-Geometry - id에 해당되는 Geometry 인스턴스.
+Float32Array - [sx,sy,sz]형태의 좌표배열.
 
 **sample**
 
 ```javascript
-var cube = world.getScene('lobby').getGeometry('cube');
-```
-
-## getLight( id:string )
-
-**description**
-
-id에 해당되는 Light를 얻음.
-
-**param**
-
-1. id:string - 등록시 사용한 id.
-
-**return**
-
-Light - id에 해당되는 Light 인스턴스.
-
-**sample**
-
-```javascript
-var light = world.getScene('lobby').getLight('centerLight');
-```
-
-
-## getMaterial( id:string )
-
-**description**
-
-id에 해당되는 Material을 얻음.
-
-**param**
-
-1. id:string - 등록시 사용한 id.
-
-**return**
-
-Material - id에 해당되는 Material 인스턴스.
-
-**sample**
-
-```javascript
-var cube = world.getScene('lobby').getMaterial('white');
-```
-
-## getMesh( id:string )
-
-**description**
-
-id에 해당되는 Mesh를 얻음.
-
-**param**
-
-1. id:string - 등록시 사용한 id.
-
-**return**
-
-Mesh - id에 해당되는 Mesh 인스턴스.
-
-**sample**
-
-```javascript
-var cube = world.getScene('lobby').getMesh('cube');
-```
-
-## getTexture( id:string )
-
-**description**
-
-id에 해당되는 texture 이미지를 얻음.
-
-**param**
-
-1. id:string - 등록시 사용한 id.
-
-**return**
-
-image엘리먼트 - id에 해당되는 image엘리먼트. src는 dataURL로 되어있음.
-
-**sample**
-
-```javascript
-var normal = world.getScene('lobby').getTexture('normal');
-console.log( normal.src ); //dataURL 형식으로 보여짐.
-```
-
-## removeCamera( id:string )
-
-**description**
-
-등록된 Camera를 제거함.
-* 제거시 world의 render에 관련된 정보도 동시에 삭제됨.
-
-**param**
-
-1. id:string - addCamera에서 사용한 id.
-
-**return**
-
-boolean - 해당 객체가 존재하고 삭제하는데 성공하면 true, 그 외에는 false.
-
-**sample**
-
-```javascript
-world.getScene('lobby').removeCamera('frontView');
-```
-
-
-## removeFragmentShader( id:string )
-
-**description**
-
-등록된 fragment shader를 제거함.
-* 제거시 scene내에서 해당 shader를 참조하는 Material을 소유한 Mesh가 전부 삭제됨.
-
-**param**
-
-1. id:string - addFragmentShader에서 사용한 id.
-
-**return**
-
-boolean - 해당 객체가 존재하고 삭제하는데 성공하면 true, 그 외에는 false.
-
-**sample**
-
-```javascript
-world.getScene('lobby').removeFragmentShader('base');
-```
-
-
-## removeGeometry( id:string )
-
-**description**
-
-등록된 Geometry를 삭제함.
-* 삭제시 Scene을 조사하여 해당 Geometry를 참조하는 Mesh도 전부 삭제됨.
-
-**param**
-
-1. id:string - addGeometry에서 사용할 id.
-
-**return**
-
-boolean - 해당 객체가 존재하고 삭제하는데 성공하면 true, 그 외에는 false.
-
-**sample**
-
-```javascript
-var lobby = world.getScene('lobby');
-lobby.addGeometry( 'building', new Geometry( v1, i1 ) );
-
-lobby.removeGeometry('building');
-```
-
-## removeLight( id:string )
-
-**description**
-
-등록된 Light를 제거함.
-
-**param**
-
-1. id:string - addLight에서 사용한 id.
-
-**return**
-
-boolean - 해당 객체가 존재하고 삭제하는데 성공하면 true, 그 외에는 false.
-
-**sample**
-
-```javascript
-world.getScene('lobby').removeLight('centerLight');
-```
-
-
-## removeMaterial( id:string )
-
-**description**
-
-등록된 Material을 제거함.
-* 해당 Material을 참고하는 scene내의 모든 Mesh도 제거됨.
-
-**param**
-
-1. id:string - addCamera에서 사용한 id.
-
-**return**
-
-boolean - 해당 객체가 존재하고 삭제하는데 성공하면 true, 그 외에는 false.
-
-**sample**
-
-```javascript
-world.getScene('lobby').removeCamera('frontView');
-```
-
-## removeMesh( id:string )
-
-**description**
-
-등록된 Mesh를 제거함.
-* Group제거시 Group에 등록된 Mesh일체가 제거됨.
-
-**param**
-
-1. id:string - addCamera에서 사용한 id.
-
-**return**
-
-boolean - 해당 객체가 존재하고 삭제하는데 성공하면 true, 그 외에는 false.
-
-**sample**
-
-```javascript
-world.getScene('lobby').removeCamera('frontView');
-```
-
-
-## removeTexture( id:string )
-
-**description**
-
-등록된 Texture를 제거함.
-* 제거시 scene내의 참조하고 있는 Material을 전부 삭제하고 삭제된 Material을 참조하는 Mesh도 일괄삭제됨.
-
-**param**
-
-1. id:string - addTexture에서 사용한 id.
-
-**return**
-
-boolean - 해당 객체가 존재하고 삭제하는데 성공하면 true, 그 외에는 false.
-
-**sample**
-
-```javascript
-world.getScene('lobby').removeTexture('white');
-```
-
-
-## removeVertexShader( id:string )
-
-**description**
-
-등록된 vertex shader를 제거함.
-* 제거시 scene 내의 참조중인 Mesh도 일괄 삭제됨.
-
-**param**
-
-1. id:string - addVertextShader에서 사용한 id.
-
-**return**
-
-boolean - 해당 객체가 존재하고 삭제하는데 성공하면 true, 그 외에는 false.
-
-**sample**
-
-```javascript
-world.getScene('lobby').removeVertexShader('base');
-```
-
-
-## World.cube
-
-**description**
-
-내장된 Geometry.
-각 평면이 두 개의 삼각형으로 구성된 정육면체 구조.
-
-**sample**
-
-```javascript
-scene.addMesh( 'cube1', new Mesh( World.cube, new Material() );
-```
-
-
-## World.geodesic
-
-**description**
-
-내장된 Geometry.
-극점에서 폴리곤이 몰리지 않도록 Geodesic 형태로 생성되는 구의 구조. 기본값 30. n면체지원(최대 200)
-
-
-**sample**
-
-```javascript
-scene.addMesh( 'geo0', new Mesh( World.geodesic, new Material() );
-scene.addMesh( 'geo1', new Mesh( World.geodesic[50], new Material() );
-```
-
-## World.line
-
-**description**
-
-내장된 Geometry.
-x축에 병행하며 0점을 지나는 직선.
-
-**sample**
-
-```javascript
-scene.addMesh( 'l', new Mesh( World.line, new Material() );
-```
-
-
-## World.plane
-
-**description**
-
-내장된 Geometry.
-두 개의 삼각형으로 구성된 평면구조.
-
-**sample**
-
-```javascript
-scene.addMesh( 'pl', new Mesh( World.plane, new Material() );
-```
-
-
-## World.point
-
-**description**
-
-내장된 Geometry.
-하나의 점을 나타내는 구조.
-
-**sample**
-
-```javascript
-scene.addMesh( 'p', new Mesh( World.point, new Material() );
-```
-
-
-## World.sphere
-
-**description**
-
-내장된 Geometry.
-최소 8면체에서 n면체를 지원하는 구형태의 구조(최대 200)
-인덱스를 통해 원하는 삼각형의 수를 지정할 수 있음.
-
-**sample**
-
-```javascript
-scene.addMesh( 's0', new Mesh( World.sphere, new Material() );
-scene.addMesh( 's1', new Mesh( World.sphere[50], new Material() );
-```
-
-
-## World.skybox
-
-**description**
-
-내장된 Geometry.
-큐브형태의 구조로 각 평면이 내부를 바라보도록 되어있음.
-
-**sample**
-
-```javascript
-scene.addMesh( 'box', new Mesh( World.skybox, new Material() );
+var mesh = world.getScene('lobby').getMesh('cube');
+mesh.setScale( 1, 2.5, 0.8 );
+mesh.setScale( [1, 2.5, 0.8] );
 ```
