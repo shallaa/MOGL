@@ -11,16 +11,16 @@
 
 **const**
 
-* [Geometry.x](#geometry)
-* [Geometry.y](#geometry)
-* [Geometry.z](#geometry)
-* [Geometry.r](#geometry)
-* [Geometry.g](#geometry)
-* [Geometry.b](#geometry)
-* [Geometry.a](#geometry)
-* [Geometry.normalX](#geometry)
-* [Geometry.normalY](#geometry)
-* [Geometry.normalZ](#geometry)
+* [Geometry.x](#geometryx)
+* [Geometry.y](#geometryy)
+* [Geometry.z](#geometryz)
+* [Geometry.r](#geometryr)
+* [Geometry.g](#geometryg)
+* [Geometry.b](#geometryb)
+* [Geometry.a](#geometrya)
+* [Geometry.normalX](#geometrynormalx)
+* [Geometry.normalY](#geometrynormaly)
+* [Geometry.normalZ](#geometrynormalz)
 
 [top](#)
 ## Constructor
