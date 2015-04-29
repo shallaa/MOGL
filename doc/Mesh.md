@@ -22,7 +22,7 @@
 * [setRotate](#setrotate-rotatearray-)
 * [setScale](#setscale-scalearray-)
 
-
+[top](#)
 ## Constructor
 
 ```javascript
@@ -55,8 +55,8 @@ var mesh2 = new Mesh(
     new Material('#f00')
 );
 ```
-[top](#)
 
+[top](#)
 ## rotateX, rotateY, rotateZ
 
 **description**
@@ -70,7 +70,7 @@ scene.getMesh('cube').rotateY += 20;
 scene.getMesh('cube').rotateZ += 50;
 ```
 
-
+[top](#)
 ## scaleX, scaleY, scaleZ
 
 **description**
@@ -84,7 +84,7 @@ scene.getMesh('cube').scaleY = 1.5;
 scene.getMesh('cube').scaleZ = 1.5;
 ```
 
-
+[top](#)
 ## x, y, z
 
 **description**
@@ -98,7 +98,7 @@ scene.getMesh('cube').y = 200;
 scene.getMesh('cube').z = 0;
 ```
 
-
+[top](#)
 ## getGeometry()
 
 **description**
@@ -120,6 +120,7 @@ Geometry - Mesh에 지정된 Geometry 또는 null.
 var geo = world.getScene('lobby').getMesh('cube').getGeometry();
 ```
 
+[top](#)
 ## getMaterial()
 
 **description**
@@ -141,7 +142,7 @@ Material - Mesh에 지정된 Material 또는 null.
 var mat = world.getScene('lobby').getMesh('cube').getMaterial();
 ```
 
-
+[top](#)
 ## getMatrix()
 
 **description**
@@ -162,7 +163,7 @@ Matrix - 현재 상태를 나타내는 행렬객체.
 var matrix = world.getScene('lobby').getMesh('cube').getMatrix();
 ```
 
-
+[top](#)
 ## getParent()
 
 **description**
@@ -184,6 +185,7 @@ var parent = world.getScene('lobby').getMesh('cube').getParent();
 parent === world.getScene('lobby')
 ```
 
+[top](#)
 ## getPosition()
 
 **description**
@@ -206,6 +208,7 @@ Float32Array - 타입드어레이 형식으로 [x,y,z]를 반환함.
 var x = world.getScene('lobby').getMesh('cube').getPosition()[0];
 ```
 
+[top](#)
 ## getRotate()
 
 **description**
@@ -228,7 +231,7 @@ Float32Array - 타입드어레이 형식으로 [rx,ry,rz]를 반환함.
 var rotateX = world.getScene('lobby').getMesh('cube').getRotate()[0];
 ```
 
-
+[top](#)
 ## getScale()
 
 **description**
@@ -251,6 +254,7 @@ Float32Array - 타입드어레이 형식으로 [sx,sy,sz]를 반환함.
 var scaleX = world.getScene('lobby').getMesh('cube').getScale()[0];
 ```
 
+[top](#)
 ## setGeometry( geometry:* )
 
 **description**
@@ -277,7 +281,7 @@ mesh.setGeometry( 'sphere' );
 mesh.setGeometry( new Geometry( vertex, index, 'baseShader' ) );
 ```
 
-
+[top](#)
 ## setMatrix( [matrix:*] )
 
 **description**
@@ -303,7 +307,7 @@ mesh.setMatrix( new Matrix() );
 mesh.setMatrix( [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1] );
 ```
 
-
+[top](#)
 ## setMaterial( material:* )
 
 **description**
@@ -330,6 +334,7 @@ mesh.setMaterial( 'white' );
 mesh.setMaterial( new Material('#f00') );
 ```
 
+[top](#)
 ### setPosition( [position:Array] )
    └ setPosition( x:number, y:number, z:number )
 
@@ -354,7 +359,7 @@ mesh.setPosition( 20, 5, 6 );
 mesh.setPosition( [20,5, 6] );
 ```
 
-
+[top](#)
 ### setRotate( [rotate:Array] )
    └ setRotate( rx:number, ry:number, rz:number )
 
@@ -379,7 +384,7 @@ mesh.setRotate( 20, 180, 0 );
 mesh.setRotate( [20, 180, 6] );
 ```
 
-
+[top](#)
 ### setScale( [scale:Array] )
    └ setScale( sx:number, sy:number, sz:number )
 
