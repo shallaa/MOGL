@@ -1,11 +1,6 @@
 # Geometry
 * [Constructor](#constructor)
 
-**field**
-* [rotateX, rotateY, rotateZ](#rotatex-rotatey-rotatez)
-* [scaleX, scaleY, scaleZ](#scalex-scaley-scalez)
-* [x, y, z](#x-y-z)
-
 **method**
 
 * [addVertexShader](#addvertexshader-idstring-)
