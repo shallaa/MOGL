@@ -8,11 +8,11 @@
 
 **method**
 
-* [addVertexShader](#getgeometry)
-* [getVertexCount](#getmatrix)
-* [getTriangleCount](#getparent)
-* [getVolume](#getposition)
-* [removeVertexShader](#getmaterial)
+* [addVertexShader](#addvertexshader-idstring-)
+* [getVertexCount](#getvertexcount)
+* [getTriangleCount](#gettrianglecount)
+* [getVolume](#getvolume)
+* [removeVertexShader](#removevertexshader-idstring-)
 
 [top](#)
 ## Constructor
