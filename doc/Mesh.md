@@ -328,7 +328,30 @@ mesh.setMaterial( 'white' );
 mesh.setMaterial( new Material('#f00') );
 ```
 
-### setPosition( position:* | x:numbe)
+### setPosition( [position:Array] )
+   └ setPosition( x:number, y:number, z:number )
+
+**description**
+
+현재 Mesh의 좌표를 재설정함. 인자를 생략하면 0점으로 초기화됨.
+
+**param**
+
+1. ?position:Array or TypedArray - [x, y, z] 형태의 배열.
+2. x:number, y:number, z:number - 각각의 x, y, z 좌표값.
+
+**return**
+
+Float32Array - [x,y,z]형태의 좌표배열.
+
+**sample**
+
+```javascript
+var mesh = world.getScene('lobby').getMesh('cube');
+mesh.setPosition( 20, 5, 6 );
+mesh.setPosition( [20,5, 6] );
+```
+
 
 
 ## setRotate( id:string )
