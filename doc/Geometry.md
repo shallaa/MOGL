@@ -9,6 +9,19 @@
 * [getVolume](#getvolume)
 * [removeVertexShader](#removevertexshader-idstring-)
 
+**const**
+
+* [Geometry.x](#geometry)
+* [Geometry.y](#geometry)
+* [Geometry.z](#geometry)
+* [Geometry.r](#geometry)
+* [Geometry.g](#geometry)
+* [Geometry.b](#geometry)
+* [Geometry.a](#geometry)
+* [Geometry.normalX](#geometry)
+* [Geometry.normalY](#geometry)
+* [Geometry.normalZ](#geometry)
+
 [top](#)
 ## Constructor
 
@@ -178,3 +191,72 @@ cube.addVertexShader('waffle').removeVertexShader('waffle');
 ```
 
 [top](#)
+## Geometry.x
+
+**description**
+
+개별 정점요소의 정보. x좌표. 'x'
+
+[top](#)
+## Geometry.y
+
+**description**
+
+개별 정점요소의 정보. y좌표. 'y'
+
+[top](#)
+## Geometry.z
+
+**description**
+
+개별 정점요소의 정보. z좌표. 'z'
+
+[top](#)
+## Geometry.r
+
+**description**
+
+개별 정점요소의 정보. 색상 Red값. 'r'
+
+[top](#)
+## Geometry.g
+
+**description**
+
+개별 정점요소의 정보. 색상 Green값. 'g'
+
+[top](#)
+## Geometry.b
+
+**description**
+
+개별 정점요소의 정보. 색상 Blue값. 'b'
+
+[top](#)
+## Geometry.a
+
+**description**
+
+개별 정점요소의 정보. 색상 Alpha값. 'a'
+
+[top](#)
+## Geometry.normalX
+
+**description**
+
+개별 정점요소의 정보. 법선 벡터의 x값. 'nx'
+
+[top](#)
+## Geometry.normalY
+
+**description**
+
+개별 정점요소의 정보. 법선 벡터의 y값. 'ny'
+
+[top](#)
+## Geometry.normalZ
+
+**description**
+
+개별 정점요소의 정보. 법선 벡터의 z값. 'nz'
+
