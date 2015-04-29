@@ -55,7 +55,7 @@ var mesh2 = new Mesh(
     new Material('#f00')
 );
 ```
-[top][#]
+[top](#)
 
 ## rotateX, rotateY, rotateZ
 
