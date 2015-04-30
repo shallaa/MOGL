@@ -3,70 +3,46 @@
 
 **method**
 
-* [addVertexShader](#addvertexshader-idstring-)
-* [getVertexCount](#getvertexcount)
-* [getTriangleCount](#gettrianglecount)
-* [getVolume](#getvolume)
-* [removeVertexShader](#removevertexshader-idstring-)
+* [getRefCount](#getvolume)
 
 **const**
 
-* [Geometry.x](#geometryx)
-* [Geometry.y](#geometryy)
-* [Geometry.z](#geometryz)
-* [Geometry.r](#geometryr)
-* [Geometry.g](#geometryg)
-* [Geometry.b](#geometryb)
-* [Geometry.a](#geometrya)
-* [Geometry.normalX](#geometrynormalx)
-* [Geometry.normalY](#geometrynormaly)
-* [Geometry.normalZ](#geometrynormalz)
-
+* [Material.image](#materialphong]
+* [Material.flat](#materialphong]
+* [Material.gouraud](#materialphong]
+* [Material.phong](#materialphong]
 [top](#)
 ## Constructor
 
 ```javascript
-Geometry( vertexBuffer:Array, indexBuffer:Array[, vertexInfo:Array]  )
+Material( [color:string]  )
 ```
+└ Material( r:number, g:bumber, b:number, a:number )
 
 **description**
 
-정점배열과 인덱스 배열을 이용하여 기하구조를 정의함.
-* 생성자에서 지정된 버퍼 및 정보는 변경불가로 읽기만 가능함.
+실제 렌더링 될 대상의 재질을 정의함.
+* Material의 메서드는 대부분 메서드체이닝을 지원함.
 
 **param**
 
-1. vertexBuffer:Array or TypedArray - 정점 배열.
-2. indexBuffer:Array or TypedArray - 인덱스배열.
-3. ?vertexInfo:Array - 정점하나에 대한 정의. 생략시에는 ['x', 'y', 'z']로 정의됨. 다음과 같은 상수항을 사용할 수 있음.
-    * Geometry.x or 'x' - x좌표.
-    * Geometry.y or 'y' - y좌표.
-    * Geometry.z or 'z' - z좌표.
-    * Geometry.r or 'r' - 색상Red값.
-    * Geometry.g or 'g' - 색상Green값.
-    * Geometry.b or 'b' - 색상Blue값.
-    * Geometry.a or 'a' - 색상Alpha값.
-    * Geometry.normalX or 'nx' - 법선벡터의 x값.
-    * Geometry.normalY or 'ny' - 법선벡터의 y값.
-    * Geometry.normalZ or 'nz' - 법선벡터의 z값.
+1. ?color:string - 재질의 기본적인 색상. 생략하면 색상 없음. 다음과 같은 형태가 올 수 있음.
+    * '#FFF' - 3자리 16진수의 경우 자동으로 RRGGBB로 해석되고 알파는 1이 됨.
+    * '#FFFFFF' - 6자리 16진수의 경우 알파는 1이 됨.
+    * '#FFFFFF0.7' - 6자리 16진수 이후 오는 숫자는 알파로 해석되며 0~1사이의 소수가 올 수 있음.
+2. r, g, b, a : 각각 0~1 사이의 소수를 받으며 각각 대응함.
 
 **sample**
 
 ```javascript
-var cube = new Geometry( 
-    //vertexBuffer
-    [1,0,0, 0,0,1, 0,1,1,
-     1,0,0, 0,0,1, 0,1,1, 
-     1,0,0, 0,0,1, 0,1,1],
-    //indexBuffer
-    [0,1,2, 2,3,4, 4,5,6],
-    //vertextInfo
-    [Geometry.x, Geometry.y, Geometry.z]
-);
+var mat1 = new Material('#f00');
+var mat2 = new Material('#ff0000');
+var mat3 = new Material('#ff00000.8');
+var mat4 = new Material( 0xff/0xff, 0xaf/0xff, 0x45/0xff, 0.5 );
 ```
 
 [top](#)
-## addVertexShader( id:string )
+## addTex( id:string )
 
 **description**
 
