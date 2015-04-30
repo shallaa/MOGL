@@ -5,9 +5,9 @@
 
 **method**
 
-* [addTexture](#getvolume)
-* [getRefCount](#getvolume)
-* [removeTexture](#)
+* [addTexture](#addtexture-textureidstring-indexint-blendmodestring-)
+* [getRefCount](#getrefcount)
+* [removeTexture](#removetexture-textureidstring-)
 
 [top](#)
 ## Constructor
