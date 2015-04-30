@@ -73,7 +73,7 @@ world.addScene( 'lobby', lobby );
 world.addRender( 'lobby', 'cam1' );
 ```
 
-## addScene( id:string, scene:Scene )
+## addScene( sceneId:string, scene:Scene )
 
 **description**
 
@@ -81,7 +81,7 @@ Scene객체를 world에 추가함.
 
 **param**
 
-1. id:string - removeScene, getScene 등에서 사용할 id
+1. sceneId:string - removeScene, getScene 등에서 사용할 id
 2. scene:Scene - Scene의 인스턴스
 
 **return**
@@ -97,19 +97,19 @@ world.addScene( 'room', new Scene() );
 ```
 
 
-## getScene( id:string )
+## getScene( sceneId:string )
 
 **description**
 
-id에 해당되는 Scene을 얻음.
+sceneId에 해당되는 Scene을 얻음.
 
 **param**
 
-1. id:string - 등록시 사용한 id.
+1. sceneId:string - 등록시 사용한 sceneId.
 
 **return**
 
-Scene - id에 해당되는 Scene 인스턴스.
+Scene - sceneId에 해당되는 Scene 인스턴스.
 
 **sample**
 
@@ -128,8 +128,8 @@ var lobby = world.getScene( 'lobby' );
 
 **param**
 
-1. sceneId:string - 그려질 대상 Scene의 등록시 id.
-2. cameraId:string - 해당 Scene 내의 카메라 등록시 id.
+1. sceneId:string - 그려질 대상 Scene의 등록시 sceneId.
+2. cameraId:string - 해당 Scene 내의 카메라 등록시 cameraId.
 
 **return**
 
@@ -151,7 +151,7 @@ world.addRender( 'lobby', 'cam1' );
 world.removeRender( 'lobby', 'cam1' );
 ```
 
-## removeScene( id:string )
+## removeScene( sceneId:string )
 
 **description**
 
@@ -160,7 +160,7 @@ Scene을 제거하면 관련된 카메라가 지정된 render도 자동으로 �
 
 **param**
 
-1. id:string - removeScene, getScene 등에서 사용할 id
+1. sceneId:string - removeScene, getScene 등에서 사용할 sceneId
 
 **return**
 
