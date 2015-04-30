@@ -10,7 +10,7 @@
 * [Primitive.sphere](#Primitivesphere)
 * [Primitive.skybox](#Primitiveskybox)
 
-
+[top](#)
 ## Primitive.cube( [splitX:int, splitY:int, splitZ:int] )
 
 **description**
@@ -28,7 +28,7 @@
 scene.addMesh( 'cube1', new Mesh( Primitive.cube( 2, 3, 1 ), new Material() );
 ```
 
-
+[top](#)
 ## Primitive.geodesic( [split:int] );
 
 **description**
@@ -46,6 +46,7 @@ scene.addMesh( 'cube1', new Mesh( Primitive.cube( 2, 3, 1 ), new Material() );
 scene.addMesh( 'geo0', new Mesh( Primitive.geodesic(30), new Material() );
 ```
 
+[top](#)
 ## Primitive.line( x1:number, y1, z1, x2, y2, z2[, width:number] )
 
 **description**
@@ -64,7 +65,7 @@ scene.addMesh( 'geo0', new Mesh( Primitive.geodesic(30), new Material() );
 scene.addMesh( 'l', new Mesh( Primitive.line( 0,0,0, 10,10,10, 2 ), new Material() );
 ```
 
-
+[top](#)
 ## Primitive.plane( [splitX:int, splitY:int] )
 
 **description**
@@ -82,7 +83,7 @@ scene.addMesh( 'l', new Mesh( Primitive.line( 0,0,0, 10,10,10, 2 ), new Material
 scene.addMesh( 'pl', new Mesh( Primitive.plane(5,5), new Material() );
 ```
 
-
+[top](#)
 ## Primitive.point( [width:number] )
 
 **description**
@@ -101,7 +102,7 @@ scene.addMesh( 'pl', new Mesh( Primitive.plane(5,5), new Material() );
 scene.addMesh( 'p', new Mesh( Primitive.point(5), new Material() );
 ```
 
-
+[top](#)
 ## Primitive.sphere( [split:int] )
 
 **description**
@@ -120,7 +121,7 @@ scene.addMesh( 'p', new Mesh( Primitive.point(5), new Material() );
 scene.addMesh( 's1', new Mesh( Primitive.sphere(50), new Material() );
 ```
 
-
+[top](#)
 ## Primitive.skybox( [splitX:int, splitY:int, splitZ:int] )
 
 **description**
@@ -138,3 +139,5 @@ scene.addMesh( 's1', new Mesh( Primitive.sphere(50), new Material() );
 ```javascript
 scene.addMesh( 'box', new Mesh( Primitive.skybox( 5, 5, 5 ), new Material() );
 ```
+
+[top](#)
