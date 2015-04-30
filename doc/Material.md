@@ -1,8 +1,6 @@
 # Material
-└ parent : [MoGL](MoGL.md)
-
-└ children : [Cartoon](Cartoon.md), [Flat](Flat.md), [Gouraud](Gouraud.md), [Phong](Phong.md) 
-
+* parent : [MoGL](MoGL.md)
+* children : [Cartoon](Cartoon.md), [Flat](Flat.md), [Gouraud](Gouraud.md), [Phong](Phong.md) 
 * [Constructor](#constructor)
 
 **method**
