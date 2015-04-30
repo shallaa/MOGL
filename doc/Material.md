@@ -40,7 +40,7 @@ var mat4 = new Material( 0xff/0xff, 0xaf/0xff, 0x45/0xff, 0.5 );
 ```
 
 [top](#)
-## addTextrue( textureId:string[, index:int, blendMode:string] )
+## addTexture( textureId:string[, index:int, blendMode:string] )
 
 **description**
 
