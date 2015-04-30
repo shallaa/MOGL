@@ -408,3 +408,5 @@ var mesh = world.getScene('lobby').getMesh('cube');
 mesh.setScale( 1, 2.5, 0.8 );
 mesh.setScale( [1, 2.5, 0.8] );
 ```
+
+[top](#)
