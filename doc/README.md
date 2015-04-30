@@ -13,6 +13,7 @@
 * OmniLight
 * Particle
 * Physics
+* [Primitive](Primitive.md]
 * [Scene](Scene.md)
 * SpotLight
 * [World](World.md)
