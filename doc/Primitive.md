@@ -2,13 +2,13 @@
 
 **static**
 
-* [Primitive.cube](#Primitivecube)
-* [Primitive.geodesic](#Primitivegeodesic)
-* [Primitive.line](#Primitiveline)
-* [Primitive.plane](#Primitiveplane)
-* [Primitive.point](#Primitivepoint)
-* [Primitive.sphere](#Primitivesphere)
-* [Primitive.skybox](#Primitiveskybox)
+* [Primitive.cube](#primitivecube-splitxint-splityint-splitzint-)
+* [Primitive.geodesic](#primitivegeodesic-splitint-)
+* [Primitive.line](#primitiveline-x1number-y1-z1-x2-y2-z2-widthnumber-)
+* [Primitive.plane](#primitiveplane-splitxint-splityint-)
+* [Primitive.point](#primitivepoint-widthnumber-)
+* [Primitive.sphere](#primitivesphere-splitint-)
+* [Primitive.skybox](#primitiveskybox-splitxint-splityint-splitzint-)
 
 [top](#)
 ## Primitive.cube( [splitX:int, splitY:int, splitZ:int] )
