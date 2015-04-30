@@ -9,16 +9,6 @@
 * [removeRender](#removerender-sceneidstring-cameraidstring--)
 * [removeScene](#removescene-idstring-)
 
-**const**
-
-* [World.cube](#worldcube)
-* [World.geodesic](#worldgeodesic)
-* [World.line](#worldline)
-* [World.plane](#worldplane)
-* [World.point](#worldpoint)
-* [World.sphere](#worldsphere)
-* [World.skybox](#worldskybox)
-
 
 ## Constructor
 
