@@ -54,17 +54,17 @@ Mesh를 통해 최종적으로 포함될 Scene에 등록된 textureId를 사용�
 1. textureId:string - 최종 포함될 Scene에 등록된 texture의 id.
 2. ?index:int - 중첩되는 이미지의 경우 순번을 정의함. 생략하거나 null 이면 마지막 인덱스 + 1.
 3. ?blendMode:string - 중첩되는 이미지의 경우 아래의 이미지와 합성되는 속성을 정의함. 첫번째 텍스쳐는 적용되지 않고 기본값은 'alpha' 이고 다음과 같은 값이 올 수 있음.
-    BlendMode.add or 'add' -  전면색을 배경색에 더하고 올림값 0xFF를 적용.
-    BlendMode.alpha or 'alpha' - 전면색의 알파값에 따라 배경색을 덮어가는 가장 일반적인 중첩.
-    BlendMode.darken or 'darken' - 전면색과 배경색 중 보다 어두운 색상(값이 작은 색상)을 선택.
-    BlendMode.difference or 'difference' - 전면색과 배경색을 비교하여 둘 중 밝은 색상 값에서 어두운 색상 값을 뺌.
-    BlendMode.erase or 'erase' - 전면색의 알파만 적용하여 배경색을 지움.
-    BlendMode.hardlight or 'hardlight' - 전면색의 어두운 정도를 기준으로 배경색을 조정.
-    BlendMode.invert or 'invert' - 전면색을 이용하여 배경색을 반전시킴.
-    BlendMode.lighten or 'lighten' - 전면색과 배경색 중 보다 밝은 색(값이 큰 색상)으로 선택.
-    BlendMode.multiply or 'multiply' -  전면색에 배경색을 곱하고 0xFF로 나누어 정규화하여 보다 어두운 색을 만듬.
-    BlendMode.screen or 'screen' - 전면색의 보수(역수)에 배경색 보수를 곱하여 표백 효과를 냄.
-    BlendMode.subtract or 'subtract' - 전면색의 값을 배경색에서 빼고 내림값 0을 적용
+    * BlendMode.add or 'add' -  전면색을 배경색에 더하고 올림값 0xFF를 적용.
+    * BlendMode.alpha or 'alpha' - 전면색의 알파값에 따라 배경색을 덮어가는 가장 일반적인 중첩.
+    * BlendMode.darken or 'darken' - 전면색과 배경색 중 보다 어두운 색상(값이 작은 색상)을 선택.
+    * BlendMode.difference or 'difference' - 전면색과 배경색을 비교하여 둘 중 밝은 색상 값에서 어두운 색상 값을 뺌.
+    * BlendMode.erase or 'erase' - 전면색의 알파만 적용하여 배경색을 지움.
+    * BlendMode.hardlight or 'hardlight' - 전면색의 어두운 정도를 기준으로 배경색을 조정.
+    * BlendMode.invert or 'invert' - 전면색을 이용하여 배경색을 반전시킴.
+    * BlendMode.lighten or 'lighten' - 전면색과 배경색 중 보다 밝은 색(값이 큰 색상)으로 선택.
+    * BlendMode.multiply or 'multiply' -  전면색에 배경색을 곱하고 0xFF로 나누어 정규화하여 보다 어두운 색을 만듬.
+    * BlendMode.screen or 'screen' - 전면색의 보수(역수)에 배경색 보수를 곱하여 표백 효과를 냄.
+    * BlendMode.subtract or 'subtract' - 전면색의 값을 배경색에서 빼고 내림값 0을 적용
 
 
 **exception**
