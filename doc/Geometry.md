@@ -9,21 +9,6 @@
 * [getVolume](#getvolume)
 * [removeVertexShader](#removevertexshader-idstring-)
 
-**const**
-
-* [Geometry.x](#geometryx)
-* [Geometry.y](#geometryy)
-* [Geometry.z](#geometryz)
-* [Geometry.r](#geometryr)
-* [Geometry.g](#geometryg)
-* [Geometry.b](#geometryb)
-* [Geometry.a](#geometrya)
-* [Geometry.normalX](#geometrynormalx)
-* [Geometry.normalY](#geometrynormaly)
-* [Geometry.normalZ](#geometrynormalz)
-* [Geometry.u](#geometryu)
-* [Geometry.v](#geometryv)
-
 [top](#)
 ## Constructor
 
@@ -41,18 +26,18 @@ Geometry( vertexBuffer:Array, indexBuffer:Array[, vertexInfo:Array]  )
 1. vertexBuffer:Array or TypedArray - 정점 배열.
 2. indexBuffer:Array or TypedArray - 인덱스배열.
 3. ?vertexInfo:Array - 정점하나에 대한 정의. 생략시에는 ['x', 'y', 'z']로 정의됨. 다음과 같은 상수항을 사용할 수 있음.
-    * Geometry.x or 'x' - x좌표.
-    * Geometry.y or 'y' - y좌표.
-    * Geometry.z or 'z' - z좌표.
-    * Geometry.r or 'r' - 색상Red값.
-    * Geometry.g or 'g' - 색상Green값.
-    * Geometry.b or 'b' - 색상Blue값.
-    * Geometry.a or 'a' - 색상Alpha값.
-    * Geometry.normalX or 'nx' - 법선벡터의 x값.
-    * Geometry.normalY or 'ny' - 법선벡터의 y값.
-    * Geometry.normalZ or 'nz' - 법선벡터의 z값.
-    * Geometry.u or 'u' - uv좌표의 u값.
-    * Geometry.v or 'v' - uv좌표의 v값.
+    * [Vertex.x](Vertex.md#vertexx) or 'x' - x좌표.
+    * [Vertex.y](Vertex.md#vertexy) or 'y' - y좌표.
+    * [Vertex.z](Vertex.md#vertexz) or 'z' - z좌표.
+    * [Vertex.r](Vertex.md#vertexr) or 'r' - 색상Red값.
+    * [Vertex.g](Vertex.md#vertexg) or 'g' - 색상Green값.
+    * [Vertex.b](Vertex.md#vertexb) or 'b' - 색상Blue값.
+    * [Vertex.a](Vertex.md#vertexa) or 'a' - 색상Alpha값.
+    * [Vertex.normalX](Vertex.md#vertexnormalx) or 'nx' - 법선벡터의 x값.
+    * [Vertex.normalY](Vertex.md#vertexnormaly) or 'ny' - 법선벡터의 y값.
+    * [Vertex.normalZ](Vertex.md#vertexnormalz) or 'nz' - 법선벡터의 z값.
+    * [Vertex.u](Vertex.md#vertexu) or 'u' - uv좌표의 u값.
+    * [Vertex.v](Vertex.md#vertexv) or 'v' - uv좌표의 v값.
 
 **sample**
 
