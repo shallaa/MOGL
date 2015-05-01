@@ -266,10 +266,10 @@ try{
     * Blob객체 - 실제 이미지를 포함하고 있는 Blob객체.
     * rgba배열 - canvas등에서 얻은 rgba형식의 배열.
 3. ?resizeType:string - 기본값은 'zoomOut' 이며 다음과 같은 값이 올 수 있음. 아래 해당되지 않은 값이 오면 zoomOut으로 처리.
-    * Texture.zoomOut or 'zoomOut' - 이미지를 축소하여 2의 n에 맞춤.
-    * Texture.zoomIn or 'zoomIn' - 이미지를 확대하여 2의 n에 맞춤.
-    * Texture.crop or 'crop' - 이미지를 2의 n에 맡게 좌상단을 기준으로 잘라냄.
-    * Texture.addSpace or 'addSpace' - 이미지를 2의 n에 맡게 여백을 늘림.
+    * [Texture.zoomOut](Texture.md#texturezoomout) or 'zoomOut' - 이미지를 축소하여 2의 n에 맞춤.
+    * [Texture.zoomIn](Texture.md#texturezoomin) or 'zoomIn' - 이미지를 확대하여 2의 n에 맞춤.
+    * [Texture.crop](Texture.md#texturecrop) or 'crop' - 이미지를 2의 n에 맡게 좌상단을 기준으로 잘라냄.
+    * [Texture.addSpace](Texture.md#textureaddspace) or 'addSpace' - 이미지를 2의 n에 맡게 여백을 늘림.
 
 **exception**
 
