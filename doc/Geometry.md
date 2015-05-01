@@ -21,6 +21,8 @@
 * [Geometry.normalX](#geometrynormalx)
 * [Geometry.normalY](#geometrynormaly)
 * [Geometry.normalZ](#geometrynormalz)
+* [Geometry.u](#geometryu)
+* [Geometry.v](#geometryv)
 
 [top](#)
 ## Constructor
@@ -32,7 +34,7 @@ Geometry( vertexBuffer:Array, indexBuffer:Array[, vertexInfo:Array]  )
 **description**
 
 정점배열과 인덱스 배열을 이용하여 기하구조를 정의함.
-* 생성자에서 지정된 버퍼 및 정보는 변경불가로 읽기만 가능함.
+* 생성자에서 지정된 버퍼 및 정보는 변경불가로 생성 이후는 읽기만 가능함.
 
 **param**
 
@@ -49,6 +51,8 @@ Geometry( vertexBuffer:Array, indexBuffer:Array[, vertexInfo:Array]  )
     * Geometry.normalX or 'nx' - 법선벡터의 x값.
     * Geometry.normalY or 'ny' - 법선벡터의 y값.
     * Geometry.normalZ or 'nz' - 법선벡터의 z값.
+    * Geometry.u or 'u' - uv좌표의 u값.
+    * Geometry.v or 'v' - uv좌표의 v값.
 
 **sample**
 
@@ -63,6 +67,9 @@ var cube = new Geometry(
     //vertextInfo
     [Geometry.x, Geometry.y, Geometry.z]
 );
+
+//팩토리함수로도 작동함.
+var cube2 = Geometry( v, i );
 ```
 
 [top](#)
@@ -70,10 +77,10 @@ var cube = new Geometry(
 
 **description**
 
-Mesh를 통해 최종적으로 포함될 Scene에 등록된 shader를 사용함.
-* Scene에 직접 등록되는 경우는 id를 addGeometry 시점에 평가함.
-* Mesh에서 직접 생성하여 삽입하는 경우는 addMesh시점에 평가함.
-* 이미 직간접적으로 Scene에 포함된 경우는 메서드호출시점에 평가함.
+[Mesh](Mesh.md)를 통해 최종적으로 포함될 [Scene](Scene.md)에 등록된 shader를 사용함.
+* [Scene](Scene.md)에 직접 등록되는 경우는 id를 [addGeometry](Scene.md#addgeometry-idstring-geomertygeometry) 시점에 평가함.
+* [Mesh](Mesh.md)에서 직접 생성하여 삽입하는 경우는 [addChild](Scene.md#addchild-idstring-meshmesh-)시점에 평가함.
+* 이미 직간접적으로 [Scene](Scene.md)에 포함된 경우는 메서드호출시점에 평가함.
 
 **param**
 
@@ -81,7 +88,7 @@ Mesh를 통해 최종적으로 포함될 Scene에 등록된 shader를 사용함.
 
 **return**
 
-Geometry - 메서드체이닝을 위해 자신을 반환함.
+this - 메서드체이닝을 위해 자신을 반환함.
 
 **sample**
 
@@ -181,7 +188,7 @@ addVertexShader를 통해 등록한 shader를 제거함.
 
 **return**
 
-Geometry - 메서드 체이닝을 위해 자신을 반환함.
+this - 메서드 체이닝을 위해 자신을 반환함.
 
 **sample**
 
@@ -259,5 +266,20 @@ cube.addVertexShader('waffle').removeVertexShader('waffle');
 **description**
 
 개별 정점요소의 정보. 법선 벡터의 z값. 'nz'
+
+
+[top](#)
+## Geometry.u
+
+**description**
+
+개별 정점요소의 정보. uv의 u좌표. 'u'
+
+[top](#)
+## Geometry.v
+
+**description**
+
+개별 정점요소의 정보. uv의 v좌표. 'v'
 
 [top](#)
