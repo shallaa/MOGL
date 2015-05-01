@@ -14,7 +14,7 @@
 * [getGeometry](#getgeomtry-idstring-)
 * [getMaterial](#getmaterial-idstring-)
 * [getTexture](#gettexture-idstring-)
-* [removeChild](#removecamera-idstring-)
+* [removeChild](#removechild-idstring-)
 * [removeFragmentShader](#removefragmentshader-idstring-)
 * [removeGeometry](#removegeometry-idstring-)
 * [removeMaterial](#removematerial-idstring-)
