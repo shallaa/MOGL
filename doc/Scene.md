@@ -61,8 +61,10 @@ var scene2 = Scene();
 
 **exception**
 
-* 'Scene.addChild:0' - 이미 존재하는 id를 등록하려할 때.
-* 'Scene.addChild:1' - Mesh가 아닌 객체를 등록하려할 때.
+* 'Scene.addChild:0' - 이미 존재하는 id.
+* 'Scene.addChild:1' - [Mesh](Mesh.md)가 아닌 객체.
+* 'Scene.addChild:2' - [Mesh](Mesh.md)안의 [Geometry](Geometry.md)에 지정된 vertex shader의 id가 존재하지 않음.
+* 'Scene.addChild:3' - [Mesh](Mesh.md)안의 [Material](Material.md)에 지정된 fragment shader의 id가 존재하지 않음.
 
 **return**
 
@@ -151,17 +153,18 @@ try{
 
 **description**
 
-기하구조체인 Geometry를 등록함. 기하구조체는 다양한 Mesh에서 재활용될 수 있으므로 Scene에 등록한 후 Mesh에서는 id로 재활용함.
+기하구조체인 [Geometry](Geometry.md)를 등록함. 기하구조체는 다양한 Mesh에서 재활용될 수 있으므로 Scene에 등록한 후 [Mesh](Mesh.md)에서는 id로 재활용함.
 
 **param**
 
 1. id:string - removeGeometry, getGeometry 등에서 사용할 id. Mesh 등에서도 사용됨.
-2. geomerty:[Geometry](Geometry.md) - Geometry의 인스턴스.
+2. geomerty:[Geometry](Geometry.md) - [Geometry](Geometry.md)의 인스턴스.
 
 **exception**
 
 * 'Scene.addGeometry:0' - 이미 존재하는 id를 등록하려할 때.
 * 'Scene.addGeometry:1' - [Geometry](Geometry.md) 아닌 객체를 등록하려할 때.
+* 'Scene.addGeometry:2' - [Geometry](Geometry.md)에 선언된 vertex shader의 id가 없을 때.
 
 **return**
 
@@ -209,17 +212,18 @@ try{
 
 **description**
 
-재질을 나타내는 Material을 등록함.
+재질을 나타내는 [Material](Material.md)을 등록함.
 
 **param**
 
-1. id:string - removeMaterial, getMaterial 등에서 사용할 id. Mesh에서도 사용.
-2. material:[Material](Material.md) - Material의 인스턴스
+1. id:string - removeMaterial, getMaterial 등에서 사용할 id. [Mesh](Mesh.md)에서도 사용.
+2. material:[Material](Material.md) - [Material](Material.md)의 인스턴스
 
 **exception**
 
 * 'Scene.addMaterial:0' - 이미 존재하는 id를 등록하려할 때.
 * 'Scene.addMaterial:1' - [Material](Material.md) 아닌 객체를 등록하려할 때.
+* 'Scene.addMaterial:2' - [Material](Material.md)에 선언된 fragment shader의 id가 없을 때.
 
 **return**
 
@@ -391,7 +395,7 @@ try{
 
 **description**
 
-id에 해당되는 Mesh를 얻음.
+id에 해당되는 [Mesh](Mesh.md)를 얻음.
 
 **param**
 
@@ -399,7 +403,7 @@ id에 해당되는 Mesh를 얻음.
 
 **return**
 
-[Mesh](Mesh.md) - id에 해당되는 Mesh 인스턴스. 없는 경우에는 null이 반환됨.
+[Mesh](Mesh.md) - id에 해당되는 [Mesh](Mesh.md) 인스턴스. 없는 경우에는 null이 반환됨.
 
 **sample**
 
@@ -414,7 +418,7 @@ var frontView = lobby.getChild('frontView');
 
 **description**
 
-id에 해당되는 Geometry를 얻음.
+id에 해당되는 [Geometry](Geometry.md)를 얻음.
 
 **param**
 
@@ -422,7 +426,7 @@ id에 해당되는 Geometry를 얻음.
 
 **return**
 
-[Geometry](Geometry.md) - id에 해당되는 Geometry 인스턴스.
+[Geometry](Geometry.md) - id에 해당되는 [Geometry](Geometry.md) 인스턴스.
 
 **sample**
 
@@ -435,7 +439,7 @@ var cube = world.getScene('lobby').getGeometry('cube');
 
 **description**
 
-id에 해당되는 Material을 얻음.
+id에 해당되는 [Material](Material.md)을 얻음.
 
 **param**
 
@@ -443,7 +447,7 @@ id에 해당되는 Material을 얻음.
 
 **return**
 
-[Material](Material.md) - id에 해당되는 Material 인스턴스.
+[Material](Material.md) - id에 해당되는 [Material](Material.md) 인스턴스.
 
 **sample**
 
@@ -478,7 +482,7 @@ console.log( normal.src ); //dataURL 형식으로 보여짐.
 
 **description**
 
-등록된 Mesh를 제거함.
+등록된 [Mesh](Mesh.md)를 제거함.
 
 **param**
 
@@ -500,7 +504,7 @@ world.getScene('lobby').removeChild('base');
 **description**
 
 등록된 fragment shader를 제거함.
-* 제거시 scene내에서 해당 shader를 참조하는 Material을 소유한 Mesh가 전부 삭제됨.
+* 제거시 scene내에서 해당 shader를 참조하는 [Material](Material.md)과 그 [Material](Material.md)을 소유한 [Mesh](Mesh.md)가 전부 삭제됨.
 
 **param**
 
@@ -521,8 +525,8 @@ world.getScene('lobby').removeFragmentShader('base');
 
 **description**
 
-등록된 Geometry를 삭제함.
-* 삭제시 Scene을 조사하여 해당 Geometry를 참조하는 Mesh도 전부 삭제됨.
+등록된 [Geometry](Geometry.md)를 삭제함.
+* 삭제시 Scene을 조사하여 해당 [Geometry](Geometry.md)를 참조하는 [Mesh](Mesh.md)도 전부 삭제됨.
 
 **param**
 
@@ -545,8 +549,8 @@ lobby.removeGeometry('building');
 
 **description**
 
-등록된 Material을 제거함.
-* 해당 Material을 참고하는 scene내의 모든 Mesh도 제거됨.
+등록된 [Material](Material.md)을 제거함.
+* 해당 [Material](Material.md)을 참고하는 Scene내의 모든 [Mesh](Mesh.md)도 제거됨.
 
 **param**
 
@@ -568,7 +572,7 @@ world.getScene('lobby').removeCamera('frontView');
 **description**
 
 등록된 Texture를 제거함.
-* 제거시 scene내의 참조하고 있는 Material을 전부 삭제하고 삭제된 Material을 참조하는 Mesh도 일괄삭제됨.
+* 제거시 Scene내의 참조하고 있는 [Material](Material.md)을 전부 삭제하고 삭제된 [Material](Material.md)을 참조하는 [Mesh](Mesh.md)도 일괄삭제됨.
 
 **param**
 
@@ -590,7 +594,7 @@ world.getScene('lobby').removeTexture('white');
 **description**
 
 등록된 vertex shader를 제거함.
-* 제거시 scene 내의 참조중인 Mesh도 일괄 삭제됨.
+* 제거시 Scene 내의 참조 중인 [Geometry](Geometry.md)와 이 [Geometry](Geometry.md)를 참조하는 [Mesh](Mesh.md)도 일괄 삭제됨.
 
 **param**
 
