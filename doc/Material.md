@@ -48,37 +48,37 @@ var mat5 = Material('#ff00000.8');
 
 **description**
 
-Mesh를 통해 최종적으로 포함될 Scene에 등록된 textureId를 사용함. 같은 textureId는 두번 등록되지 않음.
-* Scene에 직접 등록되는 경우는 id를 addMaterial시점에 평가함.
-* Mesh에서 직접 생성하여 삽입하는 경우는 addMesh시점에 평가함.
-* 이미 직간접적으로 Scene에 포함된 경우는 메서드호출시점에 평가함.
+[Mesh](Mesh.md)를 통해 최종적으로 포함될 Scene에 등록된 textureId를 사용함. 같은 textureId는 두번 등록되지 않음.
+* [Scene](Scene.md)에 직접 등록되는 경우는 id를 [addMaterial](Scene.md#addmaterial-idstring-materialmaterial-)시점에 평가함.
+* [Mesh](Mesh.md)에서 직접 생성하여 삽입하는 경우는 [addChild](Scene.md#addchild-idstring-meshmesh-)시점에 평가함.
+* 이미 직간접적으로 [Scene](Scene.md)에 포함된 경우는 메서드호출시점에 평가함.
 
 **param**
 
-1. textureId:string - 최종 포함될 Scene에 등록된 texture의 id.
+1. textureId:string - 최종 포함될 [Scene](Scene.md)에 등록된 texture의 id.
 2. ?index:int - 중첩되는 이미지의 경우 순번을 정의함. 생략하거나 null 이면 마지막 인덱스 + 1.
 3. ?blendMode:string - 중첩되는 이미지의 경우 아래의 이미지와 합성되는 속성을 정의함. 첫번째 텍스쳐는 적용되지 않고 기본값은 'alpha' 이고 다음과 같은 값이 올 수 있음.
-    * BlendMode.add or 'add' -  전면색을 배경색에 더하고 올림값 0xFF를 적용.
-    * BlendMode.alpha or 'alpha' - 전면색의 알파값에 따라 배경색을 덮어가는 가장 일반적인 중첩.
-    * BlendMode.darken or 'darken' - 전면색과 배경색 중 보다 어두운 색상(값이 작은 색상)을 선택.
-    * BlendMode.difference or 'difference' - 전면색과 배경색을 비교하여 둘 중 밝은 색상 값에서 어두운 색상 값을 뺌.
-    * BlendMode.erase or 'erase' - 전면색의 알파만 적용하여 배경색을 지움.
-    * BlendMode.hardlight or 'hardlight' - 전면색의 어두운 정도를 기준으로 배경색을 조정.
-    * BlendMode.invert or 'invert' - 전면색을 이용하여 배경색을 반전시킴.
-    * BlendMode.lighten or 'lighten' - 전면색과 배경색 중 보다 밝은 색(값이 큰 색상)으로 선택.
-    * BlendMode.multiply or 'multiply' -  전면색에 배경색을 곱하고 0xFF로 나누어 정규화하여 보다 어두운 색을 만듬.
-    * BlendMode.screen or 'screen' - 전면색의 보수(역수)에 배경색 보수를 곱하여 표백 효과를 냄.
-    * BlendMode.subtract or 'subtract' - 전면색의 값을 배경색에서 빼고 내림값 0을 적용
+    * [BlendMode.add](BlendMode.md#add) or 'add' -  전면색을 배경색에 더하고 올림값 0xFF를 적용.
+    * [BlendMode.alpha](BlendMode.md#alpha) or 'alpha' - 전면색의 알파값에 따라 배경색을 덮어가는 가장 일반적인 중첩.
+    * [BlendMode.darken](BlendMode.md#darken) or 'darken' - 전면색과 배경색 중 보다 어두운 색상(값이 작은 색상)을 선택.
+    * [BlendMode.difference](BlendMode.md#difference)or 'difference' - 전면색과 배경색을 비교하여 둘 중 밝은 색상 값에서 어두운 색상 값을 뺌.
+    * [BlendMode.erase](BlendMode.md#erase) or 'erase' - 전면색의 알파만 적용하여 배경색을 지움.
+    * [BlendMode.hardlight](BlendMode.md#hardlight) or 'hardlight' - 전면색의 어두운 정도를 기준으로 배경색을 조정.
+    * [BlendMode.invert](BlendMode.md#invert) or 'invert' - 전면색을 이용하여 배경색을 반전시킴.
+    * [BlendMode.lighten](BlendMode.md#lighten) or 'lighten' - 전면색과 배경색 중 보다 밝은 색(값이 큰 색상)으로 선택.
+    * [BlendMode.multiply](BlendMode.md#multiply) or 'multiply' -  전면색에 배경색을 곱하고 0xFF로 나누어 정규화하여 보다 어두운 색을 만듬.
+    * [BlendMode.screen](BlendMode.md#screen) or 'screen' - 전면색의 보수(역수)에 배경색 보수를 곱하여 표백 효과를 냄.
+    * [BlendMode.subtract](BlendMode.md#subtract) or 'subtract' - 전면색의 값을 배경색에서 빼고 내림값 0을 적용
 
 
 **exception**
 
-'Material.addTexture:0' - 이미 등록된 경우 Scene에 존재하지 않는 textureId를 지정.
-'Material.addTexture:1' - 이미 등록된 textureId를 다시 등록하려고 시도하는 경우.
+* 'Material.addTexture:0' - 이미 등록된 경우 [Scene](Scene.md)에 존재하지 않는 textureId를 지정.
+* 'Material.addTexture:1' - 이미 등록된 textureId를 다시 등록하려고 시도하는 경우.
 
 **return**
 
-Material - 메서드체이닝을 위해 자신을 반환함.
+this - 메서드체이닝을 위해 자신을 반환함.
 
 **sample**
 
@@ -120,7 +120,7 @@ var mat1 = new Material('#f00').addTexture('temp');
 
 자신을 참조하고 있는 Mesh의 총수. 참조할 때마다 1씩 증가하고 해당 Mesh가 사라질때마다 감소함.
 [MoGL.GC](MoGL.md#GC) 등을 이용하면 참조카운트가 0인 Material이 일정 시간 이후 자동으로 제거됨.
-* 참조카운트의 관리는 개별 인스턴스가 하는 것이 아니라 Scene에서 일괄적으로 처리하므로 단순히 Mesh삽입된 것을 카운트로 보는 것이 아니라 Scene에 존재하는 Mesh전체의 Material을 검사하여 Count를 체크함.
+* 참조카운트의 관리는 개별 인스턴스가 하는 것이 아니라 [Scene](Scene.md)에서 일괄적으로 처리하므로 단순히 [Mesh](Mesh.md)삽입된 것을 카운트로 보는 것이 아니라 [Scene](Scene.md)에 존재하는 [Mesh](Mesh.md)전체의 Material을 검사하여 Count를 체크함.
 
 **param**
 
@@ -133,19 +133,19 @@ int - 자신을 참조하고 있는 카운트
 **sample**
 
 ```javascript
-var mat = new Material('#f00').addMaterial('temp');
+var mat = new Material('#f00').addTexture('temp');
 mat.getRefCount() == 0 //생성시점에 0
 
 var mesh1 = new Mesh( 'cube', mat );
 mat.getRefCount() == 0 //메시에 넣었으나 아직 메시가 장면에 추가되지 않음
 
-world.getScene('lobby').addMesh( 'box1', mesh1 );
+world.getScene('lobby').addChild( 'box1', mesh1 );
 mat.getRefCount() == 1 //메시가 장면에 추가되었으므로 1
 
-world.getScene('lobby').addMesh( 'box2', new Mesh( 'cube', mat ) );
+world.getScene('lobby').addChild( 'box2', new Mesh( 'cube', mat ) );
 mat.getRefCount() == 2 //또 추가되므로 2
 
-world.getScene('lobby').removeMesh( 'box1' );
+world.getScene('lobby').removeChild( 'box1' );
 mat.getRefCount() == 1 //1개를 제거했으므로 1
 ```
 
@@ -162,7 +162,7 @@ addTexture를 통해 등록된 텍스쳐를 제거함.
 
 **return**
 
-Material - 메서드체이닝을 위해 자신을 반환함.
+this - 메서드체이닝을 위해 자신을 반환함.
 
 **sample**
 
