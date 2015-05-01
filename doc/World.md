@@ -51,6 +51,12 @@ var world2 = World();
 2. cameraId:string - 해당 [Scene](Scene.md)내의 카메라 등록시 id.
 3. ?index:int - 그려질 순서. 생략하면 마지막 index + 1로 설정됨.
 
+**exception**
+
+* 'World.addRender:0' - 이미 등록된 id.
+* 'World.addRender:1' - 존재하지 않는 [Scene](Scene.md)의 id.
+* 'World.addRender:2' - 존재하지 않은 [Camera](Camera.md)의 id.
+
 **return**
 
 this - 메서드체이닝을 위해 자신을 반환함.
@@ -80,6 +86,11 @@ world.addRender( 'lobby', 'cam1' );
 1. sceneId:string - removeScene, getScene 등에서 사용할 id
 2. scene:[Scene](Scene.md) - [Scene](Scene.md)의 인스턴스
 
+**exception**
+
+* 'World.addScene:0' - 이미 등록된 id.
+* 'World.addScene:1' - [Scene](Scene.md)이 아닌 객체를 지정한 경우.
+
 **return**
 
 this - 메서드체이닝을 위해 자신을 반환함.
@@ -101,7 +112,7 @@ sceneId에 해당되는 [Scene](Scene.md)을 얻음.
 
 **param**
 
-1. sceneId:string - 등록시 사용한 sceneId.
+1. sceneId:string - 등록시 사용한 sceneId. 없으면 null을 반환함.
 
 **return**
 
@@ -126,6 +137,11 @@ var lobby = world.getScene( 'lobby' );
 
 1. sceneId:string - 그려질 대상 [Scene](Scene.md)의 등록시 sceneId.
 2. cameraId:string - 해당 [Scene](Scene.md) 내의 카메라 등록시 cameraId.
+
+**exception**
+
+* 'World.removeRender:0' - id에 해당되는 [Scene](Scene.md)이 존재하지 않음.
+* 'World.removeRender:1' - id에 해당되는 [Camera](Camera.md)가 [Scene](Scene.md) 내에 존재하지 않음.
 
 **return**
 
@@ -159,6 +175,10 @@ world.removeRender( 'lobby', 'cam1' );
 
 1. sceneId:string - removeScene, getScene 등에서 사용할 sceneId
 
+**exception**
+
+* 'World.removeScene:0' - id에 해당되는 [Scene](Scene.md)이 존재하지 않음.
+* 
 **return**
 
 this - 메서드체이닝을 위해 자신을 반환함.
@@ -180,3 +200,5 @@ world.removeScene( 'lobby' );
 // 해당 렌더가 이미 제거되어있음
 world.removeRender( 'lobby', 'cam1' ) === false
 ```
+
+[top](#)
