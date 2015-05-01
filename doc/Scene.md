@@ -4,13 +4,13 @@
 
 **method**
 
-* [addChild](#addmesh-idstring-meshmesh-)
+* [addChild](#addchild-idstring-meshmesh-)
 * [addFragmentShader](#addfragmentshader-idstring-programstring-)
-* [addGeometry](#addgeometry-idstring-geomertygeometry-)
+* [addGeometry](#addgeometry-idstring-geomertygeometry)
 * [addMaterial](#addmaterial-idstring-materialmaterial-)
 * [addTexture](#addtexture-idstring-image-resizetypestring-)
 * [addVertextShader](#addvertexshader-idstring-programstring-)
-* [getChild](#getcamera-idstring-)
+* [getChild](#getchild-idstring-)
 * [getGeometry](#getgeomtry-idstring-)
 * [getMaterial](#getmaterial-idstring-)
 * [getTexture](#gettexture-idstring-)
@@ -146,7 +146,7 @@ try{
 }
 ```
 
-[top][#]
+[top](#)
 ## addGeometry( id:string, geomerty:[Geometry](Geometry.md)
 
 **description**
@@ -471,6 +471,27 @@ image엘리먼트 - id에 해당되는 image엘리먼트. src는 dataURL로 되�
 ```javascript
 var normal = world.getScene('lobby').getTexture('normal');
 console.log( normal.src ); //dataURL 형식으로 보여짐.
+```
+
+[top](#)
+## removeChild( id:string )
+
+**description**
+
+등록된 Mesh를 제거함.
+
+**param**
+
+1. id:string - addMesh에서 사용한 id.
+
+**return**
+
+boolean - 해당 객체가 존재하고 삭제하는데 성공하면 true, 그 외에는 false.
+
+**sample**
+
+```javascript
+world.getScene('lobby').removeChild('base');
 ```
 
 [top](#)
