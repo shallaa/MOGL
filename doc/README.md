@@ -1,7 +1,7 @@
 **Shader spec**
 
-*[MoGL Fragment Shader Interface](Interface_MoGLFragmentShader.md)
-*[MoGL Vertex Shader Interface](Interface_MoGLVertexShader.md)
+* [MoGL Fragment Shader Interface](Interface_MoGLFragmentShader.md)
+* [MoGL Vertex Shader Interface](Interface_MoGLVertexShader.md)
 
 **APIs**
 
