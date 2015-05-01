@@ -20,6 +20,7 @@ Material( r:number, g:bumber, b:number, a:number )
 **description**
 
 모든 재질의 부모가 되는 클래스로 Material 자체는 아무런 빛의 속성을 적용받지 않는 재질임.
+
 * Material의 메서드는 대부분 메서드체이닝을 지원함.
 
 **param**
@@ -37,6 +38,9 @@ var mat1 = new Material('#f00');
 var mat2 = new Material('#ff0000');
 var mat3 = new Material('#ff00000.8');
 var mat4 = new Material( 0xff/0xff, 0xaf/0xff, 0x45/0xff, 0.5 );
+
+//팩토리함수로도 사용가능
+var mat5 = Material('#ff00000.8');
 ```
 
 [top](#)
