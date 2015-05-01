@@ -48,7 +48,7 @@ var mat5 = Material('#ff00000.8');
 
 **description**
 
-[Mesh](Mesh.md)를 통해 최종적으로 포함될 Scene에 등록된 textureId를 사용함. 같은 textureId는 두번 등록되지 않음.
+[Mesh](Mesh.md)를 통해 최종적으로 포함될 [Scene](Scene.md)에 등록된 textureId를 사용함. 같은 textureId는 두번 등록되지 않음.
 * [Scene](Scene.md)에 직접 등록되는 경우는 id를 [addMaterial](Scene.md#addmaterial-idstring-materialmaterial-)시점에 평가함.
 * [Mesh](Mesh.md)에서 직접 생성하여 삽입하는 경우는 [addChild](Scene.md#addchild-idstring-meshmesh-)시점에 평가함.
 * 이미 직간접적으로 [Scene](Scene.md)에 포함된 경우는 메서드호출시점에 평가함.
@@ -119,7 +119,7 @@ var mat1 = new Material('#f00').addTexture('temp');
 **description**
 
 자신을 참조하고 있는 Mesh의 총수. 참조할 때마다 1씩 증가하고 해당 Mesh가 사라질때마다 감소함.
-[MoGL.GC](MoGL.md#GC) 등을 이용하면 참조카운트가 0인 Material이 일정 시간 이후 자동으로 제거됨.
+[MoGL.GC](MoGL.md#GC) 등을 이용하면 참조카운트가 0인 [Material](Material.md)이 일정 시간 이후 자동으로 제거됨.
 * 참조카운트의 관리는 개별 인스턴스가 하는 것이 아니라 [Scene](Scene.md)에서 일괄적으로 처리하므로 단순히 [Mesh](Mesh.md)삽입된 것을 카운트로 보는 것이 아니라 [Scene](Scene.md)에 존재하는 [Mesh](Mesh.md)전체의 Material을 검사하여 Count를 체크함.
 
 **param**
