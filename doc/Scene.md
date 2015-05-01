@@ -52,12 +52,12 @@ var scene2 = Scene();
 
 **description**
 
-실제 렌더링될 Mesh 및 Mesh의 서브클래스를 등록함.
+실제 렌더링될 [Mesh](Mesh.md) 및 그 서브클래스를 등록함.
 
 **param**
 
 1. id:string - removeChild 등에서 사용할 id.
-2. mesh:[Mesh](Mesh.md) - Mesh 및 Mesh의 서브클래스([Camera](Camera.md), [Light](Light.md) 등)
+2. mesh:[Mesh](Mesh.md) - [Mesh](Mesh.md) 및 그 서브클래스([Camera](Camera.md), [Light](Light.md) 등)
 
 **exception**
 
