@@ -1,6 +1,7 @@
 **APIs**
 
 * Ani
+* [BlendMode](BlendMode.md)
 * [Camera](Camera.md)
 * DirLight
 * Emitter
@@ -16,4 +17,5 @@
 * [Primitive](Primitive.md)
 * [Scene](Scene.md)
 * SpotLight
+* [Texture](Texture.md)
 * [World](World.md)
