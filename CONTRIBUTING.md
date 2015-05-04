@@ -19,4 +19,4 @@ MOGL에 참여하는 방법
 
 _ _ _
 
-버그 리포트, 기능 요청, 또는 도움 및 문의는 [ProjectBS 페이스북 그룹](https://www.facebook.com/groups/bs5js)을 이용해 주세요.
+버그 리포트, 기능 요청, 또는 도움 및 문의는 [ProjectBS 페이스북 그룹](https://www.facebook.com/groups/MObilewebGL)을 이용해 주세요.
