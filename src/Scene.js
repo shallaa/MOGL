@@ -22,7 +22,7 @@ var Scene;
         addChild: function ($id, $mesh) {
             try {
                 if (this.children[$id]) throw 0
-                if ($mesh.__type !='MoglMesh') throw 1
+                if ($mesh.__type != 'MoglMesh') throw 1
                 // TODO Mesh안의 Geometry에 지정된 vertex shader의 id가 존재하지 않음.
                 // TODO Mesh안의 Material에 지정된 fragment shader의 id가 존재하지 않음.
             } catch ($e) {
