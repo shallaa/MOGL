@@ -8,7 +8,7 @@ var MoGL = (function(){
 	fn = MoGL.prototype,
 
 
-	//static method
+	//static method   
 
 	//parent클래스를 상속하는 자식클래스를 만들어냄.
 	MoGL.ext = function ext( child, parent ){
