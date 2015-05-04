@@ -8,8 +8,13 @@
 
 var World;
 (function () {
-    var MoGLWorld = function(){this.__UUID = 'MoGLWorld'+ MoGL.UUID++}
-    World = function () { return new MoGLWorld() }
+    World = function World() {
+    }
+    World = MoGL.ext(World, MoGL);
+})();
+(function () {
+    //var MoGLWorld = function(){this.__UUID = 'MoGLWorld'+ MoGL.UUID++}
+    //World = function () { return new MoGLWorld() }
     //MoGLWorld.prototype = {
     //    renderList: [],sceneList: {},
     //    addRender: function ($sceneID, $cameraID, $index) {
