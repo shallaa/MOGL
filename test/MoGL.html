@@ -26,16 +26,22 @@ parent.prototype.printA = function(){
 parent.prototype.printB = function(){
 	return this.b;
 };
+parent = MoGL.ext( parent, MoGL );
+
 var child = function( a, b, c ){
 	this.c = c;
 };
 child.prototype.printC = function(){
 	return this.c;
 };
-child = MoGL.ext( child, parent, true );
+child = MoGL.ext( child, parent );
 
 var instance1 = new child( 1, 2, 3 );
+
 bsTest( 'new',
+	function(){
+		return instance1.uuid;
+	}, 2,
 	function(){
 		return instance1.printA();
 	}, 1,
@@ -48,7 +54,11 @@ bsTest( 'new',
 );
 
 var instance2 = child( 4, 5, 6 );
+console.log(5);
 bsTest( 'factory',
+	function(){
+		return instance2.uuid;
+	}, 3,
 	function(){
 		return instance2.printA();
 	}, 4,
@@ -58,7 +68,16 @@ bsTest( 'factory',
 	function(){
 		return instance2.printC();
 	}, 6
-)
+);
+
+bsTest( 'count',
+	function(){
+		return MoGL.count();
+	}, 2,
+	function(){
+		return MoGL.count(child);
+	}, 2
+);
 </script>
 </body>
 </html>
