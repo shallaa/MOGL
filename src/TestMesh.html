@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title></title>
     <script src="Mogl.js"></script>
+    <script src="Matrix.js"></script>
     <script src="World.js"></script>
     <script src="Scene.js"></script>
     <script src="Mesh.js"></script>
@@ -19,10 +20,9 @@
 </script>
 <script>
 
-
-    var mesh1 = new Mesh( 'cube', 'mat1' );
+    var mesh1 = new Mesh('cube', 'mat1');
     var mesh2 = new Mesh(
-            new Geometry( [], [] ),
+            new Geometry([], []),
             new Material('#f00')
     );
 

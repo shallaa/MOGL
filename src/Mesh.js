@@ -15,10 +15,9 @@ var Mesh
     }
     Mesh = function ($t1, $t2) { return new MoglMesh($t1, $t2) }
     var f3 = new Float32Array(3)
-    var f16 = new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1])
     MoglMesh.prototype = {
         __type: 'MoglMesh',
-        matrix: f16,
+        matrix: new Matrix(),
         parent: Mogl,
         scene: null,
         children: [],
@@ -39,12 +38,15 @@ var Mesh
         // set
         setGeometry: function ($t) {},//TODO
         setMatrix: function ($t) {
-            //TODO
-            $t ? this.matrix = f16 : [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+            var t = this.matrix.data
+            if ($t) t[0] = $t[0], t[1] = $t[1], t[2] = $t[2], t[3] = $t[3], t[4] = $t[4], t[5] = $t[5], t[6] = $t[6], t[7] = $t[7], t[8] = $t[8], t[9] = $t[9], t[10] = $t[10], t[11] = $t[11], t[12] = $t[12], t[13] = $t[13], t[14] = $t[14], t[15] = $t[15]
+            else if ($t instanceof Matrix) t[0] = 1, t[1] = 0, t[2] = 0, t[3] = 0, t[4] = 0, t[5] = 1, t[6] = 0, t[7] = 0, t[8] = 0, t[9] = 0, t[10] = 1, t[11] = 0, t[12] = 0, t[13] = 0, t[14] = 0, t[15] = 1
+            else this.matrix.identity()
+            return this
         },
         setMaterial: function ($t) {},//TODO
-        setPosition: function ($t) {},//TODO
-        setRotate: function ($t) {},//TODO
-        setScale: function ($t) {}//TODO
+        setPosition: function ($t) {return this.x = $t[0], this.y = $t[1], this.z = $t[2], this},
+        setRotate: function ($t) {return this.rotateX = $t[0], this.rotateY = $t[1], this.rotateZ = $t[2], this},
+        setScale: function ($t) {return this.scaleX = $t[0], this.scaleY = $t[1], this.scaleZ = $t[2], this}
     }
 })();
