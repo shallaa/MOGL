@@ -10,7 +10,6 @@ var Mesh
 (function () {
     var uuid=0
     Mesh = function Mesh($geometry, $material) {
-        this.__UUID = uuid++
         this.__geometry = $geometry
         this.__material = $material
     }
