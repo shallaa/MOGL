@@ -8,10 +8,10 @@
 
 var Scene;
 (function () {
-    var MoglScene = function () {}
-    Scene = function () { return new MoglScene() }
-    MoglScene.prototype = {
-        __type: 'MoglScene',
+    var MoGLScene = function () {}
+    Scene = function () { return new MoGLScene() }
+    MoGLScene.prototype = {
+        __type: 'MoGLScene',
         children: {},
         shaderList: {v: {}, f: {}},
         geometryList: {},
@@ -22,12 +22,13 @@ var Scene;
         addChild: function ($id, $mesh) {
             try {
                 if (this.children[$id]) throw 0
-                if ($mesh.__type != 'MoglMesh') throw 1
+                if ($mesh.__type != 'MoGLMesh') throw 1
                 // TODO Mesh안의 Geometry에 지정된 vertex shader의 id가 존재하지 않음.
                 // TODO Mesh안의 Material에 지정된 fragment shader의 id가 존재하지 않음.
             } catch ($e) {
-                throw Error('Scene.addChild:' + $e + ' : ' + Mogl.errorMessage.Scene.addChild[$e])
+                throw Error('Scene.addChild:' + $e + ' : ' + MoGL.errorMessage.Scene.addChild[$e])
             }
+
             this.children[$id] = $mesh
             return this
         },
@@ -36,7 +37,7 @@ var Scene;
                 if (this.shaderList.f[$id]) throw 0
                 // TODO 'Scene.addFragmentShader:1' - MoGL 표준 인터페이스를 준수하지 않는 fragment shader를 등록하려할 때.
             } catch ($e) {
-                throw Error('Scene.addFragmentShader:' + $e + ' : ' + Mogl.errorMessage.Scene.addFragmentShader[$e])
+                throw Error('Scene.addFragmentShader:' + $e + ' : ' + MoGL.errorMessage.Scene.addFragmentShader[$e])
             }
             this.shaderList.f[$id] = $shaderStr
             //TODO 쉐이더 제너레이터
@@ -47,7 +48,7 @@ var Scene;
                 if (this.shaderList.v[$id]) throw 0
                 // TODO 'Scene.addVertexShader:1' - MoGL 표준 인터페이스를 준수하지 않는 fragment shader를 등록하려할 때.
             } catch ($e) {
-                throw Error('Scene.addVertexShader:' + $e + ' : ' + Mogl.errorMessage.Scene.addVertexShader[$e])
+                throw Error('Scene.addVertexShader:' + $e + ' : ' + MoGL.errorMessage.Scene.addVertexShader[$e])
             }
             this.shaderList.v[$id] = $shaderStr
             //TODO 쉐이더 제너레이터
@@ -59,7 +60,7 @@ var Scene;
                 if (!($geometry instanceof Geometry)) throw 1
                 //TODO  Geometry에 선언된 vertex shader의 id가 없을 때.
             } catch ($e) {
-                throw Error('Scene.addGeometry:' + $e + ' : ' + Mogl.errorMessage.Scene.addGeometry[$e])
+                throw Error('Scene.addGeometry:' + $e + ' : ' + MoGL.errorMessage.Scene.addGeometry[$e])
             }
             this.geometryList[$id] = $geometry
             //TODO 지오메트리 제너레이터
@@ -70,7 +71,7 @@ var Scene;
                 if (this.textureList[$id]) throw 0
                 //TODO Param에 명시된 형식이 아닌 image를 등록하려할 때.
             } catch ($e) {
-                throw Error('Scene.addTexture:' + $e + ' : ' + Mogl.errorMessage.Scene.addTexture[$e])
+                throw Error('Scene.addTexture:' + $e + ' : ' + MoGL.errorMessage.Scene.addTexture[$e])
             }
             this.textureList[$id] = $texture
             //TODO 텍스쳐 제너레이터
@@ -82,7 +83,7 @@ var Scene;
                 if (!($material instanceof Material)) throw 1
                 //TODO  Material에 선언된 fragment shader의 id가 없을 때.
             } catch ($e) {
-                throw Error('Scene.addMaterial:' + $e + ' : ' + Mogl.errorMessage.Scene.addMaterial[$e])
+                throw Error('Scene.addMaterial:' + $e + ' : ' + MoGL.errorMessage.Scene.addMaterial[$e])
             }
             this.materialList[$id] = $material
             return this

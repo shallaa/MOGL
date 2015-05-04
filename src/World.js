@@ -8,9 +8,9 @@
 
 var World;
 (function () {
-    var MoglWorld = function(){this.__UUID = 'MoglWorld'+ Mogl.UUID++}
-    World = function () { return new MoglWorld() }
-    //MoglWorld.prototype = {
+    var MoGLWorld = function(){this.__UUID = 'MoGLWorld'+ MoGL.UUID++}
+    World = function () { return new MoGLWorld() }
+    //MoGLWorld.prototype = {
     //    renderList: [],sceneList: {},
     //    addRender: function ($sceneID, $cameraID, $index) {
     //        var temp = {

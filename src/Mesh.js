@@ -8,17 +8,17 @@
  */
 var Mesh
 (function () {
-    var MoglMesh = function ($geometry, $material) {
-        this.__UUID = this.__type + Mogl.UUID++
+    var MoGLMesh = function ($geometry, $material) {
+        this.__UUID = this.__type + MoGL.UUID++
         this.__geometry = $geometry
         this.__material = $material
     }
-    Mesh = function ($t1, $t2) { return new MoglMesh($t1, $t2) }
+    Mesh = function ($t1, $t2) { return new MoGLMesh($t1, $t2) }
     var f3 = new Float32Array(3)
-    MoglMesh.prototype = {
-        __type: 'MoglMesh',
+    MoGLMesh.prototype = {
+        __type: 'MoGLMesh',
         matrix: new Matrix(),
-        parent: Mogl,
+        parent: MoGL,
         scene: null,
         children: [],
         rotateX: 0, rotateY: 0, rotateZ: 0,
@@ -26,8 +26,8 @@ var Mesh
         x: 0, y: 0, z: 0,
         ///////////////////////////////////////////////////
         // get
-        getGeometry: function () {return typeof this.__geometry instanceof Geometry ? this.__geometry : this.parent == Mogl ? null : this.__geometry },//TODO 이렇게 되는게 맞남?
-        getMaterial: function () {return typeof this.__material instanceof Material ? this.__material : this.parent == Mogl ? null : this.__material },//TODO 씬을 알고있어야하는가...
+        getGeometry: function () {return typeof this.__geometry instanceof Geometry ? this.__geometry : this.parent == MoGL ? null : this.__geometry },//TODO 이렇게 되는게 맞남?
+        getMaterial: function () {return typeof this.__material instanceof Material ? this.__material : this.parent == MoGL ? null : this.__material },//TODO 씬을 알고있어야하는가...
         // TODO 씬을 어케 연계시킬것인가 고민해야됨..
         getMatrix: function () {return this.matrix},//TODO
         getParent: function () {return this.parent ? this.parent : null},
@@ -36,7 +36,7 @@ var Mesh
         getScale: function () {return f3[0] = this.scaleX, f3[1] = this.scaleY, f3[2] = this.scaleZ, f3},
         ///////////////////////////////////////////////////
         // set
-        setGeometry: function ($t) {},//TODO
+        setGeometry: function ($t) { return this},//TODO
         setMatrix: function ($t) {
             var t = this.matrix.data
             if ($t) t[0] = $t[0], t[1] = $t[1], t[2] = $t[2], t[3] = $t[3], t[4] = $t[4], t[5] = $t[5], t[6] = $t[6], t[7] = $t[7], t[8] = $t[8], t[9] = $t[9], t[10] = $t[10], t[11] = $t[11], t[12] = $t[12], t[13] = $t[13], t[14] = $t[14], t[15] = $t[15]
