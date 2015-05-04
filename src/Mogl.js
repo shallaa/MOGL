@@ -7,7 +7,7 @@ var MoGL = (function(){
 	//static function
 
 	//parent클래스를 상속하는 자식클래스를 만들어냄.
-	MoGL.extends = function ( child, parent, isSuperCall ){
+	MoGL.ext = function ext( child, parent, isSuperCall ){
 		var cls, oldProto, newProto, key;
 		//생성자클래스
 		cls = function(){
