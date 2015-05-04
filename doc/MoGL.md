@@ -13,10 +13,10 @@
  
 **static**
 
-* [MoGL.count](#)
-* [MoGL.error](#moglerror)
-* [MoGL.ext](#moglext)
-* [MoGL.isAlive](#moglisalive)
+* [MoGL.count](#moglcount-classfunction-)
+* [MoGL.error](#moglerror-classnamestring-methodnamestring-idint-)
+* [MoGL.ext](#moglext-childfunction-parentfunction-)
+* [MoGL.isAlive](#moglisalive-instance-)
 
 [top](#)
 ## Constructor
