@@ -1,39 +1,41 @@
 /**
  * Created by redcamel on 2015-04-30.
  * description
- World´Â MOGLÀÇ ±âº»°´Ã¼·Î ³»ºÎ¿¡ ´Ù¼öÀÇ SceneÀ» ¼ÒÀ¯ÇÒ ¼ö ÀÖÀ¸¸ç ½ÇÁ¦ ·»´õ¸µµÇ´Â ´ë»óÀÓ.
- ¶ÇÇÑ WorldÀÇ ÀÎ½ºÅÏ½º´Â rendering ÇÔ¼ö ±× ÀÚÃ¼ÀÌ±âµµ ÇÔ.
+ WorldëŠ” MoGLì˜ ê¸°ë³¸ ì‹œì‘ê°ì²´ë¡œ ë‚´ë¶€ì— ë‹¤ìˆ˜ì˜ Sceneì„ ì†Œìœ í•  ìˆ˜ ìˆìœ¼ë©°,
+ ì‹¤ì œ ë Œë”ë§ë˜ëŠ” ëŒ€ìƒì„. ë˜í•œ Worldì˜ ì¸ìŠ¤í„´ìŠ¤ëŠ” renderingí•¨ìˆ˜ ê·¸ ìì²´ì´ê¸°ë„ í•¨.
  */
 
 
 var World;
 (function () {
-    World = function () {
-    }
-    World.prototype = {
-        renderList: [],
-        sceneList: {},
-        addRender: function ($sceneID, $cameraID, $index) {
-            var temp = {
-                scene: this.sceneList[$sceneID],
-                camera: this.sceneList[$sceneID].cameraList[$cameraID]
-            }
-            $index ? this.renderList[temp] : this.renderList.push(temp)
-        },
-        addScene: function ($sceneID, $scene) {
-            return this.sceneList[$sceneID] = $scene
-        },
-        getScene: function ($sceneID) {
-            return this.sceneList[$sceneID]
-        },
-        removeRender: function ($sceneID, $cameraID) {
-            var t = this.renderList, i = t.length
-            while (i--) if (t[i].scene == this.sceneList[$sceneID] && t[i].camera == this.cameraList[$cameraID]) this.renderList.slice(i, 1)
-        },
-        removeScene: function ($sceneID) {
-            delete  this.sceneList[$sceneID]
-            var t = this.renderList, i = t.length
-            while (i--) if (t[i].scene == this.sceneList[$sceneID]) this.renderList.slice(i, 1)
-        }
-    }
+    var MoglWorld = function(){this.__UUID = 'MoglWorld'+ Mogl.UUID++}
+    World = function () { return new MoglWorld() }
+    //MoglWorld.prototype = {
+    //    renderList: [],sceneList: {},
+    //    addRender: function ($sceneID, $cameraID, $index) {
+    //        var temp = {
+    //            scene: this.sceneList[$sceneID],
+    //            camera: this.sceneList[$sceneID].cameraList[$cameraID]
+    //        }
+    //        $index ? this.renderList[temp] : this.renderList.push(temp)
+    //        return this
+    //    },
+    //    addScene: function ($sceneID, $scene) {
+    //        try { if(this.sceneList[$sceneID]) throw $sceneID+"ê°’ìœ¼ë¡œ ì´ë¯¸ ë“±ë¡ëœ idê°€ ì¡´ì¬í•©ë‹ˆë‹¤."}
+    //        catch(err) { throw Error(err)}
+    //        return $scene.id = $sceneID,this.sceneList[$sceneID] = $scene
+    //    },
+    //    getScene: function ($sceneID) {
+    //        return this.sceneList[$sceneID]
+    //    },
+    //    removeRender: function ($sceneID, $cameraID) {
+    //        var t = this.renderList, i = t.length
+    //        while (i--) if (t[i].scene == this.sceneList[$sceneID] && t[i].camera == this.cameraList[$cameraID]) this.renderList.slice(i, 1)
+    //    },
+    //    removeScene: function ($sceneID) {
+    //        delete  this.sceneList[$sceneID]
+    //        var t = this.renderList, i = t.length
+    //        while (i--) if (t[i].scene == this.sceneList[$sceneID]) this.renderList.slice(i, 1)
+    //    }
+    //}
 })();
