@@ -11,18 +11,18 @@ var MoGL = (function(){
 		var cls, oldProto, newProto, key;
 		//생성자클래스
 		cls = function(){
-			var arg, instance;
+			var arg;
 			if( this instanceof cls ){
 				if( arguments[0] === isFactory ){
 					arg = arguments[1];
 				}else{
-					arg = arguements;
+					arg = arguments;
 				}
 				if( isSuperCall ){
-					parent.apply( instance, arguments );
+					parent.apply( this, arg );
 				}
-				child.apply( instance, arguments );
-				return instance;
+				child.apply( this, arg );
+				return this;
 			}else{
 				return new cls( isFactory, arguments );
 			}
@@ -33,7 +33,6 @@ var MoGL = (function(){
 		oldProto = child.prototype;
 		for( key in oldProto ) if( oldProto.hasOwnProperty(key) ) newProto[key] = oldProto[key];
 		cls.prototype = newProto;
-
 		return cls;
 	};
 
