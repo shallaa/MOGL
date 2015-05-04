@@ -19,44 +19,44 @@ var Scene;
         // Add
         addChild: function addChild($id, $mesh) {
             console.log()
-            if (this.children[$id]) MoGL.error(this, this.addChild, 0)
-            if (!$mesh instanceof Mesh) MoGL.error(this, this.addChild, 1)
+            if (this.children[$id]) MoGL.error('Scene', 'addChild', 0)
+            if (!$mesh instanceof Mesh) MoGL.error('Scene', 'addChild', 1)
             // TODO Mesh안의 Geometry에 지정된 vertex shader의 id가 존재하지 않음.
             // TODO Mesh안의 Material에 지정된 fragment shader의 id가 존재하지 않음.
             this.children[$id] = $mesh
             return this
         },
         addFragmentShader: function addFragmentShader($id, $shaderStr) {
-            if (this.shaderList.f[$id]) MoGL.error(this, this.addChild, 0)
+            if (this.shaderList.f[$id]) MoGL.error('Scene', 'addFragmentShader', 0)
             // TODO 'Scene.addFragmentShader:1' - MoGL 표준 인터페이스를 준수하지 않는 fragment shader를 등록하려할 때.
             this.shaderList.f[$id] = $shaderStr
             //TODO 쉐이더 제너레이터
             return this
         },
         addVertexShader: function addVertexShader($id, $shaderStr) {
-            if (this.shaderList.v[$id]) MoGL.error(this, this.addChild, 0)
+            if (this.shaderList.v[$id]) MoGL.error('Scene', 'addVertexShader', 0)
             // TODO 'Scene.addFragmentShader:1' - MoGL 표준 인터페이스를 준수하지 않는 fragment shader를 등록하려할 때.
             this.shaderList.v[$id] = $shaderStr
             //TODO 쉐이더 제너레이터
             return this
         },
         addGeometry: function addGeometry($id, $geometry) {
-            if (this.geometryList[$id]) MoGL.error(this, this.addChild, 0)
-            if (!($geometry instanceof Geometry)) MoGL.error(this, this.addChild, 1)
+            if (this.geometryList[$id]) MoGL.error('Scene', 'addGeometry', 0)
+            if (!($geometry instanceof Geometry)) MoGL.error('Scene', 'addGeometry', 1)
             this.geometryList[$id] = $geometry
             //TODO 지오메트리 제너레이터
             return this
         },
         addTexture: function addTexture($id, $texture) {
-            if (this.textureList[$id]) MoGL.error(this, this.addChild, 0)
+            if (this.textureList[$id]) MoGL.error('Scene', 'addTexture', 0)
             //TODO Param에 명시된 형식이 아닌 image를 등록하려할 때.
             this.textureList[$id] = $texture
             //TODO 텍스쳐 제너레이터
             return this
         },
         addMaterial: function addMaterial($id, $material) {
-            if (this.materialList[$id]) MoGL.error(this, this.addChild, 0)
-            if (!($material instanceof Material)) MoGL.error(this, this.addChild, 1)
+            if (this.materialList[$id]) MoGL.error('Scene', 'addMaterial', 0)
+            if (!($material instanceof Material)) MoGL.error('Scene', 'addMaterial', 1)
             //TODO  Material에 선언된 fragment shader의 id가 없을 때.
             this.materialList[$id] = $material
             return this
