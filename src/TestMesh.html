@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="Mogl.js"></script>
+    <script src="World.js"></script>
+    <script src="Scene.js"></script>
+    <script src="Mesh.js"></script>
+    <script src="Camera.js"></script>
+    <script src="Geometry.js"></script>
+    <script src="Material.js"></script>
+    <script src="Texture.js"></script>
+
+</head>
+<body>
+<img src="test.png" id="img1"/>
+<script id="fshader" type="text/shader">
+</script>
+<script>
+
+
+    var mesh1 = new Mesh( 'cube', 'mat1' );
+    var mesh2 = new Mesh(
+            new Geometry( [], [] ),
+            new Material('#f00')
+    );
+
+    //팩토리함수로도 사용가능
+    var mesh3 = Mesh();
+    console.log(mesh1)
+    console.log(mesh2)
+    console.log(mesh3)
+</script>
+</body>
+</html>

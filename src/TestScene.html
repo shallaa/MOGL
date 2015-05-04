@@ -6,8 +6,8 @@
     <script src="Mogl.js"></script>
     <script src="World.js"></script>
     <script src="Scene.js"></script>
-    <script src="Camera.js"></script>
     <script src="Mesh.js"></script>
+    <script src="Camera.js"></script>
     <script src="Geometry.js"></script>
     <script src="Material.js"></script>
     <script src="Texture.js"></script>
@@ -23,9 +23,11 @@ void main(void) {
      gl_FragColor =  texture2D(uSampler, vec2(vUV.s, vUV.t));
 }
 
+
 </script>
 <script>
     var city1 = Scene();
+    console.log(city1)
     city1.addChild('frontView', new Camera());
     city1.addChild('building', new Mesh());
     console.log(city1.getChild('frontView'))

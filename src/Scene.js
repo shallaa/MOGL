@@ -8,10 +8,11 @@
 
 var Scene;
 (function () {
-    var MoglScene = function () {this.__UUID = 'MoglScene' + Mogl.UUID++}
+    var MoglScene = function () {}
     Scene = function () { return new MoglScene() }
     MoglScene.prototype = {
-        childList: {},
+        __type: 'MoglScene',
+        children: {},
         shaderList: {v: {}, f: {}},
         geometryList: {},
         materialList: {},
@@ -20,14 +21,14 @@ var Scene;
         // Add
         addChild: function ($id, $mesh) {
             try {
-                if (this.childList[$id]) throw 0
-                if (!($mesh instanceof Mesh)) throw 1
+                if (this.children[$id]) throw 0
+                if ($mesh.__type !='MoglMesh') throw 1
                 // TODO Mesh안의 Geometry에 지정된 vertex shader의 id가 존재하지 않음.
                 // TODO Mesh안의 Material에 지정된 fragment shader의 id가 존재하지 않음.
             } catch ($e) {
                 throw Error('Scene.addChild:' + $e + ' : ' + Mogl.errorMessage.Scene.addChild[$e])
             }
-            this.childList[$id] = $mesh
+            this.children[$id] = $mesh
             return this
         },
         addFragmentShader: function ($id, $shaderStr) {
@@ -88,13 +89,13 @@ var Scene;
         },
         ///////////////////////////////////////////////////////////////////////////
         // Get
-        getChild: function ($id) { return this.childList[$id]},
+        getChild: function ($id) { return this.children[$id]},
         getGeometry: function ($id) { return this.geometryList[$id]},
         getMaterial: function ($id) { return this.materialList[$id]},
         getTexture: function ($id) { return this.textureList[$id]},
         ///////////////////////////////////////////////////////////////////////////
         // Remove
-        removeChild: function ($id) { return this.childList[$id] ? (delete this.childList[$id], 1) : 0},
+        removeChild: function ($id) { return this.children[$id] ? (delete this.children[$id], 1) : 0},
         removeFragmentShader: function ($id) { return this.shaderList.f[$id] ? (delete this.shaderList.f[$id], 1) : 0},
         removeVertexShader: function ($id) { return this.shaderList.v[$id] ? (delete this.shaderList.v[$id], 1) : 0},
         removeGeometry: function ($id) { return this.geometryList[$id] ? (delete this.geometryList[$id], 1) : 0},
