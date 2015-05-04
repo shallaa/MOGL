@@ -11,6 +11,7 @@ var MoGL = (function(){
 	
 	//생성자
 	MoGL = function(){
+		this.isAlive = true;
 		this.uuid = uuid++;
 		counter[this.constructor.uuid]++;
 		totalCount++;
@@ -20,6 +21,7 @@ var MoGL = (function(){
 	fn.destroy = function destroy(){
 		var key;
 		for( key in this ) if( this.hasOwnProperty(key) ) this[key] = null;
+		this.isAlive = false;
 		counter[this.constructor.uuid]--;
 		totalCount--;
 	};
@@ -45,8 +47,7 @@ var MoGL = (function(){
 				return new cls( isFactory, arguments );
 			}
 		};
-		cls._uuid = uuid++;
-		cls._parent = parent;
+		cls.uuid = uuid++;
 		if( !( cls.uuid in counter ) ) counter[cls.uuid] = 0;
 		
 		//부모와 자식 클래스의 프로토타입을 옮김.
@@ -61,6 +62,9 @@ var MoGL = (function(){
 	MoGL.error = function error( cls, method, id ){
 		throw new Error( cls + '.' + method + ':' + id );
 	};
+	MoGL.isAlive = function isAlive(instance){
+		if( !instance.isAlive ) throw new Error( 'Destroyed Object:' + instance );
+	};
 	//인스턴스의 갯수를 알아냄
 	MoGL.count = function count( cls ){
 		if( typeof cls == 'function' ){
@@ -69,5 +73,6 @@ var MoGL = (function(){
 			return totalCount;
 		}
 	};
+	
 	return MoGL;
 })();
