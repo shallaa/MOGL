@@ -24,10 +24,24 @@ var MoGL = (function(){
 		this.isAlive = false;
 		counter[this.constructor.uuid]--;
 		totalCount--;
-	};
+	},
+	
+	//인스턴스의 갯수를 알아냄
+	MoGL.count = function count( cls ){
+		if( typeof cls == 'function' ){
+			return counter[cls.uuid];
+		}else{
+			return totalCount;
+		}
+	},
+	//표준 error처리
+	MoGL.error = function error( cls, method, id ){
+		throw new Error( cls + '.' + method + ':' + id );
+	},
 	//parent클래스를 상속하는 자식클래스를 만들어냄.
 	MoGL.ext = function ext( child, parent ){
 		var cls, oldProto, newProto, key;
+		if( parent !== MoGL && !( 'uuid' in parent ) ) MoGL.error( 'MoGL', 'ext', 0 );
 		//생성자클래스
 		cls = function(){
 			var arg;
@@ -57,21 +71,10 @@ var MoGL = (function(){
 		oldProto = child.prototype;
 		for( key in oldProto ) if( oldProto.hasOwnProperty(key) ) newProto[key] = oldProto[key];
 		return cls;
-	};
-	//표준 error처리
-	MoGL.error = function error( cls, method, id ){
-		throw new Error( cls + '.' + method + ':' + id );
-	};
+	},
+	//isAlive확인
 	MoGL.isAlive = function isAlive(instance){
 		if( !instance.isAlive ) throw new Error( 'Destroyed Object:' + instance );
-	};
-	//인스턴스의 갯수를 알아냄
-	MoGL.count = function count( cls ){
-		if( typeof cls == 'function' ){
-			return counter[cls.uuid];
-		}else{
-			return totalCount;
-		}
 	};
 	
 	return MoGL;

@@ -37,11 +37,13 @@ child.prototype.printC = function(){
 child = MoGL.ext( child, parent );
 
 var instance1 = new child( 1, 2, 3 );
-
 bsTest( 'new',
 	function(){
 		return instance1.uuid;
 	}, 2,
+	function(){
+		return instance1.isAlive;
+	}, true,
 	function(){
 		return instance1.printA();
 	}, 1,
@@ -54,11 +56,13 @@ bsTest( 'new',
 );
 
 var instance2 = child( 4, 5, 6 );
-console.log(5);
 bsTest( 'factory',
 	function(){
 		return instance2.uuid;
 	}, 3,
+	function(){
+		return instance2.isAlive;
+	}, true,
 	function(){
 		return instance2.printA();
 	}, 4,
@@ -77,6 +81,28 @@ bsTest( 'count',
 	function(){
 		return MoGL.count(child);
 	}, 2
+);
+
+instance1.destroy();
+instance2.destroy();
+bsTest( 'destroy',
+	function(){
+		return instance2.isAlive;
+	}, false,
+	function(){
+		return instance2.isAlive;
+	}, false
+);
+bsTest( 'error',
+	function(){
+		var test = '';
+		try{
+			MoGL.error( 'test', 'method', 3 )
+		}catch(e){
+			test = e.toString();
+		}
+		return test.indexOf( 'test.method:3' ) > -1;
+	}, true
 );
 </script>
 </body>
