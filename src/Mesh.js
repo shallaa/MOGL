@@ -8,15 +8,14 @@
  */
 var Mesh
 (function () {
-    var MoGLMesh = function ($geometry, $material) {
-        this.__UUID = this.__type + MoGL.UUID++
+    var uuid=0
+    Mesh = function Mesh($geometry, $material) {
+        this.__UUID = uuid++
         this.__geometry = $geometry
         this.__material = $material
     }
-    Mesh = function ($t1, $t2) { return new MoGLMesh($t1, $t2) }
     var f3 = new Float32Array(3)
-    MoGLMesh.prototype = {
-        __type: 'MoGLMesh',
+    Mesh.prototype = {
         matrix: new Matrix(),
         parent: MoGL,
         scene: null,
@@ -49,4 +48,5 @@ var Mesh
         setRotate: function ($t) {return this.rotateX = $t[0], this.rotateY = $t[1], this.rotateZ = $t[2], this},
         setScale: function ($t) {return this.scaleX = $t[0], this.scaleY = $t[1], this.scaleZ = $t[2], this}
     }
+    Mesh = MoGL.ext( Mesh, MoGL );
 })();
