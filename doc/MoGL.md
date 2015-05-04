@@ -13,10 +13,11 @@
  
 **static**
 
-* [MoGL.isAlive](#moglisalive)
+* [MoGL.count](#)
 * [MoGL.error](#moglerror)
 * [MoGL.ext](#moglext)
-* 
+* [MoGL.isAlive](#moglisalive)
+
 [top](#)
 ## Constructor
 
