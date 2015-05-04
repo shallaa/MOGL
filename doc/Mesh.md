@@ -72,9 +72,9 @@ X, Y, Z축 회전각. 기본값은 모두 0이며 단위는 angle을 기본으�
 
 **sample**
 ```javascript
-scene.getMesh('cube').rotateX += 30;
-scene.getMesh('cube').rotateY += 20;
-scene.getMesh('cube').rotateZ += 50;
+scene.getChild('cube').rotateX += 30;
+scene.getChild('cube').rotateY += 20;
+scene.getChild('cube').rotateZ += 50;
 ```
 
 [top](#)
@@ -86,9 +86,9 @@ X, Y, Z축 확대축소값. 기본값은 모두 1.
 
 **sample**
 ```javascript
-scene.getMesh('cube').scaleX = 1.5;
-scene.getMesh('cube').scaleY = 1.5;
-scene.getMesh('cube').scaleZ = 1.5;
+scene.getChild('cube').scaleX = 1.5;
+scene.getChild('cube').scaleY = 1.5;
+scene.getChild('cube').scaleZ = 1.5;
 ```
 
 [top](#)
@@ -100,9 +100,9 @@ X, Y, Z축의 좌표.
 
 **sample**
 ```javascript
-scene.getMesh('cube').x = 130;
-scene.getMesh('cube').y = 200;
-scene.getMesh('cube').z = 0;
+scene.getChild('cube').x = 130;
+scene.getChild('cube').y = 200;
+scene.getChild('cube').z = 0;
 ```
 
 [top](#)
@@ -124,7 +124,7 @@ id로 지정되고 아직 [addChild](Scene.md#addchild-idstring-meshmesh-) 전�
 **sample**
 
 ```javascript
-var geo = world.getScene('lobby').getMesh('cube').getGeometry();
+var geo = world.getScene('lobby').getChild('cube').getGeometry();
 ```
 
 [top](#)
@@ -146,7 +146,7 @@ Mesh에 지정된 [Material](Material.md)을 반환함.
 **sample**
 
 ```javascript
-var mat = world.getScene('lobby').getMesh('cube').getMaterial();
+var mat = world.getScene('lobby').getChild('cube').getMaterial();
 ```
 
 [top](#)
@@ -167,7 +167,7 @@ var mat = world.getScene('lobby').getMesh('cube').getMaterial();
 **sample**
 
 ```javascript
-var matrix = world.getScene('lobby').getMesh('cube').getMatrix();
+var matrix = world.getScene('lobby').getChild('cube').getMatrix();
 ```
 
 [top](#)
@@ -188,7 +188,7 @@ var matrix = world.getScene('lobby').getMesh('cube').getMatrix();
 **sample**
 
 ```javascript
-var parent = world.getScene('lobby').getMesh('cube').getParent();
+var parent = world.getScene('lobby').getChild('cube').getParent();
 parent === world.getScene('lobby')
 ```
 
@@ -212,7 +212,7 @@ Float32Array - 타입드어레이 형식으로 [x,y,z]를 반환함.
 **sample**
 
 ```javascript
-var x = world.getScene('lobby').getMesh('cube').getPosition()[0];
+var x = world.getScene('lobby').getChild('cube').getPosition()[0];
 ```
 
 [top](#)
@@ -235,7 +235,7 @@ Float32Array - 타입드어레이 형식으로 [rx,ry,rz]를 반환함.
 **sample**
 
 ```javascript
-var rotateX = world.getScene('lobby').getMesh('cube').getRotate()[0];
+var rotateX = world.getScene('lobby').getChild('cube').getRotate()[0];
 ```
 
 [top](#)
@@ -258,7 +258,7 @@ Float32Array - 타입드어레이 형식으로 [sx,sy,sz]를 반환함.
 **sample**
 
 ```javascript
-var scaleX = world.getScene('lobby').getMesh('cube').getScale()[0];
+var scaleX = world.getScene('lobby').getChild('cube').getScale()[0];
 ```
 
 [top](#)
@@ -283,7 +283,7 @@ this - 메서드체이닝을 위해 자신을 반환함.
 **sample**
 
 ```javascript
-var mesh = world.getScene('lobby').getMesh('cube');
+var mesh = world.getScene('lobby').getChild('cube');
 mesh.setGeometry( 'sphere' );
 mesh.setGeometry( new Geometry( vertex, index, 'baseShader' ) );
 ```
@@ -309,7 +309,7 @@ this - 메서드체이닝을 위해 자신을 반환함.
 **sample**
 
 ```javascript
-var mesh = world.getScene('lobby').getMesh('cube');
+var mesh = world.getScene('lobby').getChild('cube');
 mesh.setMatrix( new Matrix() );
 mesh.setMatrix( [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1] );
 ```
@@ -336,7 +336,7 @@ this - 메서드체이닝을 위해 자신을 반환함.
 **sample**
 
 ```javascript
-var mesh = world.getScene('lobby').getMesh('cube');
+var mesh = world.getScene('lobby').getChild('cube');
 mesh.setMaterial( 'white' );
 mesh.setMaterial( new Material('#f00') );
 ```
@@ -361,7 +361,7 @@ this - 메서드체이닝을 위해 자신을 반환함.
 **sample**
 
 ```javascript
-var mesh = world.getScene('lobby').getMesh('cube');
+var mesh = world.getScene('lobby').getChild('cube');
 mesh.setPosition( 20, 5, 6 );
 mesh.setPosition( [20,5, 6] );
 ```
@@ -386,7 +386,7 @@ this - 메서드체이닝을 위해 자신을 반환함.
 **sample**
 
 ```javascript
-var mesh = world.getScene('lobby').getMesh('cube');
+var mesh = world.getScene('lobby').getChild('cube');
 mesh.setRotate( 20, 180, 0 );
 mesh.setRotate( [20, 180, 6] );
 ```
@@ -411,7 +411,7 @@ this - 메서드체이닝을 위해 자신을 반환함.
 **sample**
 
 ```javascript
-var mesh = world.getScene('lobby').getMesh('cube');
+var mesh = world.getScene('lobby').getChild('cube');
 mesh.setScale( 1, 2.5, 0.8 );
 mesh.setScale( [1, 2.5, 0.8] );
 ```
