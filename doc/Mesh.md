@@ -1,4 +1,6 @@
 # Mesh
+* parent : [MoGL](MoGL.md)
+* children : [Camera](Camera.md), [Light](Light.md)
 * [Constructor](#constructor)
 
 **field**
@@ -31,29 +33,34 @@ Mesh( geometry:*, material:* )
 
 **description**
 
-기하구조와 재질을 포함하는 하나의 렌더링 단위인 Mesh를 생성함.
-* id를 인자로 지정하면 Scene에 addMesh하는 순간 id를 바인딩하며 실패하면 등록되지 않음.
-* 객체를 인자로 지정하면 Scene에 addMesh하는 Geometry나 Material이 임의의 id로 자동등록되며, shaderId가 존재하지 않으면 실패함.
+기하구조와 재질을 포함할 수 있는 하나의 렌더링 단위인 Mesh를 생성함.
+Mesh는 장면 내에 아핀변환에 대응하는 행렬정보를 갖음.
+이에 따라 비가시객체인 [Camera](Camera.md) 등도 Mesh를 상속하게 됨.
+* id를 인자로 지정하면 [Scene](Scene.md)에 [addChild](Scene.md#addchild-idstring-meshmesh-)하는 순간 id를 바인딩하며 실패하면 등록되지 않음.
+* 객체를 인자로 지정하면 [Scene](Scene.md)에 [addChild](Scene.md#addchild-idstring-meshmesh-)하는 순간 Mesh내부의 [Geometry](Geometry.md)나 [Material](Material.md)이 임의의 id로 자동등록되며, shader Id가 존재하지 않으면 예외가 발생함( [addChild](Scene.md#addchild-idstring-meshmesh-) 참조 )
 
 **param**
 
 1. geometry:* - 기하구조체를 받으며 다음과 같은 형식이 올 수 있음.
-    * string - Mesh가 등록될 Scene에 이미 등록되어있는 Geometry의 id를 지정함.
-    * Geometry - 직접 Geometry 객체를 지정함.
-    * null - null로 지정되면 scene의 렌더링 대상에서 제외됨(그룹, 카메라등에서 사용)
+    * string - Mesh가 등록될 [Scene](Scene.md)에 이미 등록되어있는 [Geometry](Geometry.md)의 id를 지정함.
+    * [Geometry](Geometry.md) - 직접 [Geometry](Geometry.md)객체를 지정함.
+    * null - null로 지정되면 [Scene](Scene.md)의 렌더링 대상에서 제외됨.
 2. material:* - 해당 기하구조에 적용할 재질을 받으며 다음과 같은 형식이 올 수 있음.
-    * string - Mesh가 등록될 Scene에 이미 등록되어있는 Material의 id를 지정함.
-    * Geometry - 직접 Material 객체를 지정함.
-    * null - null로 지정되면 scene의 렌더링 대상에서 제외됨(그룹, 카메라등에서 사용)
+    * string - Mesh가 등록될 [Scene](Scene.md)에 이미 등록되어있는 [Material](Material.md)의 id를 지정함.
+    * [Material](Material.md) - 직접 [Material](Material.md) 객체를 지정함.
+    * null - null로 지정되면 [Scene](Scene.md)의 렌더링 대상에서 제외됨.
 
 **sample**
 
 ```javascript
 var mesh1 = new Mesh( 'cube', 'mat1' );
 var mesh2 = new Mesh(
-    new Geometry( vertex, index, 'baseShader' ),
+    new Geometry( vertex, index ),
     new Material('#f00')
 );
+
+//팩토리함수로도 사용가능
+var mesh3 = Mesh();
 ```
 
 [top](#)
@@ -61,7 +68,7 @@ var mesh2 = new Mesh(
 
 **description**
 
-X, Y, Z축 회전각. 기본값은 모두 0.
+X, Y, Z축 회전각. 기본값은 모두 0이며 단위는 angle을 기본으로 함.
 
 **sample**
 ```javascript
@@ -103,8 +110,8 @@ scene.getMesh('cube').z = 0;
 
 **description**
 
-Mesh에 지정된 Geometry를 반환함.
-만약 id로 지정되고 아직 addMesh 전이라면 null이 반환됨.
+Mesh에 지정된 [Geometry](Geometry.md)를 반환함.
+id로 지정되고 아직 [addChild](Scene.md#addchild-idstring-meshmesh-) 전이라면 null이 반환됨.
 
 **param**
 
@@ -112,7 +119,7 @@ Mesh에 지정된 Geometry를 반환함.
 
 **return**
 
-Geometry - Mesh에 지정된 Geometry 또는 null.
+[Geometry](Geometry.md) - Mesh에 지정된 [Geometry](Geometry.md) 또는 null.
 
 **sample**
 
@@ -125,8 +132,8 @@ var geo = world.getScene('lobby').getMesh('cube').getGeometry();
 
 **description**
 
-Mesh에 지정된 Material을 반환함.
-만약 id로 지정되고 아직 addMesh 전이라면 null이 반환됨.
+Mesh에 지정된 [Material](Material.md)을 반환함.
+만약 id로 지정되고 아직 [addChild](Scene.md#addchild-idstring-meshmesh-) 전이라면 null이 반환됨.
 
 **param**
 
@@ -134,7 +141,7 @@ Mesh에 지정된 Material을 반환함.
 
 **return**
 
-Material - Mesh에 지정된 Material 또는 null.
+[Material](Material.md) - Mesh에 지정된 [Material](Material.md) 또는 null.
 
 **sample**
 
@@ -147,7 +154,7 @@ var mat = world.getScene('lobby').getMesh('cube').getMaterial();
 
 **description**
 
-현재의 좌표, 회전, 확대 정보를 포함하는 Matrix객체를 반환함.
+현재의 좌표, 회전, 확대 정보를 포함하는 [Matrix](Matrix.md)객체를 반환함.
 
 **param**
 
@@ -155,7 +162,7 @@ var mat = world.getScene('lobby').getMesh('cube').getMaterial();
 
 **return**
 
-Matrix - 현재 상태를 나타내는 행렬객체.
+[Matrix](Matrix.md) - 현재 상태를 나타내는 행렬객체.
 
 **sample**
 
@@ -168,7 +175,7 @@ var matrix = world.getScene('lobby').getMesh('cube').getMatrix();
 
 **description**
 
-자신의 부모를 반환함. 부모는 Scene 또는 Group이 될 수 있음.
+자신의 부모를 반환함. 부모는 [Scene](Scene.md) 또는 [Group](Group.md) 이 될 수 있음.
 
 **param**
 
@@ -176,7 +183,7 @@ var matrix = world.getScene('lobby').getMesh('cube').getMatrix();
 
 **return**
 
-Scene or Group - 부모로 지정된 객체. 없는 경우는 null을 반환함.
+[Scene](Scene.md) or [Group](Group.md) - 부모로 지정된 객체. 없는 경우는 null을 반환함.
 
 **sample**
 
@@ -260,18 +267,18 @@ var scaleX = world.getScene('lobby').getMesh('cube').getScale()[0];
 **description**
 
 이 Mesh의 기하구조체를 교체함.
-* addMesh 이전이라면 id계열의 객체가 scene에 존재하는지 검사하지 않고, 이후라면 즉시 검사함.
+* [addChild](Scene.md#addchild-idstring-meshmesh-) 이전이라면 id계열의 객체가 [Scene](Scene.md)에 존재하는지 검사하지 않고, 이후라면 즉시 검사함.
 
 **param**
 
 1. geometry:* - 기하구조체를 받으며 다음과 같은 형식이 올 수 있음.
-    * string - Mesh가 등록될 Scene에 이미 등록되어있는 Geometry의 id를 지정함.
+    * string - Mesh가 등록될 [Scene](Scene.md)에 이미 등록되어있는 [Geometry](Geometry.md)의 id를 지정함.
     * Geometry - 직접 Geometry 객체를 지정함.
-    * null - null로 지정되면 scene의 렌더링 대상에서 제외됨(그룹, 카메라등에서 사용)
+    * null - null로 지정되면 [Scene](Scene.md)의 렌더링 대상에서 제외됨(그룹, 카메라 등에서 사용)
 
 **return**
 
-Geometry - 방금 등록한 Geometry. id로 지정되고 addMesh이전이면 null.
+this - 메서드체이닝을 위해 자신을 반환함.
 
 **sample**
 
@@ -293,11 +300,11 @@ mesh.setGeometry( new Geometry( vertex, index, 'baseShader' ) );
 
 1. ?matrix:* - 지정될 행렬 정보로 다음과 같은 값이 올 수 있음.
     * Array or TypedArray - 16개의 원소로 이루어진 배열로 4x4행렬의 각 요소에 대응함.
-    * Matrix - Matrix 객체가 오면 그 정보를 바탕으로 처리됨.
+    * [Matrix](Matrix.md) - [Matrix](Matrix.md) 객체가 오면 그 정보를 바탕으로 처리됨.
 
 **return**
 
-Matrix - 설정이 완료된 Matrix객체. 매번 동일한 객체가 반환되고 읽기전용으로, 이 객체를 수정해도 Mesh에 영향이 없음.
+this - 메서드체이닝을 위해 자신을 반환함.
 
 **sample**
 
@@ -313,18 +320,18 @@ mesh.setMatrix( [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1] );
 **description**
 
 이 Mesh의 재질을 반환함.
-* addMesh 이전이라면 id계열의 객체가 scene에 존재하는지 검사하지 않고, 이후라면 즉시 검사함.
+* [addChild](Scene.md#addchild-idstring-meshmesh-) 이전이라면 id계열의 객체가 [Scene](Scene.md)에 존재하는지 검사하지 않고, 이후라면 즉시 검사함.
 
 **param**
 
 1. material:* - 해당 기하구조에 적용할 재질을 받으며 다음과 같은 형식이 올 수 있음.
-    * string - Mesh가 등록될 Scene에 이미 등록되어있는 Material의 id를 지정함.
-    * Geometry - 직접 Material 객체를 지정함.
-    * null - null로 지정되면 scene의 렌더링 대상에서 제외됨(그룹, 카메라등에서 사용)
+    * string - Mesh가 등록될 [Scene](Scene.md)에 이미 등록되어있는 [Material](Material.md)의 id를 지정함.
+    * [Material](Material.md) - 직접 [Material](Material.md)객체를 지정함.
+    * null - null로 지정되면 [Scene](Scene.md)의 렌더링 대상에서 제외됨(그룹, 카메라등에서 사용)
 
 **return**
 
-Material - 방금 등록한 Material. id로 지정되고 addMesh이전이면 null.
+this - 메서드체이닝을 위해 자신을 반환함.
 
 **sample**
 
@@ -349,7 +356,7 @@ mesh.setMaterial( new Material('#f00') );
 
 **return**
 
-Float32Array - [x,y,z]형태의 좌표배열.
+this - 메서드체이닝을 위해 자신을 반환함.
 
 **sample**
 
@@ -374,7 +381,7 @@ mesh.setPosition( [20,5, 6] );
 
 **return**
 
-Float32Array - [rx,ry,rz]형태의 좌표배열.
+this - 메서드체이닝을 위해 자신을 반환함.
 
 **sample**
 
@@ -399,7 +406,7 @@ mesh.setRotate( [20, 180, 6] );
 
 **return**
 
-Float32Array - [sx,sy,sz]형태의 좌표배열.
+this - 메서드체이닝을 위해 자신을 반환함.
 
 **sample**
 
@@ -408,3 +415,5 @@ var mesh = world.getScene('lobby').getMesh('cube');
 mesh.setScale( 1, 2.5, 0.8 );
 mesh.setScale( [1, 2.5, 0.8] );
 ```
+
+[top](#)

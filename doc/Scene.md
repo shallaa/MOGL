@@ -1,32 +1,27 @@
 # Scene
+* parent : [MoGL](MoGL.md)
 * [Constructor](#Constructor)
 
 **method**
 
-* [addCamera](#addcamera-idstring-cameracamera-)
+* [addChild](#addchild-idstring-meshmesh-)
 * [addFragmentShader](#addfragmentshader-idstring-programstring-)
-* [addGeometry](#addgeometry-idstring-geomertygeometry-)
-* [addLight](#addlight-idstring-lightlight--)
+* [addGeometry](#addgeometry-idstring-geomertygeometry)
 * [addMaterial](#addmaterial-idstring-materialmaterial-)
-* [addMesh](#addmesh-idstring-meshmesh-)
 * [addTexture](#addtexture-idstring-image-resizetypestring-)
 * [addVertextShader](#addvertexshader-idstring-programstring-)
-* [getCamera](#getcamera-idstring-)
+* [getChild](#getchild-idstring-)
 * [getGeometry](#getgeomtry-idstring-)
-* [getLight](#getlight-idstring-)
 * [getMaterial](#getmaterial-idstring-)
-* [getMesh](#getmesh-idstring-)
 * [getTexture](#gettexture-idstring-)
-* [removeCamera](#removecamera-idstring-)
+* [removeChild](#removechild-idstring-)
 * [removeFragmentShader](#removefragmentshader-idstring-)
 * [removeGeometry](#removegeometry-idstring-)
-* [removeLight](#removelight-idstring-)
 * [removeMaterial](#removematerial-idstring-)
-* [removeMesh](#removemesh-idstring-)
 * [removeTexture](#removetexture-idstring-)
 * [removeVertextShader](#removevertexshader-idstring-)
 
-
+[top](#)
 ## Constructor
 
 ```javascript
@@ -35,8 +30,8 @@ Scene()
 
 **description**
 
-실제 렌더링될 기하구조체는 Scene별도 집결됨.
-렌더링 단위인 Camera는 한번에 하나의 Scene만 가리킬 수 있음.
+실제 렌더링될 구조체는 Scene별도 집결됨. 렌더링 단위인 [Camera](Camera.md)는 한 번에 하나의 Scene만 가리킬 수 있음.
+* Scene은 렌더링과 관련된 [Mesh](Mesh.md), [Camera](Camera.md), [Light](Light.md) 등을 포함하고 이들 객체가 공유하며 활용하는 기초 자원으로서 vertex shader, fragment shader, texture, [Material](Material.md), [Geometry](Geometry.md) 등을 고유한 id로 등록하여 관리한다.
 
 **param**
 
@@ -45,48 +40,80 @@ Scene()
 **sample**
 
 ```javascript
+//일반적은 new방식
 var scene = new Scene();
+
+//factory함수로도 작동
+var scene2 = Scene();
 ```
 
-## addCamera( id:string, camera:Camera )
+[top](#)
+## addChild( id:string, mesh:[Mesh](Mesh.md) )
 
 **description**
 
-실제 렌더링될 화면을 가리키는 카메라를 등록함.
-Scene 한 개에 다수의 카메라를 등록할 수 있음.
-* 일단 Scene에 등록된 카메라를 다른 Scene에 등록하면 기존 Scene과의 연결은 끊어지고, 관련된 World의 render설정도 삭제됨.
+실제 렌더링될 [Mesh](Mesh.md) 및 그 서브클래스를 등록함.
 
 **param**
 
-1. id:string - removeCamera, getCamera 등에서 사용할 id.
-2. camera:Camera - Camera의 인스턴스.
+1. id:string - removeChild 등에서 사용할 id.
+2. mesh:[Mesh](Mesh.md) - [Mesh](Mesh.md) 및 그 서브클래스([Camera](Camera.md), [Light](Light.md) 등)
+
+**exception**
+
+* 'Scene.addChild:0' - 이미 존재하는 id.
+* 'Scene.addChild:1' - [Mesh](Mesh.md)가 아닌 객체.
+* 'Scene.addChild:2' - [Mesh](Mesh.md)안의 [Geometry](Geometry.md)에 지정된 vertex shader의 id가 존재하지 않음.
+* 'Scene.addChild:3' - [Mesh](Mesh.md)안의 [Material](Material.md)에 지정된 fragment shader의 id가 존재하지 않음.
 
 **return**
 
-Camera - 방금 추가한 Camera의 인스턴스.
+this - 메서드체이닝을 위해 자신을 반환함.
 
 **sample**
 
 ```javascript
-var city1 = new Scene();
-city1.addCamera( 'frontView', new Camera() );
+var city1 = Scene();
+city1.addChild( 'frontView', new Camera() );
+city1.addChild( 'centerLight', new OmniLight() );
+city1.addChild( 'building', new Mesh() );
+
+try{
+    //중복된 id등록 시도
+    city1.addChild( 'building', new Mesh() );
+}catch(e){
+    console.log(e); //Scene.addChild:0
+}
+
+try{
+    //mesh가 아닌 객체 등록 시도
+    city1.addChild( 'building2', {} );
+}catch(e){
+    console.log(e); //Scene.addChild:1
+}
 ```
 
-
+[top](#)
 ## addFragmentShader( id:string, program:string )
 
 **description**
 
-실제 사용될 shader를 등록함.
+실제 사용될 shader를 등록함. fragment shader는 MoGL 표준 인터페이스를 준수하는 형태로 제작되어야함.
+* [MoGL Fragment Shader Interface](Interface_MoGLFragmentShader.md)
 
 **param**
 
 1. id:string - removeFragmentShader, getFragmentShader 등에서 사용할 id.
-2. program:string - 실제 shader 코드의 문자열.
+2. program:string - 실제 fragment shader 코드의 문자열.
+ 
+**exception**
+
+* 'Scene.addFragmentShader:0' - 이미 존재하는 id를 등록하려할 때.
+* 'Scene.addFragmentShader:1' - MoGL 표준 인터페이스를 준수하지 않는 fragment shader를 등록하려할 때.
 
 **return**
 
-없음
+this - 메서드체이닝을 위해 자신을 반환함.
 
 **sample**
 
@@ -102,26 +129,46 @@ void main(void) {
 ```
 
 ```javascript
-var lobby = new Scene();
+var lobby = Scene();
 var shader = document.getElementById('fshader').text;
 lobby.addFragmentShader( 'base', shader );
+
+try{
+    //중복된 id등록 시도
+    lobby.addFragmentShader( 'base', shader );
+}catch(e){
+    console.log(e); //Scene.addFragmentShader:0
+}
+
+try{
+    //적절하지 않은 값을 전달
+    lobby.addFragmentShader( 'base2', {} );
+}catch(e){
+    console.log(e); //Scene.addFragmentShader:1
+}
 ```
 
-
-## addGeometry( id:string, geomerty:Geometry )
+[top](#)
+## addGeometry( id:string, geomerty:[Geometry](Geometry.md)
 
 **description**
 
-기하구조체인 Geometry를 등록함.
+기하구조체인 [Geometry](Geometry.md)를 등록함. 기하구조체는 다양한 Mesh에서 재활용될 수 있으므로 Scene에 등록한 후 [Mesh](Mesh.md)에서는 id로 재활용함.
 
 **param**
 
-1. id:string - removeScene, getScene 등에서 사용할 id.
-2. geomerty:Geometry - Geometry의 인스턴스.
+1. id:string - removeGeometry, getGeometry 등에서 사용할 id. Mesh 등에서도 사용됨.
+2. geomerty:[Geometry](Geometry.md) - [Geometry](Geometry.md)의 인스턴스.
+
+**exception**
+
+* 'Scene.addGeometry:0' - 이미 존재하는 id를 등록하려할 때.
+* 'Scene.addGeometry:1' - [Geometry](Geometry.md) 아닌 객체를 등록하려할 때.
+* 'Scene.addGeometry:2' - [Geometry](Geometry.md)에 선언된 vertex shader의 id가 없을 때.
 
 **return**
 
-Geometry - 방금 추가한 Geometry의 인스턴스.
+this - 메서드체이닝을 위해 자신을 반환함.
 
 **sample**
 
@@ -139,83 +186,69 @@ city1.addTexture( 'blue', new Texture( 'color', 'color' ).setColor('#00f') );
 var building = new Mesh( 'building', new Material('red') );
 
 // 장면에 추가
-city1.addMesh( 'building', building );
+city1.addChild( 'building', building );
 
 // 하나의 Geometry는 여러 메쉬에서 공유됨.
-city1.addMesh( 'building2', new Mesh( 'building', new Material('green') ));
-city1.addMesh( 'building3', new Mesh( 'building', new Material('blue') ));
+city1.addChild( 'building2', new Mesh( 'building', new Material('green') ));
+city1.addChild( 'building3', new Mesh( 'building', new Material('blue') ));
+
+try{
+    //중복된 id등록 시도
+    lobby.addGeometry( 'building', new Geometry( v1, i1 ) );
+}catch(e){
+    console.log(e); //Scene.addGeometry:0
+}
+
+try{
+    //적절하지 않은 값을 전달
+    lobby.addGeometry( 'building2', {} );
+}catch(e){
+    console.log(e); //Scene.addGeometry:1
+}
 ```
 
-
-## addLight( id:string, light:Light  )
+[top](#)
+## addMaterial( id:string, material:[Material](Material.md) )
 
 **description**
 
-장면에 빛 객체를 등록함.
+재질을 나타내는 [Material](Material.md)을 등록함.
 
 **param**
 
-1. id:string - removeLight, getLight 등에서 사용할 id.
-2. light:Light - Light 또는 이를 상속한 클래스의 인스턴스.
+1. id:string - removeMaterial, getMaterial 등에서 사용할 id. [Mesh](Mesh.md)에서도 사용.
+2. material:[Material](Material.md) - [Material](Material.md)의 인스턴스
+
+**exception**
+
+* 'Scene.addMaterial:0' - 이미 존재하는 id를 등록하려할 때.
+* 'Scene.addMaterial:1' - [Material](Material.md) 아닌 객체를 등록하려할 때.
+* 'Scene.addMaterial:2' - [Material](Material.md)에 선언된 fragment shader의 id가 없을 때.
 
 **return**
 
-Light - 방금 추가한 Light의 인스턴스.
+this - 메서드체이닝을 위해 자신을 반환함.
 
 **sample**
 
 ```javascript
-var lobby = new Scene();
-lobby.addLight( 'dir', new DirLight( 0, 5, 3 ) );
-lobby.addLight( 'centerLight', new OmniLight( 0, 100, 0, '#fff', 5 ) );
+var scene = Scene().addMaterial( 'white', new Material('#fff') );
+try{
+    //중복된 id등록 시도
+    scene.addMaterial( 'white', new Material( 255, 255, 255, 1.0 ) );
+}catch(e){
+    console.log(e); //Scene.addMaterial:0
+}
+
+try{
+    //적절하지 않은 값을 전달
+    scene.addMaterial( 'white', {} );
+}catch(e){
+    console.log(e); //Scene.addMaterial:1
+}
 ```
 
-## addMaterial( id:string, material:Material )
-
-**description**
-
-재질을 나타내는 Material을 등록함.
-
-**param**
-
-1. id:string - removeMaterial, getMaterial 등에서 사용할 id
-2. material:Material - Material의 인스턴스
-
-**return**
-
-Material - 방금 추가한 Material의 인스턴스
-
-**sample**
-
-```javascript
-var lobby = new Scene();
-lobby.add( id, new Material( World.cube, new Material() );
-```
-## addMesh( id:string, mesh:Mesh )
-
-**description**
-
-기본 기하구조체인 Mesh 또는 이를 상속한 Group 등을 등록함.
-
-**param**
-
-1. id:string - removeMesh, getMesh 등에서 사용할 id
-2. mesh:Mesh - Mesh의 인스턴스
-
-**return**
-
-Mesh - 방금 추가한 Mesh의 인스턴스
-
-**sample**
-
-```javascript
-var lobby = new Scene();
-var group = new Group();
-group.add( id, new Mesh( World.cube, new Material() );
-lobby.addMesh( 'group1', group );
-lobby.addMesh( 'test', new Mesh( World.sphere, new Material() );
-```
-
+[top](#)
 ## addTexture( id:string, image:*[, resizeType:string] )
 
 **description**
@@ -236,15 +269,20 @@ lobby.addMesh( 'test', new Mesh( World.sphere, new Material() );
     * base64문자열 - urlData형식으로 지정된 base64문자열.
     * Blob객체 - 실제 이미지를 포함하고 있는 Blob객체.
     * rgba배열 - canvas등에서 얻은 rgba형식의 배열.
-3. ?resizeType:string - 기본값은 'zoomOut' 이며 다음과 같은 값이 올 수 있음.
-    * 'zoomOut' - 이미지를 축소하여 2의 n에 맞춤.
-    * 'zoomIn' - 이미지를 확대하여 2의 n에 맞춤.
-    * 'crop' - 이미지를 2의 n에 맡게 좌상단을 기준으로 잘라냄.
-    * 'addSpace' - 이미지를 2의 n에 맡게 여백을 늘림.
+3. ?resizeType:string - 기본값은 'zoomOut' 이며 다음과 같은 값이 올 수 있음. 아래 해당되지 않은 값이 오면 zoomOut으로 처리.
+    * [Texture.zoomOut](Texture.md#texturezoomout) or 'zoomOut' - 이미지를 축소하여 2의 n에 맞춤.
+    * [Texture.zoomIn](Texture.md#texturezoomin) or 'zoomIn' - 이미지를 확대하여 2의 n에 맞춤.
+    * [Texture.crop](Texture.md#texturecrop) or 'crop' - 이미지를 2의 n에 맡게 좌상단을 기준으로 잘라냄.
+    * [Texture.addSpace](Texture.md#textureaddspace) or 'addSpace' - 이미지를 2의 n에 맡게 여백을 늘림.
+
+**exception**
+
+* 'Scene.addTexture:0' - 이미 존재하는 id를 등록하려할 때.
+* 'Scene.addTexture:1' - Param에 명시된 형식이 아닌 image를 등록하려할 때.
 
 **return**
 
-boolean - 등록에 성공하면 true, 실패하면 false.
+this - 메서드체이닝을 위해 자신을 반환함.
 
 **sample**
 
@@ -256,22 +294,43 @@ boolean - 등록에 성공하면 true, 실패하면 false.
 var lobby = new Scene();
 var img = document.getElementById('img1');
 lobby.addTexture( 'texture', img );
+try{
+    //중복된 id등록 시도
+    lobby.addTexture( 'texture', img );
+}catch(e){
+    console.log(e); //Scene.addTexture:0
+}
+
+try{
+    //적절하지 않은 값을 전달
+    lobby.addTexture( 'img', {} );
+}catch(e){
+    console.log(e); //Scene.addTexture:1
+}
 ```
 
+[top](#)
 ## addVertexShader( id:string, program:string )
 
 **description**
 
-실제 사용될 shader를 등록함.
+실제 사용될 shader를 등록함. vetex shader는 MoGL 표준 인터페이스를 준수하는 형태로 제작되어야함.
+* [MoGL Vertex Shader Interface](Interface_MoGLVertexShader.md)
 
 **param**
 
 1. id:string - removeVertexShader, getVertexShader 등에서 사용할 id.
-2. program:string - 실제 shader 코드의 문자열.
+2. program:string - 실제 vertex shader 코드의 문자열.
+
+
+**exception**
+
+* 'Scene.addVertexShader:0' - 이미 존재하는 id를 등록하려할 때.
+* 'Scene.addVertexShader:1' - MoGL 표준 인터페이스를 준수하지 않는 vertex shader를 등록하려할 때.
 
 **return**
 
-없음
+this - 메서드체이닝을 위해 자신을 반환함.
 
 **sample**
 
@@ -312,17 +371,31 @@ void main(void){
 ```
 
 ```javascript
-var lobby = new Scene();
+var lobby = Scene();
 var shader = document.getElementById('vshader').text;
 lobby.addVertexShader( 'base', shader );
+
+try{
+    //중복된 id등록 시도
+    lobby.addVertexShader( 'base', shader );
+}catch(e){
+    console.log(e); //Scene.addVertexShader:0
+}
+
+try{
+    //적절하지 않은 값을 전달
+    lobby.addVertexShader( 'base2', {} );
+}catch(e){
+    console.log(e); //Scene.addVertexShader:1
+}
 ```
 
-
-## getCamera( id:string )
+[top](#)
+## getChild( id:string )
 
 **description**
 
-id에 해당되는 Camera를 얻음.
+id에 해당되는 [Mesh](Mesh.md)를 얻음.
 
 **param**
 
@@ -330,30 +403,30 @@ id에 해당되는 Camera를 얻음.
 
 **return**
 
-Camera - id에 해당되는 Camera 인스턴스.
+[Mesh](Mesh.md) - id에 해당되는 [Mesh](Mesh.md) 인스턴스. 없는 경우에는 null이 반환됨.
 
 **sample**
 
 ```javascript
 var lobby = world.getScene('lobby');
-lobby.addCamera( 'frontView', new Camera() );
-var frontView = lobby.getCamera('frontView');
+lobby.addChild( 'frontView', new Camera() );
+var frontView = lobby.getChild('frontView');
 ```
 
-
+[top](#)
 ## getGeomtry( id:string )
 
 **description**
 
-id에 해당되는 Geometry를 얻음.
+id에 해당되는 [Geometry](Geometry.md)를 얻음.
 
 **param**
 
-1. id:string - 등록시 사용한 id.
+1. id:string - 등록시 사용한 id. 없는 경우는 null을 반환함.
 
 **return**
 
-Geometry - id에 해당되는 Geometry 인스턴스.
+[Geometry](Geometry.md) - id에 해당되는 [Geometry](Geometry.md) 인스턴스.
 
 **sample**
 
@@ -361,32 +434,12 @@ Geometry - id에 해당되는 Geometry 인스턴스.
 var cube = world.getScene('lobby').getGeometry('cube');
 ```
 
-## getLight( id:string )
-
-**description**
-
-id에 해당되는 Light를 얻음.
-
-**param**
-
-1. id:string - 등록시 사용한 id.
-
-**return**
-
-Light - id에 해당되는 Light 인스턴스.
-
-**sample**
-
-```javascript
-var light = world.getScene('lobby').getLight('centerLight');
-```
-
-
+[top](#)
 ## getMaterial( id:string )
 
 **description**
 
-id에 해당되는 Material을 얻음.
+id에 해당되는 [Material](Material.md)을 얻음.
 
 **param**
 
@@ -394,7 +447,7 @@ id에 해당되는 Material을 얻음.
 
 **return**
 
-Material - id에 해당되는 Material 인스턴스.
+[Material](Material.md) - id에 해당되는 [Material](Material.md) 인스턴스.
 
 **sample**
 
@@ -402,26 +455,7 @@ Material - id에 해당되는 Material 인스턴스.
 var cube = world.getScene('lobby').getMaterial('white');
 ```
 
-## getMesh( id:string )
-
-**description**
-
-id에 해당되는 Mesh를 얻음.
-
-**param**
-
-1. id:string - 등록시 사용한 id.
-
-**return**
-
-Mesh - id에 해당되는 Mesh 인스턴스.
-
-**sample**
-
-```javascript
-var cube = world.getScene('lobby').getMesh('cube');
-```
-
+[top](#)
 ## getTexture( id:string )
 
 **description**
@@ -443,16 +477,16 @@ var normal = world.getScene('lobby').getTexture('normal');
 console.log( normal.src ); //dataURL 형식으로 보여짐.
 ```
 
-## removeCamera( id:string )
+[top](#)
+## removeChild( id:string )
 
 **description**
 
-등록된 Camera를 제거함.
-* 제거시 world의 render에 관련된 정보도 동시에 삭제됨.
+등록된 [Mesh](Mesh.md)를 제거함.
 
 **param**
 
-1. id:string - addCamera에서 사용한 id.
+1. id:string - addMesh에서 사용한 id.
 
 **return**
 
@@ -461,16 +495,16 @@ boolean - 해당 객체가 존재하고 삭제하는데 성공하면 true, 그 �
 **sample**
 
 ```javascript
-world.getScene('lobby').removeCamera('frontView');
+world.getScene('lobby').removeChild('base');
 ```
 
-
+[top](#)
 ## removeFragmentShader( id:string )
 
 **description**
 
 등록된 fragment shader를 제거함.
-* 제거시 scene내에서 해당 shader를 참조하는 Material을 소유한 Mesh가 전부 삭제됨.
+* 제거시 scene내에서 해당 shader를 참조하는 [Material](Material.md)과 그 [Material](Material.md)을 소유한 [Mesh](Mesh.md)가 전부 삭제됨.
 
 **param**
 
@@ -486,13 +520,13 @@ boolean - 해당 객체가 존재하고 삭제하는데 성공하면 true, 그 �
 world.getScene('lobby').removeFragmentShader('base');
 ```
 
-
+[top](#)
 ## removeGeometry( id:string )
 
 **description**
 
-등록된 Geometry를 삭제함.
-* 삭제시 Scene을 조사하여 해당 Geometry를 참조하는 Mesh도 전부 삭제됨.
+등록된 [Geometry](Geometry.md)를 삭제함.
+* 삭제시 Scene을 조사하여 해당 [Geometry](Geometry.md)를 참조하는 [Mesh](Mesh.md)도 전부 삭제됨.
 
 **param**
 
@@ -507,41 +541,20 @@ boolean - 해당 객체가 존재하고 삭제하는데 성공하면 true, 그 �
 ```javascript
 var lobby = world.getScene('lobby');
 lobby.addGeometry( 'building', new Geometry( v1, i1 ) );
-
 lobby.removeGeometry('building');
 ```
 
-## removeLight( id:string )
-
-**description**
-
-등록된 Light를 제거함.
-
-**param**
-
-1. id:string - addLight에서 사용한 id.
-
-**return**
-
-boolean - 해당 객체가 존재하고 삭제하는데 성공하면 true, 그 외에는 false.
-
-**sample**
-
-```javascript
-world.getScene('lobby').removeLight('centerLight');
-```
-
-
+[top](#)
 ## removeMaterial( id:string )
 
 **description**
 
-등록된 Material을 제거함.
-* 해당 Material을 참고하는 scene내의 모든 Mesh도 제거됨.
+등록된 [Material](Material.md)을 제거함.
+* 해당 [Material](Material.md)을 참고하는 Scene내의 모든 [Mesh](Mesh.md)도 제거됨.
 
 **param**
 
-1. id:string - addCamera에서 사용한 id.
+1. id:string - addMaterial에서 사용한 id.
 
 **return**
 
@@ -553,34 +566,13 @@ boolean - 해당 객체가 존재하고 삭제하는데 성공하면 true, 그 �
 world.getScene('lobby').removeCamera('frontView');
 ```
 
-## removeMesh( id:string )
-
-**description**
-
-등록된 Mesh를 제거함.
-* Group제거시 Group에 등록된 Mesh일체가 제거됨.
-
-**param**
-
-1. id:string - addCamera에서 사용한 id.
-
-**return**
-
-boolean - 해당 객체가 존재하고 삭제하는데 성공하면 true, 그 외에는 false.
-
-**sample**
-
-```javascript
-world.getScene('lobby').removeCamera('frontView');
-```
-
-
+[top](#)
 ## removeTexture( id:string )
 
 **description**
 
 등록된 Texture를 제거함.
-* 제거시 scene내의 참조하고 있는 Material을 전부 삭제하고 삭제된 Material을 참조하는 Mesh도 일괄삭제됨.
+* 제거시 Scene내의 참조하고 있는 [Material](Material.md)을 전부 삭제하고 삭제된 [Material](Material.md)을 참조하는 [Mesh](Mesh.md)도 일괄삭제됨.
 
 **param**
 
@@ -596,13 +588,13 @@ boolean - 해당 객체가 존재하고 삭제하는데 성공하면 true, 그 �
 world.getScene('lobby').removeTexture('white');
 ```
 
-
+[top](#)
 ## removeVertexShader( id:string )
 
 **description**
 
 등록된 vertex shader를 제거함.
-* 제거시 scene 내의 참조중인 Mesh도 일괄 삭제됨.
+* 제거시 Scene 내의 참조 중인 [Geometry](Geometry.md)와 이 [Geometry](Geometry.md)를 참조하는 [Mesh](Mesh.md)도 일괄 삭제됨.
 
 **param**
 
@@ -618,103 +610,4 @@ boolean - 해당 객체가 존재하고 삭제하는데 성공하면 true, 그 �
 world.getScene('lobby').removeVertexShader('base');
 ```
 
-
-## World.cube
-
-**description**
-
-내장된 Geometry.
-각 평면이 두 개의 삼각형으로 구성된 정육면체 구조.
-
-**sample**
-
-```javascript
-scene.addMesh( 'cube1', new Mesh( World.cube, new Material() );
-```
-
-
-## World.geodesic
-
-**description**
-
-내장된 Geometry.
-극점에서 폴리곤이 몰리지 않도록 Geodesic 형태로 생성되는 구의 구조. 기본값 30. n면체지원(최대 200)
-
-
-**sample**
-
-```javascript
-scene.addMesh( 'geo0', new Mesh( World.geodesic, new Material() );
-scene.addMesh( 'geo1', new Mesh( World.geodesic[50], new Material() );
-```
-
-## World.line
-
-**description**
-
-내장된 Geometry.
-x축에 병행하며 0점을 지나는 직선.
-
-**sample**
-
-```javascript
-scene.addMesh( 'l', new Mesh( World.line, new Material() );
-```
-
-
-## World.plane
-
-**description**
-
-내장된 Geometry.
-두 개의 삼각형으로 구성된 평면구조.
-
-**sample**
-
-```javascript
-scene.addMesh( 'pl', new Mesh( World.plane, new Material() );
-```
-
-
-## World.point
-
-**description**
-
-내장된 Geometry.
-하나의 점을 나타내는 구조.
-
-**sample**
-
-```javascript
-scene.addMesh( 'p', new Mesh( World.point, new Material() );
-```
-
-
-## World.sphere
-
-**description**
-
-내장된 Geometry.
-최소 8면체에서 n면체를 지원하는 구형태의 구조(최대 200)
-인덱스를 통해 원하는 삼각형의 수를 지정할 수 있음.
-
-**sample**
-
-```javascript
-scene.addMesh( 's0', new Mesh( World.sphere, new Material() );
-scene.addMesh( 's1', new Mesh( World.sphere[50], new Material() );
-```
-
-
-## World.skybox
-
-**description**
-
-내장된 Geometry.
-큐브형태의 구조로 각 평면이 내부를 바라보도록 되어있음.
-
-**sample**
-
-```javascript
-scene.addMesh( 'box', new Mesh( World.skybox, new Material() );
-```
+[top](#)
