@@ -1,13 +1,17 @@
 var MoGL = (function(){
 	var isFactory, MoGL, fn;
+	//팩토리 함수용 식별상수
 	isFactory = {},
+	
 	MoGL = function(){},
+	//method
 	fn = MoGL.prototype,
 
-	//static function
+
+	//static
 
 	//parent클래스를 상속하는 자식클래스를 만들어냄.
-	MoGL.ext = function ext( child, parent, isSuperCall ){
+	MoGL.ext = function ext( child, parent ){
 		var cls, oldProto, newProto, key;
 		//생성자클래스
 		cls = function(){
@@ -18,9 +22,7 @@ var MoGL = (function(){
 				}else{
 					arg = arguments;
 				}
-				if( isSuperCall ){
-					parent.apply( this, arg );
-				}
+				parent.apply( this, arg );
 				child.apply( this, arg );
 				return this;
 			}else{
@@ -35,7 +37,6 @@ var MoGL = (function(){
 		cls.prototype = newProto;
 		return cls;
 	};
-
 	//표준 error처리
 	MoGL.error = function( cls, method, id ){
 		throw new Error( cls + '.' + method + ':' + id );
