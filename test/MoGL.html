@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>bs2 -local</title>
+<title>MoGL Test Suite - MoGL.js</title>
 <meta charset="utf-8"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="format-detection" content="telephone=no" />
@@ -10,15 +10,7 @@
 <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi" />
 </head>
 <body>
-<div id="stage" data-id="stageId" data-id2="stageId2">test stage</div>
-<div class="clsStage" style="display:none;">test stage1</div>
-<div class="clsStage" style="display:none;">test stage2</div>
-<div id="stageHika"></div>
-<div id="stageHtml"></div>
-<div id="stageSelected"></div>
-<div id="data"></div>
-<div id="before"></div>
-<div id="after"></div>
+<div id="stage"></div>
 <div id="result"></div>
 <div id="test"></div>
 <script src="../src/MoGL.js"></script>
@@ -40,11 +32,9 @@ var child = function( a, b, c ){
 child.prototype.printC = function(){
 	return this.c;
 };
-
 child = MoGL.ext( child, parent, true );
+
 var instance1 = new child( 1, 2, 3 );
-var instance2 = child( 4, 5, 6 );
-console.log( child.printA);
 bsTest( 'new',
 	function(){
 		return instance1.printA();
@@ -57,6 +47,7 @@ bsTest( 'new',
 	}, 3
 );
 
+var instance2 = child( 4, 5, 6 );
 bsTest( 'factory',
 	function(){
 		return instance2.printA();
