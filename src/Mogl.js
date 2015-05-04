@@ -1,31 +1,46 @@
-/**
- * Created by redcamel on 2015-05-04.
- */
-var Mogl = {
-    UUID: 0,
-    errorMessage: {
-        Scene: {
-            addChild: {
-                0: '이미 존재하는 ID 입니다. The ID that already exists.',
-                1: "Mesh가 아닌 객체입니다.. target is not 'Mesh' Object."
-            },
-            addFragmentShader: {
-                0: '이미 존재하는 ID 입니다. The ID that already exists.'
-            },
-            addVertexShader: {
-                0: '이미 존재하는 ID 입니다. The ID that already exists.'
-            },
-            addGeometry: {
-                0: '이미 존재하는 ID 입니다. The ID that already exists.',
-                1: "Geometry가 아닌 객체입니다.. target is not 'Geometry' Object."
-            },
-            addTexture: {
-                0: '이미 존재하는 ID 입니다. The ID that already exists.'
-            },
-            addMaterial: {
-                0: '이미 존재하는 ID 입니다. The ID that already exists.',
-                1: "Material이 아닌 객체입니다.. target is not 'Material' Object."
-            }
-        }
-    }
-}
+var MoGL = (function(){
+	var isFactory, MoGL, fn;
+	isFactory = {},
+	MoGL = function(){},
+	fn = MoGL.prototype,
+	
+	//static function
+	
+	//parent클래스를 상속하는 자식클래스를 만들어냄.
+	MoGL.extends = function extends( child, parent, isSuperCall ){
+		var cls, oldProto, newProto, key;
+		//생성자클래스
+		cls = function(){
+			var arg, instance;
+			if( this instanceof cls ){
+				if( arguments[0] === isFactory ){
+					arg = arguments[1];
+				}else{
+					arg = arguements;
+				}
+				if( isSuperCall ){
+					parent.apply( instance, arguments );
+				}
+				child.apply( instance, arguments );
+				return instance;
+			}else{
+				return new cls( isFactory, arguments );
+			}
+		};
+		
+		//자식 클래스의 프로토타입을 옮기고 부모와 체이닝함.
+		newProto = new parent;
+		oldProto = child.prototype;
+		for( key in oldProto ) if( oldProto.hasOwnProperty(key) ) newProto[key] = oldProto[key];
+		cls.prototype = newProto;
+		
+		return cls;
+	};
+	
+	//표준 error처리
+	MoGL.error = function( cls, method, id ){
+		throw new Error( cls + '.' + method + ':' + id );
+	};
+	
+	return MoGL;
+})();
