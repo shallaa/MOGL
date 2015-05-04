@@ -38,6 +38,7 @@ var Scene;
                 throw Error('Scene.addFragmentShader:' + $e + ' : ' + Mogl.errorMessage.Scene.addFragmentShader[$e])
             }
             this.shaderList.f[$id] = $shaderStr
+            //TODO 쉐이더 제너레이터
             return this
         },
         addVertexShader: function ($id, $shaderStr) {
@@ -48,6 +49,7 @@ var Scene;
                 throw Error('Scene.addVertexShader:' + $e + ' : ' + Mogl.errorMessage.Scene.addVertexShader[$e])
             }
             this.shaderList.v[$id] = $shaderStr
+            //TODO 쉐이더 제너레이터
             return this
         },
         addGeometry: function ($id, $geometry) {
@@ -59,6 +61,7 @@ var Scene;
                 throw Error('Scene.addGeometry:' + $e + ' : ' + Mogl.errorMessage.Scene.addGeometry[$e])
             }
             this.geometryList[$id] = $geometry
+            //TODO 지오메트리 제너레이터
             return this
         },
         addTexture: function ($id, $texture) {
@@ -69,6 +72,7 @@ var Scene;
                 throw Error('Scene.addTexture:' + $e + ' : ' + Mogl.errorMessage.Scene.addTexture[$e])
             }
             this.textureList[$id] = $texture
+            //TODO 텍스쳐 제너레이터
             return this
         },
         addMaterial: function ($id, $material) {
