@@ -54,6 +54,9 @@ void main(void) {
     var city1 = Scene();
     var mesh = new Mesh()
     var mesh2 = new Mesh()
+
+
+
     bsTest('addChild/getChild/removeChild',
             function () {
                 city1.addChild('building', mesh);
@@ -121,6 +124,7 @@ void main(void) {
     )
 
     var testGeometry = new Geometry([], [])
+    testGeometry.addVertxShader('testID')
     var testGeometry2 = new Geometry([], [])
     bsTest('geometry',
             function () {
@@ -134,8 +138,8 @@ void main(void) {
                 } catch (e) {
                     console.log(e);
                 }
-                return lobby.getGeometry('geometryTest') == testGeometry2
-            }, false,
+                return lobby.getGeometry('geometryTest') == testGeometry
+            }, true,
             function () {
                 try{
                     //적절하지 않은 값을 전달

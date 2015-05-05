@@ -12,37 +12,36 @@ var Scene = (function () {
     },
         fn = Scene.prototype,
         fn.addChild = function addChild($id, $target) {
-            var t = 1
-            this.children[$id] ? (MoGL.error('Scene', 'addChild', 0), t = 0) : 0
-            $target instanceof Mesh ? 0 : (MoGL.error('Scene', 'addChild', 1), t = 0)
-            // TODO Mesh안의 Geometry에 지정된 vertex shader의 id가 존재하지 않음.
-            // TODO Mesh안의 Material에 지정된 fragment shader의 id가 존재하지 않음.
-            t ? this.children[$id] = $target : 0
-            console.log(this)
+            var t = 1,t2=$target.getGeometry()
+            this.children[$id] ? (MoGL.error('Scene', 'addChild', 0), t = 0) : 0,
+                $target instanceof Mesh ? 0 : (MoGL.error('Scene', 'addChild', 1), t = 0),
+                t2 ? t2._shaderID ? 0 : (MoGL.error('Scene', 'addChild', 2), t = 0) : t=0,// Mesh안의 Geometry에 지정된 vertex shader의 id가 존재하지 않음.
+                // TODO Mesh안의 Material에 지정된 fragment shader의 id가 존재하지 않음.
+                t ? (this.children[$id] = $target, $target.parent = this) : 0
             return this
         },
         fn.addGeometry = function ($id, $target) {
             var t = 1
-            this.geometryList[$id] ? (MoGL.error('Scene', 'addGeometry', 0), t = 0) : 0
-            $target instanceof Geometry ? 0 : (MoGL.error('Scene', 'addGeometry', 1), t = 0)
-            //TODO 'Scene.addGeometry:2' - Geometry에 선언된 vertex shader의 id가 없을 때.
-            t ? this.geometryList[$id] = $target : 0
+            this.geometryList[$id] ? (MoGL.error('Scene', 'addGeometry', 0), t = 0) : 0, //이미 존재하는 id를 등록하려할 때.
+                $target instanceof Geometry ? 0 : (MoGL.error('Scene', 'addGeometry', 1), t = 0), //Geometry 아닌 객체를 등록하려할 때.
+                $target._shaderID ? 0 : (MoGL.error('Scene', 'addGeometry', 2), t = 0) , //'Scene.addGeometry:2' - Geometry에 선언된 vertex shader의 id가 없을 때.
+                t ? this.geometryList[$id] = $target : 0
             return this
         },
         fn.addMaterial = function ($id, $target) {
             var t = 1
-            this.materialList[$id] ? (MoGL.error('Scene', 'addMaterial', 0), t = 0) : 0
-            $target instanceof Material ? 0 : (MoGL.error('Scene', 'addMaterial', 1), t = 0)
-            //TODO 'Scene.addMaterial:2' - Material에 선언된 fragment shader의 id가 없을 때.
-            t ? this.materialList[$id] = $target : 0
+            this.materialList[$id] ? (MoGL.error('Scene', 'addMaterial', 0), t = 0) : 0,
+                $target instanceof Material ? 0 : (MoGL.error('Scene', 'addMaterial', 1), t = 0),
+                //TODO 'Scene.addMaterial:2' - Material에 선언된 fragment shader의 id가 없을 때.
+                t ? this.materialList[$id] = $target : 0
             //TODO 텍스쳐 제너레이터
             return this
         },
         fn.addTexture = function addTexture($id, $target/*,resizeType*/) {
             var t = 1
-            this.textureList[$id] ? (MoGL.error('Scene', 'addTexture', 0), t = 0) : 0
-            //TODO Param에 명시된 형식이 아닌 image를 등록하려할 때.
-            t ? this.textureList[$id] = $target : 0
+            this.textureList[$id] ? (MoGL.error('Scene', 'addTexture', 0), t = 0) : 0,
+                //TODO Param에 명시된 형식이 아닌 image를 등록하려할 때.
+                t ? this.textureList[$id] = $target : 0
             //TODO 텍스쳐 제너레이터
             return this
         },
