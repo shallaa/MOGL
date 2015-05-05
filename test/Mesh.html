@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>MoGL Test Suite - MoGL.js</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="viewport"
+          content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi"/>
+</head>
+<body>
+<img src="../src/ohno.png">
+
+<div id="stage"></div>
+<div id="result"></div>
+<div id="test"></div>
+<script src="../src/MoGL.js"></script>
+<script src="../src/Matrix.js"></script>
+<script src="../src/Geometry.js"></script>
+<script src="../src/Material.js"></script>
+<script src="../src/Mesh.js"></script>
+<script src="http://js.bsapi.co/test/"></script>
+<script>
+    var mesh1 = new Mesh('cube', 'mat1');
+    var mesh2 = new Mesh(
+            new Geometry([], []),
+            new Material('#f00')
+    );
+    var mesh3 = Mesh();
+    bsTest('new',
+            function () {
+                return mesh1.isAlive;
+            }, true,
+            function () {
+                return mesh2.isAlive;
+            }, true,
+            function () {
+                return mesh3.isAlive;
+            }, true
+    );
+     var t,t2
+
+    bsTest('getProperty',
+            function () {
+                t= mesh3.getPosition()
+                return mesh3.x == 0 && mesh3.y == 0 && mesh3.z == 0;
+            }, true,
+            function () {
+                t = mesh3.getScale()
+                return mesh3.scaleX == 1 && mesh3.scaleY == 1 && mesh3.scaleZ == 1;
+            }, true,
+            function () {
+                t = mesh3.getRotate()
+                return mesh3.rotateX == 0 && mesh3.rotateY == 0 && mesh3.rotateZ == 0;
+            }, true
+    );
+    bsTest('setProperty',
+            function () {
+                mesh3.setPosition(10, 20, 30)
+                return mesh3.x == 10 && mesh3.y == 20 && mesh3.z == 30;
+            }, true,
+            function () {
+                t= mesh3.getPosition()
+                return mesh3.x == 10 && mesh3.y == 20 && mesh3.z == 30;
+            }, true,
+            function () {
+                mesh3.setScale(10,20,30)
+                return mesh3.scaleX == 10 && mesh3.scaleY == 20 && mesh3.scaleZ == 30;
+            }, true,
+            function () {
+                t= mesh3.getScale()
+                return mesh3.scaleX == 10 && mesh3.scaleY == 20 && mesh3.scaleZ == 30;
+            }, true,
+            function () {
+                mesh3.setRotate(10, 20, 30)
+                return mesh3.rotateX == 10 && mesh3.rotateY == 20 && mesh3.rotateZ == 30;
+            }, true,
+            function () {
+                t= mesh3.getRotate()
+                return mesh3.rotateX == 10 && mesh3.rotateY == 20 && mesh3.rotateZ == 30;
+            }, true
+    );
+    bsTest('getMethod',
+            function () {
+                return mesh1.getGeometry();
+            }, null,
+            function () {
+                return mesh2.getGeometry();
+            }, null,
+            function () {
+                return mesh3.getGeometry();
+            }, null,
+            function () {
+                return mesh1.getMaterial();
+            }, null,
+            function () {
+                return mesh2.getMaterial();
+            }, null,
+            function () {
+                return mesh3.getMaterial();
+            }, null,
+            function () {
+                return mesh3.getMatrix() instanceof Matrix;
+            }, true,
+            function () {
+                t = mesh3.getMatrix().identity().data
+                t2=Matrix().data
+                for(var i =0; i< t.length; i++){
+                    if(t[i] != t2[i]) return false
+                }
+                return true
+            }, true,
+            function () {
+                return mesh3.getParent();
+            }, null,
+            function () {
+                mesh3.setMatrix([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])
+                return mesh3.getMatrix() instanceof Matrix;
+            }, true,
+            function () {
+                t = mesh3.getMatrix().data
+                t2=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+                for(var i =0; i< t.length; i++){
+                    if(t[i] != t2[i]) return false
+                }
+                return true
+            }, true,
+            function () {
+                t = mesh3.setMatrix().getMatrix().data
+                t2=Matrix().data
+                for(var i =0; i< t.length; i++){
+                    if(t[i] != t2[i]) return false
+                }
+                return true
+            }, true
+    );
+    mesh1.destroy()
+    mesh2.destroy()
+    mesh3.destroy()
+    bsTest('destroy',
+            function () {
+                return mesh1.isAlive;
+            }, false,
+            function () {
+                return mesh2.isAlive;
+            }, false,
+            function () {
+                return mesh3.isAlive;
+            }, false
+    );
+</script>
+<div> TODO : 신등록후 테스트도 해야함</div>
+</body>
+</html>

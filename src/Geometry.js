@@ -1,9 +1,10 @@
 /**
- * Created by redcamel on 2015-05-04.
+ * Created by redcamel on 2015-05-05.
  */
-var Geometry;
-(function () {
+var Geometry = (function () {
+    var Geometry, fn;
     Geometry = function Geometry() {
     }
-    Geometry = MoGL.ext(Geometry, MoGL);
-})()
+    fn = Geometry.prototype
+    return MoGL.ext(Geometry, MoGL);
+})();

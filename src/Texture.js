@@ -1,9 +1,10 @@
 /**
- * Created by redcamel on 2015-05-04.
+ * Created by redcamel on 2015-05-05.
  */
-var Texture;
-(function () {
+var Texture = (function () {
+    var Texture, fn;
     Texture = function Texture() {
     }
-    Texture = MoGL.ext(Texture, MoGL);
-})()
+    fn = Texture.prototype
+    return MoGL.ext(Texture, MoGL);
+})();
