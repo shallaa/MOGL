@@ -8,23 +8,27 @@ var Scene = (function () {
         this.children = {},
             this.shaderList = {v: {}, f: {}},
             this.textureList = {}, this.materialList = {},
-            this.geometryList = {}
+            this.geometryList = {}, this.shaderList = {v: {}, f: {}}
     },
         fn = Scene.prototype,
         fn.addChild = function addChild($id, $target) {
-            var t = 1,t2=$target.getGeometry()
+            var t = 1;
             this.children[$id] ? (MoGL.error('Scene', 'addChild', 0), t = 0) : 0,
                 $target instanceof Mesh ? 0 : (MoGL.error('Scene', 'addChild', 1), t = 0),
-                t2 ? t2._shaderID ? 0 : (MoGL.error('Scene', 'addChild', 2), t = 0) : t=0,// Mesh안의 Geometry에 지정된 vertex shader의 id가 존재하지 않음.
-                // TODO Mesh안의 Material에 지정된 fragment shader의 id가 존재하지 않음.
-                t ? (this.children[$id] = $target, $target.parent = this) : 0
+                //TODO 'Scene.addChild:2' - Mesh안의 Geometry에 지정된 vertex shader의 id가 존재하지 않음.
+                //TODO 'Scene.addChild:3' - Mesh안의 Material에 지정된 fragment shader의 id가 존재하지 않음.
+                t ? (
+                    this.children[$id] = $target, $target._parent = this, $target._scene = this,
+                        $target.setGeometry($target.__geometry),
+                        $target.setMaterial($target.__material)
+                ) : 0
             return this
         },
         fn.addGeometry = function ($id, $target) {
             var t = 1
             this.geometryList[$id] ? (MoGL.error('Scene', 'addGeometry', 0), t = 0) : 0, //이미 존재하는 id를 등록하려할 때.
                 $target instanceof Geometry ? 0 : (MoGL.error('Scene', 'addGeometry', 1), t = 0), //Geometry 아닌 객체를 등록하려할 때.
-                $target._shaderID ? 0 : (MoGL.error('Scene', 'addGeometry', 2), t = 0) , //'Scene.addGeometry:2' - Geometry에 선언된 vertex shader의 id가 없을 때.
+                //TODO 'Scene.addGeometry:2' - Geometry에 선언된 vertex shader의 id가 없을 때.
                 t ? this.geometryList[$id] = $target : 0
             return this
         },
@@ -46,7 +50,10 @@ var Scene = (function () {
             return this
         },
         fn.addFragmentShader = function () {},//TODO
-        fn.addVertextShader = function () {},//TODO
+        fn.addVertexShader = function ($id, $shaderStr) {
+            this.shaderList.v[$id] = $shaderStr
+            return this
+        },//TODO
         ///////////////////////////////////////////////////////////////////////////
         // Get
         fn.getChild = function getChild($id) {
@@ -60,14 +67,14 @@ var Scene = (function () {
         fn.getMaterial = function getMaterial($id) {return this.materialList[$id]},
         fn.getTexture = function getTexture($id) {return this.textureList[$id]},
         fn.getFragmentShader = function () {},//TODO
-        fn.getVertextShader = function () {},//TODO
+        fn.getVertexShader = function ($id) {return this.shaderList.v[$id]},
         ///////////////////////////////////////////////////////////////////////////
         // Remove
-        fn.removeChild = function removeChild($id) { return this.children[$id] ? (delete this.children[$id], true) : false},
+        fn.removeChild = function removeChild($id) { return this.children[$id] ? (delete this.children[$id], this._parent = null, true) : false},
         fn.removeGeometry = function removeGeometry($id) { return this.geometryList[$id] ? (delete this.geometryList[$id], true) : false},
         fn.removeMaterial = function removeMaterial($id) { return this.materialList[$id] ? (delete this.materialList[$id], true) : false},
         fn.removeTexture = function removeTexture($id) { return this.textureList[$id] ? (delete this.textureList[$id], true) : false},
-        fn.removeFragmentShader = function () {},//TODO
-        fn.removeVertextShader = function () {}//TODO
+        fn.removeFragmentShader = function removeFragmentShader() {},//TODO
+        fn.removeVertexShader = function VertexShader() {}//TODO
     return MoGL.ext(Scene, MoGL);
 })();

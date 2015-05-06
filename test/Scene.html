@@ -21,6 +21,7 @@
 <script src="../src/Geometry.js"></script>
 <script src="../src/Material.js"></script>
 <script src="../src/Mesh.js"></script>
+<script src="../src/Texture.js"></script>
 <script src="../src/Scene.js"></script>
 <script src="http://js.bsapi.co/test/"></script>
 <script id="fshader" type="text/shader">
@@ -30,9 +31,6 @@ varying vec2 vUV;
 void main(void) {
      gl_FragColor =  texture2D(uSampler, vec2(vUV.s, vUV.t));
 }
-
-
-
 
 
 </script>
@@ -52,12 +50,15 @@ void main(void) {
     var t, t2
 
     var city1 = Scene();
-    var mesh = new Mesh()
-    var mesh2 = new Mesh()
-
+    var mesh = new Mesh(new Geometry([], []), new Material('#f00'))
+    var mesh2 = new Mesh(new Geometry([], []), new Material('#f00'))
+    //    mesh2.getGeometry().addVertexShader('vertexShader')
 
 
     bsTest('addChild/getChild/removeChild',
+            function () {
+                return city1.getChild('building')
+            }, null,
             function () {
                 city1.addChild('building', mesh);
                 return city1.getChild('building')
@@ -124,7 +125,7 @@ void main(void) {
     )
 
     var testGeometry = new Geometry([], [])
-    testGeometry.addVertxShader('testID')
+    testGeometry.addVertexShader('testID')
     var testGeometry2 = new Geometry([], [])
     bsTest('geometry',
             function () {
@@ -141,10 +142,10 @@ void main(void) {
                 return lobby.getGeometry('geometryTest') == testGeometry
             }, true,
             function () {
-                try{
+                try {
                     //적절하지 않은 값을 전달
-                    lobby.addGeometry( 'geometryTest2', {} );
-                }catch(e){
+                    lobby.addGeometry('geometryTest2', {});
+                } catch (e) {
                     console.log(e); //Scene.addGeometry:1
                 }
                 return lobby.getGeometry('geometryTest2')
@@ -152,16 +153,50 @@ void main(void) {
     )
 
 
-    //    scene1.destroy()
-    //    scene2.destroy()
-    //    bsTest('destroy',
-    //            function () {
-    //                return scene1.isAlive;
-    //            }, false,
-    //            function () {
-    //                return scene2.isAlive;
-    //            }, false
-    //    );
+    scene1.destroy()
+    scene2.destroy()
+    bsTest('destroy',
+            function () {
+                return scene1.isAlive;
+            }, false,
+            function () {
+                return scene2.isAlive;
+            }, false
+    );
+    /////////////////////////////////////////////////////
+    // 월드를 정의하고 빌딩용 지오메트리를 등록
+    var lobby = Scene();
+    var v1 = [], i1 = []
+    lobby.addGeometry('testA', new Geometry(v1, i1));
+
+    // 장면을 정의하고 텍스쳐를 등록
+    city1.addTexture('red', new Texture('color', 'color'));
+    city1.addTexture('green', new Texture('color', 'color'));
+    city1.addTexture('blue', new Texture('color', 'color'));
+
+    // 실제 빌딩 메쉬 생성
+    var testA = new Mesh('testA', new Material('red'));
+
+    // 장면에 추가
+    city1.addChild('testA', testA);
+
+    // 하나의 Geometry는 여러 메쉬에서 공유됨.
+    city1.addChild('testA2', new Mesh('testA', new Material('green')));
+    city1.addChild('testA3', new Mesh('testA', new Material('blue')));
+
+    try {
+        //중복된 id등록 시도
+        lobby.addGeometry('testA', new Geometry(v1, i1));
+    } catch (e) {
+        console.log(e); //Scene.addGeometry:0
+    }
+
+    try {
+        //적절하지 않은 값을 전달
+        lobby.addGeometry('testA2', {});
+    } catch (e) {
+        console.log(e); //Scene.addGeometry:1
+    }
 </script>
 <div> TODO</div>
 </body>
