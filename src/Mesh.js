@@ -11,28 +11,32 @@ var Mesh = (function () {
     Mesh = function Mesh($geometry, $material) {
         this.__geometry = $geometry
         this.__material = $material
-
+        this._scene = null
+        this._parent = null
+        this.matrix = Matrix()
+        this.children = []
     },
         Mesh.prototype = {
-            matrix: Matrix(),
-            parent: null,
-            children: [],
             rotateX: 0, rotateY: 0, rotateZ: 0,
             scaleX: 1, scaleY: 1, scaleZ: 1,
             x: 0, y: 0, z: 0
         },
         fn = Mesh.prototype,
-        fn.getGeometry = function getGeometry() {return typeof this.__geometry instanceof Geometry ? this.__geometry : this.parent ? this.__geometry : null},//TODO 이렇게 되는게 맞남?
-        fn.getMaterial = function getMaterial() {return typeof this.__material instanceof Material ? this.__material : this.parent ? this.__material : null },//TODO 씬을 알고있어야하는가...
-        // TODO 씬을 어케 연계시킬것인가 고민해야됨..
+        fn.getGeometry = function getGeometry() { return this._parent ? this.__geometry : null}, //TODO 이렇게 되는게 맞남?
+        fn.getMaterial = function getMaterial() { return this._parent ? this.__material : null }, //TODO 이렇게 되는게 맞남?
         fn.getMatrix = function getMatrix() {return this.matrix},//TODO
-        fn.getParent = function getParent() {return this.parent ? this.parent : null},
+        fn.getParent = function get_parent() {return this._parent ? this._parent : null},
         fn.getPosition = function getPosition() {return f3[0] = this.x, f3[1] = this.y, f3[2] = this.z, f3},
         fn.getRotate = function getRotate() {return f3[0] = this.rotateX, f3[1] = this.rotateY, f3[2] = this.rotateZ, f3},
         fn.getScale = function getScale() {return f3[0] = this.scaleX, f3[1] = this.scaleY, f3[2] = this.scaleZ, f3},
         ///////////////////////////////////////////////////
         // set
-        fn.setGeometry = function setGeometry($t) { return this},//TODO
+        fn.setGeometry = function setGeometry($t) {
+            if (this._parent) this.__geometry = typeof $t == 'string' ? this._scene.geometryList[$t] : this.__geometry = $t
+            else this.__geometry = $t
+            return this
+            //TODO addChild 이전이라면 id계열의 객체가 Scene에 존재하는지 검사하지 않고, 이후라면 즉시 검사함.
+        },
         fn.setMatrix = function setMatrix($t) {
             var t = this.matrix.data
             if ($t) t[0] = $t[0], t[1] = $t[1], t[2] = $t[2], t[3] = $t[3], t[4] = $t[4], t[5] = $t[5], t[6] = $t[6], t[7] = $t[7], t[8] = $t[8], t[9] = $t[9], t[10] = $t[10], t[11] = $t[11], t[12] = $t[12], t[13] = $t[13], t[14] = $t[14], t[15] = $t[15]
@@ -40,7 +44,12 @@ var Mesh = (function () {
             else this.matrix.identity()
             return this
         },
-        fn.setMaterial = function setMaterial($t) {},//TODO
+        fn.setMaterial = function setMaterial($t) {
+            if (this._parent) this.__material = typeof $t == 'string' ? this._scene.materialList[$t] : this.__material = $t
+            else this.__material = $t
+            return this
+            //addChild 이전이라면 id계열의 객체가 Scene에 존재하는지 검사하지 않고, 이후라면 즉시 검사함.
+        },
         fn.setPosition = function setPosition() {return this.x = arguments[0], this.y = arguments[1], this.z = arguments[2], this},
         fn.setRotate = function setRotate() {return this.rotateX = arguments[0], this.rotateY = arguments[1], this.rotateZ = arguments[2], this},
         fn.setScale = function setScale() {return this.scaleX = arguments[0], this.scaleY = arguments[1], this.scaleZ = arguments[2], this}

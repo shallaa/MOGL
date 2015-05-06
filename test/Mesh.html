@@ -20,6 +20,7 @@
 <script src="../src/Matrix.js"></script>
 <script src="../src/Geometry.js"></script>
 <script src="../src/Material.js"></script>
+<script src="../src/Scene.js"></script>
 <script src="../src/Mesh.js"></script>
 <script src="http://js.bsapi.co/test/"></script>
 <script>
@@ -28,7 +29,8 @@
             new Geometry([], []),
             new Material('#f00')
     );
-    var mesh3 = Mesh();
+    var mesh3 = Mesh('cube', 'mat1');
+
     bsTest('new',
             function () {
                 return mesh1.isAlive;
@@ -40,11 +42,11 @@
                 return mesh3.isAlive;
             }, true
     );
-     var t,t2
+    var t, t2
 
     bsTest('getProperty',
             function () {
-                t= mesh3.getPosition()
+                t = mesh3.getPosition()
                 return mesh3.x == 0 && mesh3.y == 0 && mesh3.z == 0;
             }, true,
             function () {
@@ -62,15 +64,15 @@
                 return mesh3.x == 10 && mesh3.y == 20 && mesh3.z == 30;
             }, true,
             function () {
-                t= mesh3.getPosition()
+                t = mesh3.getPosition()
                 return mesh3.x == 10 && mesh3.y == 20 && mesh3.z == 30;
             }, true,
             function () {
-                mesh3.setScale(10,20,30)
+                mesh3.setScale(10, 20, 30)
                 return mesh3.scaleX == 10 && mesh3.scaleY == 20 && mesh3.scaleZ == 30;
             }, true,
             function () {
-                t= mesh3.getScale()
+                t = mesh3.getScale()
                 return mesh3.scaleX == 10 && mesh3.scaleY == 20 && mesh3.scaleZ == 30;
             }, true,
             function () {
@@ -78,9 +80,27 @@
                 return mesh3.rotateX == 10 && mesh3.rotateY == 20 && mesh3.rotateZ == 30;
             }, true,
             function () {
-                t= mesh3.getRotate()
+                t = mesh3.getRotate()
                 return mesh3.rotateX == 10 && mesh3.rotateY == 20 && mesh3.rotateZ == 30;
             }, true
+    );
+    var scene = new Scene()
+
+    var cubeGeo = new Geometry([], [])
+    var cubeMaterial = new Material()
+    var cubeMesh = new Mesh(cubeGeo, cubeMaterial);
+    bsTest('Geometry',
+            function () {
+                // id로 지정되고 아직 addChild 전이라면 null이 반환됨.
+                cubeMesh.setGeometry('sphere');
+                return cubeMesh.getGeometry();
+            }, null,
+            function () {
+                // Mesh에 지정된 Geometry를 반환함.
+                cubeMesh.setGeometry(cubeGeo);
+                scene.addChild('testMesh', cubeMesh);
+                return cubeMesh.getGeometry();
+            }, cubeGeo
     );
     bsTest('getMethod',
             function () {
@@ -102,13 +122,17 @@
                 return mesh3.getMaterial();
             }, null,
             function () {
+                scene.addChild('materialTest', cubeMesh)
+                return scene.getChild('materialTest').getMaterial();
+            }, cubeMaterial,
+            function () {
                 return mesh3.getMatrix() instanceof Matrix;
             }, true,
             function () {
                 t = mesh3.getMatrix().identity().data
-                t2=Matrix().data
-                for(var i =0; i< t.length; i++){
-                    if(t[i] != t2[i]) return false
+                t2 = Matrix().data
+                for (var i = 0; i < t.length; i++) {
+                    if (t[i] != t2[i]) return false
                 }
                 return true
             }, true,
@@ -116,22 +140,22 @@
                 return mesh3.getParent();
             }, null,
             function () {
-                mesh3.setMatrix([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])
+                mesh3.setMatrix([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
                 return mesh3.getMatrix() instanceof Matrix;
             }, true,
             function () {
                 t = mesh3.getMatrix().data
-                t2=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
-                for(var i =0; i< t.length; i++){
-                    if(t[i] != t2[i]) return false
+                t2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+                for (var i = 0; i < t.length; i++) {
+                    if (t[i] != t2[i]) return false
                 }
                 return true
             }, true,
             function () {
                 t = mesh3.setMatrix().getMatrix().data
-                t2=Matrix().data
-                for(var i =0; i< t.length; i++){
-                    if(t[i] != t2[i]) return false
+                t2 = Matrix().data
+                for (var i = 0; i < t.length; i++) {
+                    if (t[i] != t2[i]) return false
                 }
                 return true
             }, true
