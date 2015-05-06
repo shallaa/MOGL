@@ -27,18 +27,6 @@ var Geometry = (function () {
         this._volume = [maxX - minX, maxY - minY, maxZ - minZ]
     },
         fn = Geometry.prototype,
-        fn.X = 'x',
-        fn.Y = 'y',
-        fn.Z = 'z',
-        fn.R = 'r',
-        fn.G = 'g',
-        fn.B = 'b',
-        fn.A = 'a',
-        fn.NORMAL_X = 'normalX',
-        fn.NORMAL_Y = 'normalY',
-        fn.NORMAL_Z = 'normalZ',
-        fn.U = 'u',
-        fn.V = 'v',
         fn.addVertexShader = function addVertexShader($id) {
             this._shaderIDList[$id] = $id
             return this
@@ -46,6 +34,20 @@ var Geometry = (function () {
         fn.getVertexCount = function getVertexCount() {return this._vertexCount},
         fn.getTriangleCount = function getTriangleCount() {return this._triCount},
         fn.getVolume = function getVolume() {return this._volume},
-        fn.removeVertexShader = function removeVertexShader($id) {return delete this._shaderIDList[$id], this}
-    return MoGL.ext(Geometry, MoGL);
+        fn.removeVertexShader = function removeVertexShader($id) {return delete this._shaderIDList[$id], this},
+
+        Geometry = MoGL.ext(Geometry, MoGL),
+        Geometry.x = 'x',
+        Geometry.y = 'y',
+        Geometry.z = 'z',
+        Geometry.r = 'r',
+        Geometry.g = 'g',
+        Geometry.b = 'b',
+        Geometry.a = 'a',
+        Geometry.normalX = 'normalX',
+        Geometry.normalY = 'normalY',
+        Geometry.normalZ = 'normalZ',
+        Geometry.u = 'u',
+        Geometry.v = 'v'
+    return Geometry
 })();
