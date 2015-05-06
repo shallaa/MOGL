@@ -14,7 +14,7 @@ var Scene = (function () {
         fn.addChild = function addChild($id, $target) {
             var t = 1;
             this.children[$id] ? (MoGL.error('Scene', 'addChild', 0), t = 0) : 0,
-                $target instanceof Mesh ? 0 : (MoGL.error('Scene', 'addChild', 1), t = 0),
+                ($target instanceof Mesh || $target instanceof Camera) ? 0 : (MoGL.error('Scene', 'addChild', 1), t = 0),
                 //TODO 'Scene.addChild:2' - Mesh안의 Geometry에 지정된 vertex shader의 id가 존재하지 않음.
                 //TODO 'Scene.addChild:3' - Mesh안의 Material에 지정된 fragment shader의 id가 존재하지 않음.
                 t ? (
