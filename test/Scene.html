@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>MoGL Test Suite - MoGL.js</title>
+    <title>MoGL Test Suite - Scene.js</title>
     <meta charset="utf-8"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="format-detection" content="telephone=no"/>
@@ -23,6 +23,8 @@
 <script src="../src/Mesh.js"></script>
 <script src="../src/Texture.js"></script>
 <script src="../src/Scene.js"></script>
+<script src="../src/World.js"></script>
+<script src="../src/Camera.js"></script>
 <script src="http://js.bsapi.co/test/"></script>
 <script id="fshader" type="text/shader">
 precision mediump float;
@@ -31,6 +33,7 @@ varying vec2 vUV;
 void main(void) {
      gl_FragColor =  texture2D(uSampler, vec2(vUV.s, vUV.t));
 }
+
 
 
 </script>
