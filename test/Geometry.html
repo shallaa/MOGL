@@ -21,6 +21,7 @@
 <script src="../src/Geometry.js"></script>
 <script src="../src/Material.js"></script>
 <script src="../src/Mesh.js"></script>
+<script src="../src/Scene.js"></script>
 <script src="http://js.bsapi.co/test/"></script>
 <script>
     var vData, iData;
@@ -75,9 +76,11 @@
     //팩토리함수로도 작동함.
     var cube2 = Geometry(vData, iData);
     bsTest('new',
+            // 잘생성이되었나
             function () {
                 return cube1.isAlive;
             }, true,
+            // 잘생성이되었나
             function () {
                 return cube2.isAlive;
             }, true
@@ -108,6 +111,30 @@
                 t = cube2.getVolume()
                 return t[0] == 2 && t[1] == 2 && t[2] == 2;
             }, true
+    );
+
+    var lobby = new Scene();
+    var testCube = new Geometry([], [])
+    // waffle shader등록
+    bsTest('test',
+            function () {
+                //미등록된 Geometry
+                var sample = new Geometry([], []);
+                sample.addVertexShader('aaa')  //미등록객체는 무조건 통과됨
+                return sample._shaderIDList['aaa']
+            }, 'aaa',
+            function () {
+                //미등록된 Geometry
+                var sample = new Geometry([], []);
+                sample.removeVertexShader('aaa')  //미등록객체는 무조건 통과됨
+                return sample._shaderIDList['aaa']
+            }, undefined,
+            function () {
+                //미등록된 Geometry
+                var sample = new Geometry([], []);
+                sample.addVertexShader('bb')  //미등록객체는 무조건 통과됨
+                return sample._shaderIDList['bb']
+            }, 'bb'
     );
 </script>
 <div></div>
