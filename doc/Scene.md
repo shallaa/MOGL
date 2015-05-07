@@ -65,6 +65,7 @@ var scene2 = Scene();
 * 'Scene.addChild:1' - [Mesh](Mesh.md)가 아닌 객체.
 * 'Scene.addChild:2' - [Mesh](Mesh.md)안의 [Geometry](Geometry.md)에 지정된 vertex shader의 id가 존재하지 않음.
 * 'Scene.addChild:3' - [Mesh](Mesh.md)안의 [Material](Material.md)에 지정된 fragment shader의 id가 존재하지 않음.
+* 'Scene.addChild:4' - [Mesh](Mesh.md)안의 [Material](Material.md)에 지정된 texture의 id가 존재하지 않음.
 
 **return**
 
