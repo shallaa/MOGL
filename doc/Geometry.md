@@ -21,6 +21,11 @@ Geometry( vertexBuffer:Array, indexBuffer:Array[, vertexInfo:Array]  )
 정점배열과 인덱스 배열을 이용하여 기하구조를 정의함.
 * 생성자에서 지정된 버퍼 및 정보는 변경불가로 생성 이후는 읽기만 가능함.
 
+**exception**
+
+* 'Geometry.constructor:0' - vertexBuffer가 Array이나 Float32Array가 아닐때.
+* 'Geometry.constructor:1' - indexBuffer가 Array이나 Uint16Array or Uint32Array가 아닐때
+
 **param**
 
 1. vertexBuffer:Array or TypedArray - 정점 배열.
