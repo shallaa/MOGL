@@ -229,16 +229,20 @@
     sceneMeshByKey.addMaterial('mat1', new Material('#fff'))
     var testMesh;
     bsTest('byKey',
-            function(){
-                // 키로 등록해 본다.
+            function () {
+                // 키로 등록하고 addChild하기전에 조사
                 testMesh = Mesh('cube', 'mat1');
-                sceneMeshByKey.addChild('testByKeyMesh',testMesh)
+                return testMesh.getGeometry() == null && testMesh.getMaterial() == null
+            }, true,
+            function () {
+                // 키로 등록해 본다.
+                sceneMeshByKey.addChild('testByKeyMesh', testMesh)
                 return sceneMeshByKey.getChild('testByKeyMesh') == testMesh
             }, true,
-            function(){
+            function () {
                 // 등록후에 키로 등록된 녀석이 Geometry와 Material로 변경이 되었나 확인
-                console.log(testMesh.getGeometry() )
-                console.log(typeof testMesh.getGeometry() )
+                console.log(testMesh.getGeometry())
+                console.log(typeof testMesh.getGeometry())
                 return testMesh.getGeometry() instanceof Geometry
             }, true
     )
@@ -256,9 +260,6 @@
                 return mesh3.isAlive;
             }, false
     );
-
-
-
 
 
 </script>
