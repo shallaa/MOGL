@@ -269,6 +269,10 @@ var scaleX = world.getScene('lobby').getChild('cube').getScale()[0];
 이 Mesh의 기하구조체를 교체함.
 * [addChild](Scene.md#addchild-idstring-meshmesh-) 이전이라면 id계열의 객체가 [Scene](Scene.md)에 존재하는지 검사하지 않고, 이후라면 즉시 검사함.
 
+**exception**
+
+* 'Mesh.setGeometry:0' - id값이나 지오메트리가 아닐때.
+
 **param**
 
 1. geometry:* - 기하구조체를 받으며 다음과 같은 형식이 올 수 있음.
@@ -321,6 +325,10 @@ mesh.setMatrix( [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1] );
 
 이 Mesh의 재질을 반환함.
 * [addChild](Scene.md#addchild-idstring-meshmesh-) 이전이라면 id계열의 객체가 [Scene](Scene.md)에 존재하는지 검사하지 않고, 이후라면 즉시 검사함.
+
+**exception**
+
+* 'Mesh.setMaterial:0' - id값이나 재질이 아닐때.
 
 **param**
 
