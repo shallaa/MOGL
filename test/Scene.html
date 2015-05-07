@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>MoGL Test Suite - Scene.js</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="viewport"
+          content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi"/>
+</head>
+<body>
+<img src="../src/ohno.png" id="img1">
+
+<div id="stage"></div>
+<div id="result"></div>
+<div id="test"></div>
+<script src="../src/MoGL.js"></script>
+<script src="../src/Matrix.js"></script>
+<script src="../src/Geometry.js"></script>
+<script src="../src/Material.js"></script>
+<script src="../src/Mesh.js"></script>
+<script src="../src/Texture.js"></script>
+<script src="../src/Scene.js"></script>
+<script src="../src/World.js"></script>
+<script src="../src/Camera.js"></script>
+<script src="http://js.bsapi.co/test/"></script>
+<script id="fshader" type="text/shader">
+precision mediump float;
+uniform sampler2D uSampler;
+varying vec2 vUV;
+void main(void) {
+     gl_FragColor =  texture2D(uSampler, vec2(vUV.s, vUV.t));
+}
+
+
+
+</script>
+<script>
+    //일반적은 new방식
+    var scene1 = new Scene();
+    //factory함수로도 작동
+    var scene2 = Scene();
+    bsTest('new',
+            function () {
+                return scene1.isAlive;
+            }, true,
+            function () {
+                return scene2.isAlive;
+            }, true
+    );
+    var t, t2
+
+    var city1 = Scene();
+    var mesh = new Mesh(new Geometry([], []), new Material('#f00'))
+    var mesh2 = new Mesh(new Geometry([], []), new Material('#f00'))
+    //    mesh2.getGeometry().addVertexShader('vertexShader')
+
+
+    bsTest('addChild/getChild/removeChild',
+            function () {
+                return city1.getChild('building')
+            }, null,
+            function () {
+                city1.addChild('building', mesh);
+                return city1.getChild('building')
+            }, mesh,
+            function () {
+                return city1.getChild('building') instanceof Mesh
+            }, true,
+            function () {
+                try {
+                    //mesh가 아닌 객체 등록 시도
+                    city1.addChild('noMeshTest', {});
+                } catch (e) {
+                    console.log(e); //Scene.addChild:1
+                }
+                return city1.getChild('noMeshTest')
+            }, null,
+            function () {
+                try {
+                    //중복된 id등록 시도
+                    city1.addChild('building', mesh2);
+                } catch (e) {
+                    console.log(e); //Scene.addChild:0
+                }
+                return city1.getChild('building') == mesh2
+            }, false,
+            function () {
+                return city1.getChild('wantNull')
+            }, null,
+            function () {
+                return city1.removeChild('wantFalse')
+            }, false,
+            function () {
+                return city1.removeChild('building')
+            }, true
+    )
+
+    var lobby = new Scene();
+    var img = document.getElementById('img1');
+
+    bsTest('Texture',
+            function () {
+                lobby.addTexture('texture', img);
+                return lobby.getTexture('texture')
+            }, img,
+            function () {
+                return lobby.removeTexture('texture')
+            }, true,
+            function () {
+                return lobby.removeTexture('wantFalse')
+            }, false
+    )
+
+    bsTest('material',
+            function () {
+                lobby.addMaterial('white', new Material())
+                return lobby.getMaterial('white') instanceof Material
+            }, true,
+            function () {
+                return lobby.removeMaterial('white')
+            }, true,
+            function () {
+                return lobby.removeMaterial('wantFalse')
+            }, false
+    )
+
+    var testGeometry = new Geometry([], [])
+    var testGeometry2 = new Geometry([], [])
+    bsTest('geometry',
+            function () {
+                lobby.addGeometry('geometryTest', testGeometry);
+                return lobby.getGeometry('geometryTest')
+            }, testGeometry,
+            function () {
+                try {
+                    //중복된 id등록 시도
+                    lobby.addGeometry('geometryTest', testGeometry2);
+                } catch (e) {
+                    console.log(e);
+                }
+                return lobby.getGeometry('geometryTest') == testGeometry
+            }, true,
+            function () {
+                try {
+                    //적절하지 않은 값을 전달
+                    lobby.addGeometry('geometryTest2', {});
+                } catch (e) {
+                    console.log(e);
+                }
+                return lobby.getGeometry('geometryTest2')
+            }, null
+    )
+
+
+    scene1.destroy()
+    scene2.destroy()
+    bsTest('destroy',
+            function () {
+                return scene1.isAlive;
+            }, false,
+            function () {
+                return scene2.isAlive;
+            }, false
+    );
+    /////////////////////////////////////////////////////
+    // 월드를 정의하고 빌딩용 지오메트리를 등록
+    var lobby = Scene();
+    var v1 = [], i1 = []
+    lobby.addGeometry('testA', new Geometry(v1, i1));
+
+    // 장면을 정의하고 텍스쳐를 등록
+    city1.addTexture('red', new Texture('color', 'color'));
+    city1.addTexture('green', new Texture('color', 'color'));
+    city1.addTexture('blue', new Texture('color', 'color'));
+
+    // 실제 빌딩 메쉬 생성
+    var testA = new Mesh('testA', new Material('red'));
+
+    // 장면에 추가
+    city1.addChild('testA', testA);
+
+    // 하나의 Geometry는 여러 메쉬에서 공유됨.
+    city1.addChild('testA2', new Mesh('testA', new Material('green')));
+    city1.addChild('testA3', new Mesh('testA', new Material('blue')));
+
+    try {
+        //중복된 id등록 시도
+        lobby.addGeometry('testA', new Geometry(v1, i1));
+    } catch (e) {
+        console.log(e); //Scene.addGeometry:0
+    }
+
+    try {
+        //적절하지 않은 값을 전달
+        lobby.addGeometry('testA2', {});
+    } catch (e) {
+        console.log(e); //Scene.addGeometry:1
+    }
+</script>
+<div> TODO</div>
+</body>
+</html>
