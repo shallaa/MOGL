@@ -4,9 +4,9 @@
 
 **method**
 
-* [addChild](#)
-* [getChild](#)
-* [removeChild](#)
+* [addChild](#addchild-idstring-meshmesh-)
+* [getChild](#getchild-idstring-)
+* [removeChild](#removechild-idstring-)
 
 [top](#)
 ## Constructor
