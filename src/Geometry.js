@@ -36,7 +36,6 @@ var Geometry = (function () {
     fn.removeVertexShader = function removeVertexShader($id) {return delete this._shaderIDList[$id], this},
 
     Geometry = MoGL.ext(Geometry, MoGL),
-
     Geometry.x = 'x', Geometry.y = 'y', Geometry.z = 'z',
     Geometry.r = 'r', Geometry.g = 'g', Geometry.b = 'b', Geometry.a = 'a',
     Geometry.normalX = 'normalX', Geometry.normalY = 'normalY', Geometry.normalZ = 'normalZ',
