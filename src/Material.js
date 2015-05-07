@@ -4,6 +4,7 @@
 var Material = (function () {
     var Material, fn;
     Material = function Material() {
+        this._textures = {}
     }
     fn = Material.prototype
     return MoGL.ext(Material, MoGL);

@@ -1,21 +1,21 @@
 /**
  * Created by redcamel on 2015-05-05.
  * description
- Á¤Á¡¹è¿­°ú ÀÎµ¦½º ¹è¿­À» ÀÌ¿ëÇÏ¿© ±âÇÏ±¸Á¶¸¦ Á¤ÀÇÇÔ.
- »ı¼ºÀÚ¿¡¼­ ÁöÁ¤µÈ ¹öÆÛ ¹× Á¤º¸´Â º¯°æºÒ°¡·Î »ı¼º ÀÌÈÄ´Â ÀĞ±â¸¸ °¡´ÉÇÔ.
+ ì •ì ë°°ì—´ê³¼ ì¸ë±ìŠ¤ ë°°ì—´ì„ ì´ìš©í•˜ì—¬ ê¸°í•˜êµ¬ì¡°ë¥¼ ì •ì˜í•¨.
+ ìƒì„±ìì—ì„œ ì§€ì •ëœ ë²„í¼ ë° ì •ë³´ëŠ” ë³€ê²½ë¶ˆê°€ë¡œ ìƒì„± ì´í›„ëŠ” ì½ê¸°ë§Œ ê°€ëŠ¥í•¨.
  */
 var Geometry = (function () {
-    //±×Áß¿¡ ÀÚ½ÅÀÇ 4ÁÂÇ¥¶û 7uv¶û 8rgba¶û 9³ë¸»Àº Áö¿À¸ŞÆ®¸®°Å°í
+    //ê·¸ì¤‘ì— ìì‹ ì˜ 4ì¢Œí‘œë‘ 7uvë‘ 8rgbaë‘ 9ë…¸ë§ì€ ì§€ì˜¤ë©”íŠ¸ë¦¬ê±°ê³ 
     var Geometry, fn, indexTable = {};
     Geometry = function Geometry(vertex, index,info) {
-        var i, len, t,t2, isFloat32 = Object.prototype.toString.call(vertex) == '[object Float32Array]',
+        var i, len, t,t2,
+            isFloat32 = Object.prototype.toString.call(vertex) == '[object Float32Array]',
             isUint16 = Object.prototype.toString.call(index) == '[object Uint16Array]',
             isUint32 = Object.prototype.toString.call(index) == '[object Uint32Array]'
         if (!(Array.isArray(vertex) || isFloat32 )) MoGL.error('Geometry', 'constructor', 0)
         if (!(Array.isArray(index) || isUint16 || isUint32 )) MoGL.error('Geometry', 'constructor', 1)
         if (info) {
             ( vertex.length % info.length) ? MoGL.error('Geometry', 'constructor', 2) : 0;
-            // ¿¹¸¦µé¾î ['y','z','u','x','r', 'v','a','b','g'] ·Î info°¡ ¿Â°æ¿ì·Î »óÁ¤ÇÏ°í Ã³¸®ÇØº¸¸é µÊ
             for (i = 0, len = info.length; i < len; i++) indexTable[info[i]] = i
             console.log(indexTable)
         }
@@ -25,7 +25,6 @@ var Geometry = (function () {
         this._triangleCount = index.length / 3,
         this._vertexShaders = {}
         ///////////////////////////////
-        //TODO vertex ÆÇº° À» ¾îÄÉÇÒÁö °í¹Î
         if(arguments[2]){
             this._position = []
             this._normal = []
@@ -45,13 +44,13 @@ var Geometry = (function () {
         } else {
             this._position = isFloat32 ? vertex : new Float32Array(vertex)
         }
-
+        //TODO Uint32Arrayì„ ë°›ì•„ì¤„ê²ƒì¸ê°€! ê³ ë¯¼í•´ì•¼ë¨..
         this._index = isUint16 ? index : new Uint16Array(index)
         ///////////////////////////////
     },
     fn = Geometry.prototype,
     fn.addVertexShader = function addVertexShader(id) { MoGL.isAlive(this);
-        // TODO ¸¶ÀÏ½ºÅæ0.2
+        // TODO ë§ˆì¼ìŠ¤í†¤0.2
         this._vertexShaders[id] = id
         return this
     },
@@ -79,7 +78,7 @@ var Geometry = (function () {
         return this._volume
     },
     fn.removeVertexShader = function removeVertexShader(id) { MoGL.isAlive(this);
-        // TODO ¸¶ÀÏ½ºÅæ0.2
+        // TODO ë§ˆì¼ìŠ¤í†¤0.2
         return delete this._vertexShaders[id], this
     },
 

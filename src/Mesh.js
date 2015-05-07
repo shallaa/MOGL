@@ -8,9 +8,11 @@
  */
 var Mesh = (function () {
     var Mesh, fn, f3 = new Float32Array(3);
-    Mesh = function Mesh($geometry, $material) {
-        this._geometry = $geometry,
-        this._material = $material,
+    Mesh = function Mesh(geometry, material) {
+        //if(!(typeof geometry =='string' || geometry instanceof Geometry)) MoGL.error('Mesh','contructor',0)
+        //if(!(typeof material =='string' || material instanceof Material)) MoGL.error('Mesh','contructor',1)
+        this._geometry = geometry,
+        this._material = material,
         this._scene = null,
         this._parent = null,
         this._matrix = Matrix()
@@ -21,36 +23,65 @@ var Mesh = (function () {
         x: 0, y: 0, z: 0
     },
     fn = Mesh.prototype,
-    fn.getGeometry = function getGeometry() { return this._parent ? this._geometry : null}, //TODO 이렇게 되는게 맞남?
-    fn.getMaterial = function getMaterial() { return this._parent ? this._material : null }, //TODO 이렇게 되는게 맞남?
-    fn.getMatrix = function getMatrix() { return this._matrix},//TODO
-    fn.getParent = function get_parent() { return this._parent ? this._parent : null},
-    fn.getPosition = function getPosition() { return f3[0] = this.x, f3[1] = this.y, f3[2] = this.z, f3},
-    fn.getRotate = function getRotate() { return f3[0] = this.rotateX, f3[1] = this.rotateY, f3[2] = this.rotateZ, f3},
-    fn.getScale = function getScale() { return f3[0] = this.scaleX, f3[1] = this.scaleY, f3[2] = this.scaleZ, f3},
+    fn.getGeometry = function getGeometry() { MoGL.isAlive(this);
+        return this._parent ? this._geometry : null
+    },
+    fn.getMaterial = function getMaterial() { MoGL.isAlive(this);
+        return this._parent ? this._material : null
+    },
+    fn.getMatrix = function getMatrix() { MoGL.isAlive(this);
+        //TODO
+        return this._matrix
+    },
+    fn.getParent = function get_parent() { MoGL.isAlive(this);
+        return this._parent ? this._parent : null
+    },
+    fn.getPosition = function getPosition() { MoGL.isAlive(this);
+        return f3[0] = this.x, f3[1] = this.y, f3[2] = this.z, f3
+    },
+    fn.getRotate = function getRotate() { MoGL.isAlive(this);
+        return f3[0] = this.rotateX, f3[1] = this.rotateY, f3[2] = this.rotateZ, f3
+    },
+    fn.getScale = function getScale() { MoGL.isAlive(this);
+        return f3[0] = this.scaleX, f3[1] = this.scaleY, f3[2] = this.scaleZ, f3
+    },
     ///////////////////////////////////////////////////
     // set
-    fn.setGeometry = function setGeometry($t) {
-        if (this._parent) this._geometry = typeof $t == 'string' ? this._scene._geometryList[$t] : this._geometry = $t
-        else this._geometry = $t
+    fn.setGeometry = function setGeometry(geometry) { MoGL.isAlive(this);
+        if (!(geometry instanceof Geometry || typeof geometry == 'string')) MoGL.error('Mesh', 'setGeometry', 0)
+        if (this._parent) {
+            if (this._geometry = typeof geometry == 'string') this._scene._geometrys[geometry]
+            else this._geometry = geometry
+        }
+        else this._geometry = geometry
         return this
-        //TODO addChild 이전이라면 id계열의 객체가 Scene에 존재하는지 검사하지 않고, 이후라면 즉시 검사함.
     },
-    fn.setMatrix = function setMatrix($t) {
+    fn.setMaterial = function setMaterial(material) { MoGL.isAlive(this);
+        if (!(material instanceof Material || typeof material == 'string')) MoGL.error('Mesh', 'setMaterial', 0)
+        if (this._parent) {
+            if (this._material = typeof material == 'string') this._scene._materials[material]
+            else this._material = material
+        }
+        else this._material = material
+        return this
+    },
+    fn.setMatrix = function setMatrix(t) { MoGL.isAlive(this);
         //TODO 구현
         var t = this._matrix.data
-        if ($t) t[0] = $t[0], t[1] = $t[1], t[2] = $t[2], t[3] = $t[3], t[4] = $t[4], t[5] = $t[5], t[6] = $t[6], t[7] = $t[7], t[8] = $t[8], t[9] = $t[9], t[10] = $t[10], t[11] = $t[11], t[12] = $t[12], t[13] = $t[13], t[14] = $t[14], t[15] = $t[15]
-        else if ($t instanceof Matrix) t[0] = 1, t[1] = 0, t[2] = 0, t[3] = 0, t[4] = 0, t[5] = 1, t[6] = 0, t[7] = 0, t[8] = 0, t[9] = 0, t[10] = 1, t[11] = 0, t[12] = 0, t[13] = 0, t[14] = 0, t[15] = 1
+        if (t) t[0] = t[0], t[1] = t[1], t[2] = t[2], t[3] = t[3], t[4] = t[4], t[5] = t[5], t[6] = t[6], t[7] = t[7], t[8] = t[8], t[9] = t[9], t[10] = t[10], t[11] = t[11], t[12] = t[12], t[13] = t[13], t[14] = t[14], t[15] = t[15]
+        else if (t instanceof Matrix) t[0] = 1, t[1] = 0, t[2] = 0, t[3] = 0, t[4] = 0, t[5] = 1, t[6] = 0, t[7] = 0, t[8] = 0, t[9] = 0, t[10] = 1, t[11] = 0, t[12] = 0, t[13] = 0, t[14] = 0, t[15] = 1
         else this._matrix.identity()
         return this
     },
-    fn.setMaterial = function setMaterial($t) {
-        if (this._parent) this._material = typeof $t == 'string' ? this._scene._materialList[$t] : this._material = $t
-        else this._material = $t
-        return this
+
+    fn.setPosition = function setPosition() { MoGL.isAlive(this);
+        return this.x = arguments[0], this.y = arguments[1], this.z = arguments[2], this
     },
-    fn.setPosition = function setPosition() {return this.x = arguments[0], this.y = arguments[1], this.z = arguments[2], this},
-    fn.setRotate = function setRotate() {return this.rotateX = arguments[0], this.rotateY = arguments[1], this.rotateZ = arguments[2], this},
-    fn.setScale = function setScale() {return this.scaleX = arguments[0], this.scaleY = arguments[1], this.scaleZ = arguments[2], this}
+    fn.setRotate = function setRotate() { MoGL.isAlive(this);
+        return this.rotateX = arguments[0], this.rotateY = arguments[1], this.rotateZ = arguments[2], this
+    },
+    fn.setScale = function setScale() { MoGL.isAlive(this);
+        return this.scaleX = arguments[0], this.scaleY = arguments[1], this.scaleZ = arguments[2], this
+    }
     return MoGL.ext(Mesh, MoGL);
 })();

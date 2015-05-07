@@ -48,10 +48,12 @@
                 return world.getScene('lobby');
             }, sceneTest1,
             function () {
+                // 렌더러 추가
                 world.addRender('lobby', 'cameraTest')
                 return world._renderList[0].uuid;
             }, 'lobby_cameraTest',
             function () {
+                // 씬추가
                 world.addScene('room', sceneTest2);
                 return world.getScene('room');
             }, sceneTest2,
@@ -74,10 +76,12 @@
                 return world.getScene('wantNull');
             }, null,
             function () {
+                // 씬삭제
                 world.removeScene('room');
                 return world.getScene('room');
             }, null,
             function () {
+                // 렌더러 삭제
                 world.removeRender('lobby', 'cameraTest')
                 return world._renderList[0];
             }, undefined
@@ -88,6 +92,17 @@
             function () {
                 return world.isAlive;
             }, false,
+            function () {
+                var alive = 1
+                try {
+                    // 파괴된 객체 매서드 실행
+                    world.addScene('room', sceneTest3);
+                } catch (e) {
+                    console.log(e);
+                    alive = 0
+                }
+                return alive;
+            }, 0,
             function () {
                 return world2.isAlive;
             }, false

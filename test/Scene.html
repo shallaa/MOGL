@@ -128,7 +128,6 @@ void main(void) {
     )
 
     var testGeometry = new Geometry([], [])
-    testGeometry.addVertexShader('testID')
     var testGeometry2 = new Geometry([], [])
     bsTest('geometry',
             function () {
@@ -149,7 +148,7 @@ void main(void) {
                     //적절하지 않은 값을 전달
                     lobby.addGeometry('geometryTest2', {});
                 } catch (e) {
-                    console.log(e); //Scene.addGeometry:1
+                    console.log(e);
                 }
                 return lobby.getGeometry('geometryTest2')
             }, null
