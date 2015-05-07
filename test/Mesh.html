@@ -17,12 +17,13 @@
 <div id="result"></div>
 <div id="test"></div>
 <script src="../src/MoGL.js"></script>
+<script src="../src/Vertex.js"></script>
 <script src="../src/Matrix.js"></script>
 <script src="../src/Geometry.js"></script>
-<script src="../src/Vertex.js"></script>
 <script src="../src/Material.js"></script>
-<script src="../src/Mesh.js"></script>
 <script src="../src/Texture.js"></script>
+<script src="../src/Group.js"></script>
+<script src="../src/Mesh.js"></script>
 <script src="../src/Scene.js"></script>
 <script src="../src/World.js"></script>
 <script src="../src/Camera.js"></script>
@@ -37,7 +38,8 @@
     var testMaterial1 = Material('#f00')
     var testMaterial2 = Material('#f00')
     var testScene = Scene()
-    var tempGeo
+    var tempGeo, tempMaterial
+    var temp
     bsTest('new',
             function () {
                 // new Mesh('cube', 'mat1');
@@ -116,26 +118,112 @@
                 return tempGeo instanceof Geometry;
             }, true,
             function () {
+                // 잘 바뀌나 테스트
                 mesh1.setGeometry(testGeometry2)
                 return mesh1.getGeometry() == testGeometry1;
             }, false,
             function () {
+                // 잘 바뀌나 테스트
                 return mesh1.getGeometry() == testGeometry2;
             }, true,
             function () {
-                testScene.addChild('testMaterial1', mesh1)
-                mesh1.setMaterial(testMaterial1)
-                return mesh1.getMaterial();
+                // 씬에 등록후 재질이 제대로 찾아지나 점검
+                tempMaterial = null
+                testScene.getChild('testGeometry1').setMaterial(testMaterial1)
+                tempMaterial = testScene.getChild('testGeometry1').getMaterial();
+                return tempMaterial;
             }, testMaterial1,
             function () {
+                // 잘 바뀌나 테스트
                 mesh1.setMaterial(testMaterial2)
                 return mesh1.getMaterial() == testMaterial1;
             }, false,
             function () {
+                // 잘 바뀌나 테스트
                 return mesh1.getMaterial() == testMaterial2;
             }, true
     )
-
+    bsTest('getMatrix',
+            function () {
+                // getMatrix
+                return mesh1.getMatrix() instanceof Matrix && testScene.getChild('testGeometry1').getMatrix() instanceof Matrix
+            }, true
+    )
+    bsTest('getParent',
+            function () {
+                // getParent
+                return mesh1.getParent() instanceof Scene || testScene.getChild('testGeometry1').getParent() instanceof Group
+            }, true
+    )
+    bsTest('position',
+            function () {
+                // Position
+                temp = mesh1.getPosition()
+                return temp instanceof Float32Array
+            }, true,
+            function () {
+                // Position
+                mesh1.setPosition(10, 20, 30)
+                return mesh1.x == 10 && mesh1.y == 20 && mesh1.z == 30;
+            }, true,
+            function () {
+                // Position
+                temp = mesh1.getPosition()
+                return mesh1.x == temp[0] && mesh1.y == temp[1] && mesh1.z == temp[2];
+            }, true,
+            function () {
+                // Position
+                mesh1.x = 11, mesh1.y = 12, mesh1.z = 13
+                temp = mesh1.getPosition()
+                return mesh1.x == temp[0] && mesh1.y == temp[1] && mesh1.z == temp[2];
+            }, true
+    )
+    bsTest('rotation',
+            function () {
+                // rotation
+                temp = mesh1.getRotate()
+                return temp instanceof Float32Array
+            }, true,
+            function () {
+                // rotation
+                mesh1.setRotate(10, 20, 30)
+                return mesh1.rotateX == 10 && mesh1.rotateY == 20 && mesh1.rotateZ == 30;
+            }, true,
+            function () {
+                // rotation
+                temp = mesh1.getRotate()
+                return mesh1.rotateX == temp[0] && mesh1.rotateY == temp[1] && mesh1.rotateZ == temp[2];
+            }, true,
+            function () {
+                // rotation
+                mesh1.rotateX = 11, mesh1.rotateY = 12, mesh1.rotateZ = 13
+                temp = mesh1.getRotate()
+                return mesh1.rotateX == temp[0] && mesh1.rotateY == temp[1] && mesh1.rotateZ == temp[2];
+            }, true
+    )
+    bsTest('scale',
+            function () {
+                // scale
+                temp = mesh1.getScale()
+                return temp instanceof Float32Array
+            }, true,
+            function () {
+                // scale
+                mesh1.setScale(10, 20, 30)
+                return mesh1.scaleX == 10 && mesh1.scaleY == 20 && mesh1.scaleZ == 30;
+            }, true,
+            function () {
+                // scale
+                temp = mesh1.getScale()
+                return mesh1.scaleX == temp[0] && mesh1.scaleY == temp[1] && mesh1.scaleZ == temp[2];
+            }, true,
+            function () {
+                // scale
+                mesh1.scaleX = 11, mesh1.scaleY = 12, mesh1.scaleZ = 13
+                temp = mesh1.getScale()
+                return mesh1.scaleX == temp[0] && mesh1.scaleY == temp[1] && mesh1.scaleZ == temp[2];
+            }, true
+    )
     mesh1.destroy()
     mesh2.destroy()
     mesh3.destroy()

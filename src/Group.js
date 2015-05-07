@@ -13,5 +13,5 @@ var Group = (function () {
     Group = function Group() {
     }
     fn = Group.prototype
-    return MoGL.ext(Group, Mesh);
+    return MoGL.ext(Group, MoGL);
 })();
