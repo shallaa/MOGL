@@ -4,23 +4,23 @@
 
 **field**
 * [a,b,c,d,e,f](#abcdef)
-* [m11..m14,m21..m24,m31..m34,m41..m44](#)
+* [m11..m14,m21..m24,m31..m34,m41..m44](#m11m14m21m24m31m34m41m44)
 
 **method**
-* [inverse](#)
-* [multiply](#)
-* [multiplyLeft](#)
-* [rotate](#)
-* [rotateAxisAngle](#)
-* [scale](#)
-* [setMatrixValue](#)
-* [skew](#)
-* [skewX](#)
-* [skewY](#)
-* [translate](#)
+* [inverse](#inverse)
+* [multiply](#multiply-matrixmatrix-)
+* [multiplyLeft](#multiplyleft-matrixmatrix-)
+* [rotate](#rotate-xdegree-ydegree-zdegree-)
+* [rotateAxisAngle](#rotateaxisangle-xnumber-ynumber-znumber-angledegree-)
+* [scale](#scale-xnumber-ynumber-znumber-)
+* [setMatrixValue](#setmatrixvalue-transformstring-)
+* [skew](#skew-xdegree-ydegree-zdegree-)
+* [skewX](#skewx-angledegree-)
+* [skewY](#skewy-angledegree-)
+* [translate](#translate-xnumber-ynumber-znumber-)
 
 **static**
-* [Matrix.identity](#)
+* [Matrix.identity](#matrixidentity-matrixmatrix-)
 
 [top][#]
 ## Constructor
