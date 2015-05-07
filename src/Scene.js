@@ -70,11 +70,11 @@ var Scene = (function () {
         return this
     },
     fn.addFragmentShader = function (id, shaderStr) { MoGL.isAlive(this);
-        //TODO
+        // TODO 마일스톤0.2
         return this
     },
     fn.addVertexShader = function (id, shaderStr) { MoGL.isAlive(this);
-        //TODO
+        // TODO 마일스톤0.2
         return this
     },
     ///////////////////////////////////////////////////////////////////////////
@@ -88,15 +88,20 @@ var Scene = (function () {
         return t ? t : null
     },
     fn.getMaterial = function getMaterial(id) { MoGL.isAlive(this);
-        return this._materials[id]
+        var t = this._materials[id]
+        return t ? t : null
     },
     fn.getTexture = function getTexture(id) { MoGL.isAlive(this);
-        return this._textures[id]
+        var t = this._textures[id]
+        return t ? t : null
     },
-    fn.getFragmentShader = function () {
-    },//TODO
+    fn.getFragmentShader = function (id) { MoGL.isAlive(this);
+        // TODO 마일스톤0.2
+        return this._fragmentShaders[id]
+    },
     fn.getVertexShader = function (id) { MoGL.isAlive(this);
-        return this._shaderList.v[id]
+        // TODO 마일스톤0.2
+        return this._vertexShaders[id]
     },
     ///////////////////////////////////////////////////////////////////////////
     // Remove
@@ -113,11 +118,11 @@ var Scene = (function () {
         return this._textures[id] ? (delete this._textures[id], true) : false
     },
     fn.removeFragmentShader = function removeFragmentShader() { MoGL.isAlive(this);
-        //TODO
+        // TODO 마일스톤0.2
         return this
     },
     fn.removeVertexShader = function VertexShader() { MoGL.isAlive(this);
-        //TODO
+        // TODO 마일스톤0.2
         return this
     }
     return MoGL.ext(Scene, MoGL);
