@@ -17,19 +17,21 @@
 <div id="result"></div>
 <div id="test"></div>
 <script src="../src/MoGL.js"></script>
+<script src="../src/Vertex.js"></script>
 <script src="../src/Matrix.js"></script>
 <script src="../src/Geometry.js"></script>
 <script src="../src/Material.js"></script>
-<script src="../src/Mesh.js"></script>
 <script src="../src/Texture.js"></script>
+<script src="../src/Mesh.js"></script>
+<script src="../src/Group.js"></script>
+<script src="../src/Camera.js"></script>
 <script src="../src/Scene.js"></script>
 <script src="../src/World.js"></script>
-<script src="../src/Camera.js"></script>
 <script src="http://js.bsapi.co/test/"></script>
 <script>
     var world = new World();
     var world2 = World();
-    var camera = new Camera()
+    var camera = new Camera(new Geometry([],[]),new Material())
     var sceneTest1 = new Scene()
     sceneTest1.addChild('cameraTest', camera)
     var sceneTest2 = new Scene()
@@ -48,10 +50,12 @@
                 return world.getScene('lobby');
             }, sceneTest1,
             function () {
+                // 렌더러 추가
                 world.addRender('lobby', 'cameraTest')
                 return world._renderList[0].uuid;
             }, 'lobby_cameraTest',
             function () {
+                // 씬추가
                 world.addScene('room', sceneTest2);
                 return world.getScene('room');
             }, sceneTest2,
@@ -74,10 +78,12 @@
                 return world.getScene('wantNull');
             }, null,
             function () {
+                // 씬삭제
                 world.removeScene('room');
                 return world.getScene('room');
             }, null,
             function () {
+                // 렌더러 삭제
                 world.removeRender('lobby', 'cameraTest')
                 return world._renderList[0];
             }, undefined
@@ -88,6 +94,17 @@
             function () {
                 return world.isAlive;
             }, false,
+            function () {
+                var alive = 1
+                try {
+                    // 파괴된 객체 매서드 실행
+                    world.addScene('room', sceneTest3);
+                } catch (e) {
+                    console.log(e);
+                    alive = 0
+                }
+                return alive;
+            }, 0,
             function () {
                 return world2.isAlive;
             }, false

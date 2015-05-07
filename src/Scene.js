@@ -5,76 +5,125 @@
 var Scene = (function () {
     var Scene, fn;
     Scene = function Scene() {
+        // for JS
         this._children = {},
-        this._shaderList = {v: {}, f: {}},
-        this._textureList = {}, this._materialList = {},
-        this._geometryList = {}, this._shaderList = {v: {}, f: {}}
+        this._textures = {},
+        this._materials = {},
+        this._geometrys = {},
+        this._vertexShaders = {},
+        this._fragmentShaders = {}
+        // for GPU
     },
     fn = Scene.prototype,
-    fn.addChild = function addChild($id, $target) {
-        var t = 1;
-        this._children[$id] ? (MoGL.error('Scene', 'addChild', 0), t = 0) : 0,
-        ($target instanceof Mesh || $target instanceof Camera) ? 0 : (MoGL.error('Scene', 'addChild', 1), t = 0),
-        //TODO 'Scene.addChild:2' - Mesh¾ÈÀÇ Geometry¿¡ ÁöÁ¤µÈ vertex shaderÀÇ id°¡ Á¸ÀçÇÏÁö ¾ÊÀ½.
-        //TODO 'Scene.addChild:3' - Mesh¾ÈÀÇ Material¿¡ ÁöÁ¤µÈ fragment shaderÀÇ id°¡ Á¸ÀçÇÏÁö ¾ÊÀ½.
-        t ? (
-            this._children[$id] = $target, $target._parent = this, $target._scene = this,
-                $target.setGeometry($target._geometry),
-                $target.setMaterial($target._material)
-        ) : 0
+    fn.addChild = function addChild(id, mesh) { MoGL.isAlive(this); // isAliveëŠ” í•¨ìˆ˜ì„ ì–¸ ì¤„ì— ë°”ë¡œ ê°™ì´ ì”ë‹ˆë‹¤.
+        var k, checks;
+        if (this._children[id]) MoGL.error('Scene', 'addChild', 0)
+        if (!(mesh instanceof Mesh || mesh instanceof Camera)) MoGL.error('Scene', 'addChild', 1)
+        mesh._scene = this,
+        mesh.setGeometry(mesh._geometry),
+        mesh.setMaterial(mesh._material),
+        checks = mesh._geometry._vertexShaders;
+        for (k in checks)
+            if (typeof checks[k] == 'string')
+                if (!this._vertexShaders[checks[k]]) MoGL.error('Scene', 'addChild', 2)
+        checks = mesh._material._fragmentShaders;
+        for (k in checks)
+            if (typeof checks[k] == 'string')
+                if (!this._fragmentShaders[checks[k]]) MoGL.error('Scene', 'addChild', 3)
+        checks = mesh._material._textures;
+        for (k in checks)
+            if (typeof checks[k] == 'string')
+                if (!this._textures[checks[k]]) MoGL.error('Scene', 'addChild', 4)
+
+        this._children[id] = mesh
         return this
     },
-    fn.addGeometry = function ($id, $target) {
-        var t = 1
-        this._geometryList[$id] ? (MoGL.error('Scene', 'addGeometry', 0), t = 0) : 0, //ÀÌ¹Ì Á¸ÀçÇÏ´Â id¸¦ µî·ÏÇÏ·ÁÇÒ ¶§.
-            $target instanceof Geometry ? 0 : (MoGL.error('Scene', 'addGeometry', 1), t = 0), //Geometry ¾Æ´Ñ °´Ã¼¸¦ µî·ÏÇÏ·ÁÇÒ ¶§.
-            //TODO 'Scene.addGeometry:2' - Geometry¿¡ ¼±¾ğµÈ vertex shaderÀÇ id°¡ ¾øÀ» ¶§.
-            t ? this._geometryList[$id] = $target : 0
+    fn.addGeometry = function (id, geometry) { MoGL.isAlive(this);
+        if (this._geometrys[id]) MoGL.error('Scene', 'addGeometry', 0)
+        if (!(geometry instanceof Geometry)) MoGL.error('Scene', 'addGeometry', 1)
+        var checks = geometry._vertexShaders, k;
+        console.log(checks)
+        for (k in checks)
+            if (typeof checks[k] == 'string')
+                if (!this._vertexShaders[checks[k]]) MoGL.error('Scene', 'addGeometry', 2)
+        this._geometrys[id] = geometry
         return this
     },
-    fn.addMaterial = function ($id, $target) {
-        var t = 1
-        this._materialList[$id] ? (MoGL.error('Scene', 'addMaterial', 0), t = 0) : 0,
-            $target instanceof Material ? 0 : (MoGL.error('Scene', 'addMaterial', 1), t = 0),
-            //TODO 'Scene.addMaterial:2' - Material¿¡ ¼±¾ğµÈ fragment shaderÀÇ id°¡ ¾øÀ» ¶§.
-            t ? this._materialList[$id] = $target : 0
-        //TODO ÅØ½ºÃÄ Á¦³Ê·¹ÀÌÅÍ
+    fn.addMaterial = function (id, material) { MoGL.isAlive(this);
+        if (this._materials[id]) MoGL.error('Scene', 'addMaterial', 0)
+        if (!(material instanceof Material)) MoGL.error('Scene', 'addMaterial', 1)
+        var checks = material._fragmentShaders, k;
+        for (k in checks)
+            if (typeof checks[k] == 'string')
+                if (!this._fragmentShaders[checks[k]]) MoGL.error('Scene', 'addMaterial', 2)
+        checks = material._textures;
+        for (k in checks)
+            if (typeof checks[k] == 'string')
+                if (!this._textures[checks[k]]) MoGL.error('Scene', 'addMaterial', 3)
+        this._materials[id] = material
         return this
     },
-    fn.addTexture = function addTexture($id, $target/*,resizeType*/) {
-        var t = 1
-        this._textureList[$id] ? (MoGL.error('Scene', 'addTexture', 0), t = 0) : 0,
-            //TODO Param¿¡ ¸í½ÃµÈ Çü½ÄÀÌ ¾Æ´Ñ image¸¦ µî·ÏÇÏ·ÁÇÒ ¶§.
-            t ? this._textureList[$id] = $target : 0
-        //TODO ÅØ½ºÃÄ Á¦³Ê·¹ÀÌÅÍ
+    fn.addTexture = function addTexture(id, texture/*,resizeType*/) { MoGL.isAlive(this);
+        if (this._textures[id]) MoGL.error('Scene', 'addTexture', 0)
+        //'Scene.addTexture:1' - Paramì— ëª…ì‹œëœ í˜•ì‹ì´ ì•„ë‹Œ imageë¥¼ ë“±ë¡í•˜ë ¤í•  ë•Œ.
+        this._textures[id] = texture
         return this
     },
-    fn.addFragmentShader = function () {},//TODO
-    fn.addVertexShader = function ($id, $shaderStr) {
-        this._shaderList.v[$id] = $shaderStr
+    fn.addFragmentShader = function (id, shaderStr) { MoGL.isAlive(this);
+        // TODO ë§ˆì¼ìŠ¤í†¤0.2
         return this
-    },//TODO
+    },
+    fn.addVertexShader = function (id, shaderStr) { MoGL.isAlive(this);
+        // TODO ë§ˆì¼ìŠ¤í†¤0.2
+        return this
+    },
     ///////////////////////////////////////////////////////////////////////////
     // Get
-    fn.getChild = function getChild($id) {
-        var t = this._children[$id];
+    fn.getChild = function getChild(id) { MoGL.isAlive(this);
+        var t = this._children[id];
         return t ? t : null
     },
-    fn.getGeometry = function getGeometry($id) {
-        var t = this._geometryList[$id];
+    fn.getGeometry = function getGeometry(id) { MoGL.isAlive(this);
+        var t = this._geometrys[id];
         return t ? t : null
     },
-    fn.getMaterial = function getMaterial($id) {return this._materialList[$id]},
-    fn.getTexture = function getTexture($id) {return this._textureList[$id]},
-    fn.getFragmentShader = function () {},//TODO
-    fn.getVertexShader = function ($id) {return this._shaderList.v[$id]},
+    fn.getMaterial = function getMaterial(id) { MoGL.isAlive(this);
+        var t = this._materials[id]
+        return t ? t : null
+    },
+    fn.getTexture = function getTexture(id) { MoGL.isAlive(this);
+        var t = this._textures[id]
+        return t ? t : null
+    },
+    fn.getFragmentShader = function (id) { MoGL.isAlive(this);
+        // TODO ë§ˆì¼ìŠ¤í†¤0.2
+        return this._fragmentShaders[id]
+    },
+    fn.getVertexShader = function (id) { MoGL.isAlive(this);
+        // TODO ë§ˆì¼ìŠ¤í†¤0.2
+        return this._vertexShaders[id]
+    },
     ///////////////////////////////////////////////////////////////////////////
     // Remove
-    fn.removeChild = function removeChild($id) { return this._children[$id] ? (delete this._children[$id], this._parent = null, true) : false},
-    fn.removeGeometry = function removeGeometry($id) { return this._geometryList[$id] ? (delete this._geometryList[$id], true) : false},
-    fn.removeMaterial = function removeMaterial($id) { return this._materialList[$id] ? (delete this._materialList[$id], true) : false},
-    fn.removeTexture = function removeTexture($id) { return this._textureList[$id] ? (delete this._textureList[$id], true) : false},
-    fn.removeFragmentShader = function removeFragmentShader() {},//TODO
-    fn.removeVertexShader = function VertexShader() {}//TODO
+    fn.removeChild = function removeChild(id) { MoGL.isAlive(this);
+        return this._children[id] ? (this._children[id]._scene = null,delete this._children[id], true) : false
+    },
+    fn.removeGeometry = function removeGeometry(id) { MoGL.isAlive(this);
+        return this._geometrys[id] ? (delete this._geometrys[id], true) : false
+    },
+    fn.removeMaterial = function removeMaterial(id) { MoGL.isAlive(this);
+        return this._materials[id] ? (delete this._materials[id], true) : false
+    },
+    fn.removeTexture = function removeTexture(id) { MoGL.isAlive(this);
+        return this._textures[id] ? (delete this._textures[id], true) : false
+    },
+    fn.removeFragmentShader = function removeFragmentShader() { MoGL.isAlive(this);
+        // TODO ë§ˆì¼ìŠ¤í†¤0.2
+        return this
+    },
+    fn.removeVertexShader = function VertexShader() { MoGL.isAlive(this);
+        // TODO ë§ˆì¼ìŠ¤í†¤0.2
+        return this
+    }
     return MoGL.ext(Scene, MoGL);
 })();
