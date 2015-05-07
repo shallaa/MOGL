@@ -18,7 +18,7 @@ var Group = (function () {
     fn.addChild = function addChild(id, mesh) {
         var k,checks
         if(this._children[id]) MoGL.error('Group','addChild',0)
-        if(!(mesh instanceof Mesh || mesh instanceof Camera)) MoGL.error('Group','addChild',1)
+        if(!(mesh instanceof Mesh )) MoGL.error('Group','addChild',1)
         mesh._scene = this,
         mesh.setGeometry(mesh._geometry),
         mesh.setMaterial(mesh._material),

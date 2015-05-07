@@ -224,6 +224,28 @@
                 return mesh1.scaleX == temp[0] && mesh1.scaleY == temp[1] && mesh1.scaleZ == temp[2];
             }, true
     )
+    var sceneMeshByKey = Scene()
+    sceneMeshByKey.addGeometry('cube', new Geometry([], []))
+    sceneMeshByKey.addMaterial('mat1', new Material('#fff'))
+    var testMesh;
+    bsTest('byKey',
+            function () {
+                // 키로 등록하고 addChild하기전에 조사
+                testMesh = Mesh('cube', 'mat1');
+                return testMesh.getGeometry() == null && testMesh.getMaterial() == null
+            }, true,
+            function () {
+                // 키로 등록해 본다.
+                sceneMeshByKey.addChild('testByKeyMesh', testMesh)
+                return sceneMeshByKey.getChild('testByKeyMesh') == testMesh
+            }, true,
+            function () {
+                // 등록후에 키로 등록된 녀석이 Geometry와 Material로 변경이 되었나 확인
+                console.log(testMesh.getGeometry())
+                console.log(typeof testMesh.getGeometry())
+                return testMesh.getGeometry() instanceof Geometry
+            }, true
+    )
     mesh1.destroy()
     mesh2.destroy()
     mesh3.destroy()
@@ -238,7 +260,8 @@
                 return mesh3.isAlive;
             }, false
     );
+
+
 </script>
-<div> TODO : 신등록후 테스트도 해야함</div>
 </body>
 </html>
