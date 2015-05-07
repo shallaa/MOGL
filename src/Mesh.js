@@ -30,7 +30,7 @@ var Mesh = (function () {
         //TODO
         return this._matrix
     },
-    fn.getParent = function get_parent() { MoGL.isAlive(this);
+    fn.getParent = function getParent() { MoGL.isAlive(this);
         return _scene ? _scene : null
     },
     fn.getPosition = function getPosition() { MoGL.isAlive(this);
