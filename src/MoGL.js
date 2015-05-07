@@ -72,11 +72,10 @@ var MoGL = (function(){
 		if( !( cls.uuid in counter ) ) counter[cls.uuid] = 0;
 		
 		//부모와 자식 클래스의 프로토타입을 복사함.
-		newProto = cls.prototype;
-		oldProto = parent.prototype;
-		for( key in oldProto ) if( oldProto.hasOwnProperty(key) ) newProto[key] = oldProto[key];
+		newProto = new parent;
 		oldProto = child.prototype;
 		for( key in oldProto ) if( oldProto.hasOwnProperty(key) ) newProto[key] = oldProto[key];
+		cls.prototype = newProto
 		return cls;
 	},
 	
