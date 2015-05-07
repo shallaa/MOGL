@@ -12,15 +12,29 @@ var Group = (function () {
     var Group, fn;
     Group = function Group() {
         this._children = {}
+        this._scene = null
     },
     fn = Group.prototype,
     fn.addChild = function addChild(id, mesh) {
+        var k,checks
         if(this._children[id]) MoGL.error('Group','addChild',0)
         if(!(mesh instanceof Mesh)) MoGL.error('Group','addChild',1)
-        //TODO 음 이건 아래에 해야되지않나...
-        //TODO 'Group.addChild:2' - Mesh안의 Geometry에 지정된 vertex shader의 id가 존재하지 않음.
-        //TODO 'Group.addChild:3' - Mesh안의 Material에 지정된 fragment shader의 id가 존재하지 않음.
-        //TODO 'Group.addChild:4' - Mesh안의 Material에 지정된 texture의 id가 존재하지 않음.
+        mesh._scene = this,
+        mesh.setGeometry(mesh._geometry),
+        mesh.setMaterial(mesh._material),
+
+        checks = mesh._geometry._vertexShaders;
+        for (k in checks)
+            if (typeof checks[k] == 'string')
+                if (!this._scene._vertexShaders[checks[k]]) MoGL.error('Group', 'addChild', 2)
+        checks = mesh._material._fragmentShaders;
+        for (k in checks)
+            if (typeof checks[k] == 'string')
+                if (!this._scene._fragmentShaders[checks[k]]) MoGL.error('Group', 'addChild', 3)
+        checks = mesh._material._textures;
+        for (k in checks)
+            if (typeof checks[k] == 'string')
+                if (!this._scene._textures[checks[k]]) MoGL.error('Group', 'addChild', 4)
         this._children[id] = mesh
         return this
     },
@@ -31,5 +45,5 @@ var Group = (function () {
     fn.removeChild = function removeChild(id) {
         return this._children[id] ? (delete this._children[id], true) : false
     }
-    return MoGL.ext(Group, MoGL);
+    return MoGL.ext(Group, Mesh);
 })();
