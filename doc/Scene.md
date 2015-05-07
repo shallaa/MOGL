@@ -225,6 +225,7 @@ try{
 * 'Scene.addMaterial:0' - 이미 존재하는 id를 등록하려할 때.
 * 'Scene.addMaterial:1' - [Material](Material.md) 아닌 객체를 등록하려할 때.
 * 'Scene.addMaterial:2' - [Material](Material.md)에 선언된 fragment shader의 id가 없을 때.
+* 'Scene.addMaterial:3' - [Material](Material.md)에 선언된 texture의 id가 없을 때.
 
 **return**
 
