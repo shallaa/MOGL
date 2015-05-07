@@ -18,7 +18,7 @@ var Scene = (function () {
     fn.addChild = function addChild(id, mesh) { MoGL.isAlive(this); // isAlive는 함수선언 줄에 바로 같이 씁니다.
         var k, checks;
         if (this._children[id]) MoGL.error('Scene', 'addChild', 0)
-        if (!(mesh instanceof Mesh || mesh instanceof Camera)) MoGL.error('Scene', 'addChild', 1)
+        if (!(mesh instanceof Mesh)) MoGL.error('Scene', 'addChild', 1)
         mesh._scene = this,
         mesh.setGeometry(mesh._geometry),
         mesh.setMaterial(mesh._material),
@@ -42,7 +42,6 @@ var Scene = (function () {
         if (this._geometrys[id]) MoGL.error('Scene', 'addGeometry', 0)
         if (!(geometry instanceof Geometry)) MoGL.error('Scene', 'addGeometry', 1)
         var checks = geometry._vertexShaders, k;
-        console.log(checks)
         for (k in checks)
             if (typeof checks[k] == 'string')
                 if (!this._vertexShaders[checks[k]]) MoGL.error('Scene', 'addGeometry', 2)

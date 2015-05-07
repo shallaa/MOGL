@@ -47,16 +47,17 @@ var Mesh = (function () {
     fn.setGeometry = function setGeometry(geometry) { MoGL.isAlive(this);
         if (!(geometry instanceof Geometry || typeof geometry == 'string')) MoGL.error('Mesh', 'setGeometry', 0)
         if (this._scene) {
-            if (this._geometry = typeof geometry == 'string') this._scene._geometrys[geometry]
+            if (this._geometry = typeof geometry == 'string') this._geometry=this._scene._geometrys[geometry]
             else this._geometry = geometry
         }
         else this._geometry = geometry
+
         return this
     },
     fn.setMaterial = function setMaterial(material) { MoGL.isAlive(this);
         if (!(material instanceof Material || typeof material == 'string')) MoGL.error('Mesh', 'setMaterial', 0)
         if (this._scene) {
-            if (this._material = typeof material == 'string') this._scene._materials[material]
+            if (this._material = typeof material == 'string') this._material= this._scene._materials[material]
             else this._material = material
         }
         else this._material = material
