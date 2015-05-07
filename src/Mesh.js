@@ -14,27 +14,24 @@ var Mesh = (function () {
         this._geometry = geometry,
         this._material = material,
         this._scene = null,
-        this._parent = null,
         this._matrix = Matrix()
-    },
-    Mesh.prototype = {
-        rotateX: 0, rotateY: 0, rotateZ: 0,
-        scaleX: 1, scaleY: 1, scaleZ: 1,
-        x: 0, y: 0, z: 0
+        this.rotateX = 0, this.rotateY = 0, this.rotateZ = 0,
+        this.scaleX = 1, this.scaleY = 1, this.scaleZ = 1,
+        this.x = 0, this.y = 0, this.z = 0
     },
     fn = Mesh.prototype,
     fn.getGeometry = function getGeometry() { MoGL.isAlive(this);
-        return this._parent ? this._geometry : null
+        return _scene ? this._geometry : null
     },
     fn.getMaterial = function getMaterial() { MoGL.isAlive(this);
-        return this._parent ? this._material : null
+        return _scene ? this._material : null
     },
     fn.getMatrix = function getMatrix() { MoGL.isAlive(this);
         //TODO
         return this._matrix
     },
     fn.getParent = function get_parent() { MoGL.isAlive(this);
-        return this._parent ? this._parent : null
+        return _scene ? _scene : null
     },
     fn.getPosition = function getPosition() { MoGL.isAlive(this);
         return f3[0] = this.x, f3[1] = this.y, f3[2] = this.z, f3
@@ -49,7 +46,7 @@ var Mesh = (function () {
     // set
     fn.setGeometry = function setGeometry(geometry) { MoGL.isAlive(this);
         if (!(geometry instanceof Geometry || typeof geometry == 'string')) MoGL.error('Mesh', 'setGeometry', 0)
-        if (this._parent) {
+        if (this._scene) {
             if (this._geometry = typeof geometry == 'string') this._scene._geometrys[geometry]
             else this._geometry = geometry
         }
@@ -58,7 +55,7 @@ var Mesh = (function () {
     },
     fn.setMaterial = function setMaterial(material) { MoGL.isAlive(this);
         if (!(material instanceof Material || typeof material == 'string')) MoGL.error('Mesh', 'setMaterial', 0)
-        if (this._parent) {
+        if (this._scene) {
             if (this._material = typeof material == 'string') this._scene._materials[material]
             else this._material = material
         }

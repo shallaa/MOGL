@@ -19,7 +19,6 @@ var Scene = (function () {
         var k, checks;
         if (this._children[id]) MoGL.error('Scene', 'addChild', 0)
         if (!(mesh instanceof Mesh || mesh instanceof Camera)) MoGL.error('Scene', 'addChild', 1)
-        mesh._parent = this,
         mesh._scene = this,
         mesh.setGeometry(mesh._geometry),
         mesh.setMaterial(mesh._material),
@@ -102,7 +101,7 @@ var Scene = (function () {
     ///////////////////////////////////////////////////////////////////////////
     // Remove
     fn.removeChild = function removeChild(id) { MoGL.isAlive(this);
-        return this._children[id] ? (delete this._children[id], this._parent = null, true) : false
+        return this._children[id] ? (this._children[id]._scene = null,delete this._children[id], true) : false
     },
     fn.removeGeometry = function removeGeometry(id) { MoGL.isAlive(this);
         return this._geometrys[id] ? (delete this._geometrys[id], true) : false
