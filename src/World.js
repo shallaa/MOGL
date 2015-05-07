@@ -8,7 +8,6 @@
 var World = (function () {
     var World, fn;
     World = function World() {
-
     },
         fn = World.prototype,
         fn._renderList = [],
