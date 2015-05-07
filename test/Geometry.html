@@ -78,6 +78,9 @@
     var cube1 = new Geometry(vData, iData, [Geometry.x, Geometry.y, Geometry.z]);
     //팩토리함수로도 작동함.
     var cube2 = Geometry(vData, iData);
+    var cube3;
+    var cube4;
+    var testResult
     bsTest('new',
             // 잘생성이되었나
             function () {
@@ -86,7 +89,70 @@
             // 잘생성이되었나
             function () {
                 return cube2.isAlive;
-            }, true
+            }, true,
+            function () {
+                testResult = 1
+                try {
+                    // 이상한 타입 입력
+                    cube3 = Geometry({}, iData)
+                } catch (e) {
+                    testResult = 0
+                    console.log(e);
+                }
+                return testResult;
+            }, 0,
+            function () {
+                testResult = 1
+                try {
+                    // 이상한 타입 입력
+                    cube3 = Geometry(vData, {})
+                } catch (e) {
+                    testResult = 0
+                    console.log(e);
+                }
+                return testResult;
+            }, 0,
+            function () {
+                testResult = 1
+                try {
+                    // Uint16 입력테스트
+                    cube3 = Geometry(new Float32Array([]), new Uint16Array([]))
+                } catch (e) {
+                    testResult = 0
+                    console.log(e);
+                }
+                return testResult;
+            }, 1,
+            function () {
+                testResult = 1
+                try {
+                    // Uint32 입력테스트
+                    cube3 = Geometry(new Float32Array([]), new Uint32Array([]))
+                } catch (e) {
+                    testResult = 0
+                    console.log(e);
+                }
+                return testResult;
+            }, 1,
+            function () {
+                testResult = 1
+                try {
+                    // 잘못된 인덱스 입력테스트
+                    cube3 = Geometry(new Float32Array([]), new Float32Array([]))
+                } catch (e) {
+                    testResult = 0
+                    console.log(e);
+                }
+                return testResult;
+            }, 0,
+            function () {
+                cube4 = new Geometry([
+                    0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0
+                ], [0, 1, 2], [Geometry.x, Geometry.y, Geometry.z, Geometry.normalX, Geometry.normalY, Geometry.normalZ])
+                return cube4.getVertexCount();
+            }, 3
     );
     bsTest('getVertexCount',
             function () {
@@ -117,26 +183,43 @@
     );
 
     var lobby = new Scene();
-    var testCube = new Geometry([], [])
+    var testCube = new Geometry(vData, iData)
+    var testSeperator = new Geometry([
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, // x,y,z, u,v, normalX,normalY,normalZ, r,g,b,a,
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+    ], [0, 1, 2], [Geometry.x, Geometry.y, Geometry.z, Geometry.u, Geometry.v, Geometry.normalX, Geometry.normalY, Geometry.normalZ, Geometry.r, Geometry.g, Geometry.b, Geometry.a])
+    bsTest('seperator',
+            function () {
+                var testValue = [1, 2, 3, 1, 2, 3, 1, 2, 3], result = true
+                for (var i = 0, len = testValue.length; i < len; i++) {
+                    if (testSeperator._position[i] != testValue[i]) result = false
+                }
+                console.log('testSeperator._position',testSeperator._position)
+                console.log('testSeperator._uv',testSeperator._uv)
+                console.log('testSeperator._color',testSeperator._color)
+                console.log('testSeperator._normal',testSeperator._normal)
+                return result
+            }, true
+    )
     // waffle shader등록
     bsTest('test',
             function () {
-                //미등록된 Geometry
-                var sample = new Geometry([], []);
-                sample.addVertexShader('aaa')  //미등록객체는 무조건 통과됨
-                return sample._shaderIDList['aaa']
+                var sample = new Geometry(vData, iData);
+                sample.addVertexShader('aaa')
+                return sample._vertexShaders['aaa']
             }, 'aaa',
             function () {
-                //미등록된 Geometry
-                var sample = new Geometry([], []);
-                sample.removeVertexShader('aaa')  //미등록객체는 무조건 통과됨
-                return sample._shaderIDList['aaa']
+                //Shader키 삭제
+                var sample = new Geometry(vData, iData);
+                sample.removeVertexShader('aaa')
+                return sample._vertexShaders['aaa']
             }, undefined,
             function () {
                 //미등록된 Geometry
-                var sample = new Geometry([], []);
-                sample.addVertexShader('bb')  //미등록객체는 무조건 통과됨
-                return sample._shaderIDList['bb']
+                var sample = new Geometry(vData, iData);
+                sample.addVertexShader('bb')
+                return sample._vertexShaders['bb']
             }, 'bb'
     );
 </script>
