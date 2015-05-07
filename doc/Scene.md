@@ -487,7 +487,7 @@ console.log( normal.src ); //dataURL 형식으로 보여짐.
 
 **param**
 
-1. id:string - addMesh에서 사용한 id.
+1. id:string - addChild에서 사용한 id.
 
 **return**
 
