@@ -19,6 +19,7 @@
 <script src="../src/MoGL.js"></script>
 <script src="../src/Matrix.js"></script>
 <script src="../src/Geometry.js"></script>
+<script src="../src/Vertex.js"></script>
 <script src="../src/Material.js"></script>
 <script src="../src/Mesh.js"></script>
 <script src="../src/Texture.js"></script>
@@ -105,15 +106,15 @@
             function () {
                 // 씬에 등록후 지오메트리가 제대로 찾아지나 점검
                 testScene.addChild('testGeometry1', mesh1)
-                tempGeo= null
+                tempGeo = null
                 testScene.getChild('testGeometry1').setGeometry(testGeometry1)
                 tempGeo = testScene.getChild('testGeometry1').getGeometry();
                 return tempGeo;
             }, testGeometry1,
             function () {
                 // 등록된 녀석이 지오메트리 형식이냐?
-                return tempGeo;
-            }, testGeometry1,
+                return tempGeo instanceof Geometry;
+            }, true,
             function () {
                 mesh1.setGeometry(testGeometry2)
                 return mesh1.getGeometry() == testGeometry1;

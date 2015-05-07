@@ -6,18 +6,18 @@
  */
 var Geometry = (function () {
     //그중에 자신의 4좌표랑 7uv랑 8rgba랑 9노말은 지오메트리거고
-    var Geometry, fn, indexTable = {};
+    var Geometry, fn;
     Geometry = function Geometry(vertex, index,info) {
         var i, len, t,t2,
-            isFloat32 = Object.prototype.toString.call(vertex) == '[object Float32Array]',
-            isUint16 = Object.prototype.toString.call(index) == '[object Uint16Array]',
-            isUint32 = Object.prototype.toString.call(index) == '[object Uint32Array]'
+            isFloat32 = vertex instanceof Float32Array,
+            isUint16 = index instanceof Uint16Array
+            //isUint32 = Object.prototype.toString.call(index) == '[object Uint32Array]'
         if (!(Array.isArray(vertex) || isFloat32 )) MoGL.error('Geometry', 'constructor', 0)
         if (!(Array.isArray(index) || isUint16 || isUint32 )) MoGL.error('Geometry', 'constructor', 1)
         if (info) {
             ( vertex.length % info.length) ? MoGL.error('Geometry', 'constructor', 2) : 0;
-            for (i = 0, len = info.length; i < len; i++) indexTable[info[i]] = i
-            console.log(indexTable)
+            for (i = 0, len = info.length; i < len; i++) info[info[i]] = i
+            console.log(info)
         }
         /////////////////////////////////////
         t = arguments[2] ? arguments[2].length : 3
@@ -32,10 +32,10 @@ var Geometry = (function () {
             this._color = []
             for (i = 0, len = vertex.length / t; i < len; i++) {
                 t2 = t * i
-                this._position.push(vertex[t2 + indexTable.x], vertex[t2 + indexTable.y], vertex[t2 + indexTable.z])
-                this._normal.push(vertex[t2 + indexTable.normalX], vertex[t2 + indexTable.normalY], vertex[t2 + indexTable.normalZ])
-                this._uv.push(vertex[t2 + indexTable.u], vertex[t2 + indexTable.v])
-                this._color.push(vertex[t2 + indexTable.r], vertex[t2 + indexTable.g], vertex[t2 + indexTable.b], vertex[t2 + indexTable.a])
+                this._position.push(vertex[t2 + info.x], vertex[t2 + info.y], vertex[t2 + info.z])
+                this._normal.push(vertex[t2 + info.nx], vertex[t2 + info.ny], vertex[t2 + info.nz])
+                this._uv.push(vertex[t2 + info.u], vertex[t2 + info.v])
+                this._color.push(vertex[t2 + info.r], vertex[t2 + info.g], vertex[t2 + info.b], vertex[t2 + info.a])
             }
             this._position = new Float32Array(this._position)
             this._normal = new Float32Array(this._normal)
@@ -82,10 +82,6 @@ var Geometry = (function () {
         return delete this._vertexShaders[id], this
     },
 
-    Geometry = MoGL.ext(Geometry, MoGL),
-    Geometry.x = 'x',Geometry.y = 'y',Geometry.z = 'z',
-    Geometry.r = 'r',Geometry.g = 'g',Geometry.b = 'b',Geometry.a = 'a',
-    Geometry.normalX = 'normalX',Geometry.normalY = 'normalY',Geometry.normalZ = 'normalZ',
-    Geometry.u = 'u',Geometry.v = 'v'
+    Geometry = MoGL.ext(Geometry, MoGL)
     return Geometry
 })();
