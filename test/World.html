@@ -28,11 +28,10 @@
 <script src="../src/Scene.js"></script>
 <script src="../src/World.js"></script>
 <script src="http://js.bsapi.co/test/"></script>
-<script src="http://js.bsapi.co/test/"></script>
 <script>
     var world = new World();
     var world2 = World();
-    var camera = new Camera()
+    var camera = new Camera(new Geometry([],[]),new Material())
     var sceneTest1 = new Scene()
     sceneTest1.addChild('cameraTest', camera)
     var sceneTest2 = new Scene()
