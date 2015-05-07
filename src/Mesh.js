@@ -21,17 +21,17 @@ var Mesh = (function () {
     },
     fn = Mesh.prototype,
     fn.getGeometry = function getGeometry() { MoGL.isAlive(this);
-        return _scene ? this._geometry : null
+        return this._scene ? this._geometry : null
     },
     fn.getMaterial = function getMaterial() { MoGL.isAlive(this);
-        return _scene ? this._material : null
+        return this._scene ? this._material : null
     },
     fn.getMatrix = function getMatrix() { MoGL.isAlive(this);
         //TODO
         return this._matrix
     },
     fn.getParent = function getParent() { MoGL.isAlive(this);
-        return _scene ? _scene : null
+        return this._scene ? this._scene : null
     },
     fn.getPosition = function getPosition() { MoGL.isAlive(this);
         return f3[0] = this.x, f3[1] = this.y, f3[2] = this.z, f3
