@@ -25,7 +25,8 @@ Geometry( vertexBuffer:Array, indexBuffer:Array[, vertexInfo:Array]  )
 
 * 'Geometry.constructor:0' - vertexBuffer가 Array이나 Float32Array가 아닐때.
 * 'Geometry.constructor:1' - indexBuffer가 Array이나 Uint16Array or Uint32Array가 아닐때
-
+* 'Geometry.constructor:2' - 버텍스 구성정보와 버텍스 배열의 길이가 안맞을때
+* 
 **param**
 
 1. vertexBuffer:Array or TypedArray - 정점 배열.
