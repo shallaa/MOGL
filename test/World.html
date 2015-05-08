@@ -44,7 +44,7 @@
                 return world2.isAlive;
             }, true
     );
-    bsTest('add/get/remove Scene',
+    bsTest('add/get/remove ',
             function () {
                 world.addScene('lobby', sceneTest1)
                 return world.getScene('lobby');
@@ -88,6 +88,7 @@
                 return world._renderList[0];
             }, undefined
     );
+
     world.destroy()
     world2.destroy()
     bsTest('destroy',

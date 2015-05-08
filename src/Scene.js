@@ -62,10 +62,21 @@ var Scene = (function () {
         this._materials[id] = material
         return this
     },
-    fn.addTexture = function addTexture(id, texture/*,resizeType*/) { MoGL.isAlive(this);
+    fn.addTexture = function addTexture(id, image/*,resizeType*/) { MoGL.isAlive(this);
         if (this._textures[id]) MoGL.error('Scene', 'addTexture', 0)
-        //'Scene.addTexture:1' - Param에 명시된 형식이 아닌 image를 등록하려할 때.
-        this._textures[id] = texture
+        if (checkDraft(image)) MoGL.error('Scene', 'addTexture', 1)
+        function checkDraft(target) {
+            console.log(target,target instanceof HTMLVideoElement)
+            if(target instanceof HTMLImageElement) return 0
+            if(target instanceof HTMLCanvasElement) return 0
+            if(target instanceof HTMLVideoElement) return 0
+            if(target instanceof ImageData) return 0
+            if(target.substring(0,10)=='data:image') return 0// base64문자열 - urlData형식으로 지정된 base64문자열
+            // TODO 블랍은 어카지 -__;;;;;;;;;;;;;;;;;;;;;;;;실제 이미지를 포함하고 있는 Blob객체.
+
+            return 1
+        }
+        this._textures[id] = image
         return this
     },
     fn.addFragmentShader = function (id, shaderStr) { MoGL.isAlive(this);

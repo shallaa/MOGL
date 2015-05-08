@@ -12,7 +12,13 @@
 </head>
 <body>
 <img src="../src/ohno.png" id="img1">
-
+<canvas id="canvas"></canvas>
+<canvas id="cvsImageData"></canvas>
+<video id="video1" width="400" controls autoplay >
+    <source src="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+    <source src="http://www.w3schools.com/html/mov_bbb.ogg" type="video/ogg">
+</video>
+<canvas id="cvsDataURL" width="578"></canvas>
 <div id="stage"></div>
 <div id="result"></div>
 <div id="test"></div>
@@ -38,12 +44,42 @@ void main(void) {
 
 </script>
 <script>
+    var testTexture_IMG = document.getElementById('img1')
+    var testTexture_VIDEO = document.getElementById('video1')
+    /////////////////////////////////////////////////////////////////
+    var c = document.getElementById("cvsImageData");
+    var ctx = c.getContext("2d");
+    ctx.fillStyle = "red";
+    ctx.fillRect(10, 10, 50, 50);
+    var testTexture_imgData = ctx.getImageData(10, 10, 50, 50)
+    //////////////////////////////////////////////////////////////
+    c = document.getElementById("canvas");
+    ctx = c.getContext("2d");
+    ctx.fillStyle = "blue";
+    ctx.fillRect(10, 10, 50, 50);
+    var testTexture_canvas = c
+    //////////////////////////////////////////////////////////////
+    c = document.getElementById('cvsDataURL'),ctx = c.getContext('2d');
+    ctx.beginPath();
+    ctx.moveTo(170, 80);
+    ctx.bezierCurveTo(130, 100, 130, 150, 230, 150);
+    ctx.bezierCurveTo(250, 180, 320, 180, 340, 150);
+    ctx.bezierCurveTo(420, 150, 420, 120, 390, 100);
+    ctx.bezierCurveTo(430, 40, 370, 30, 340, 50);
+    ctx.bezierCurveTo(320, 5, 250, 20, 250, 50);
+    ctx.bezierCurveTo(200, 5, 150, 20, 170, 80);
+    ctx.closePath();
+    ctx.lineWidth = 5;
+    ctx.fillStyle = '#8ED6FF';
+    ctx.fill();
+    ctx.strokeStyle = '#0000ff';
+    ctx.stroke();
+    var testTexture_dataURL = c.toDataURL();
+    //////////////////////////////////////////////////////////////
     var scene1
     var scene2
     var testGeometry1= Geometry([],[])
     var testMaterial1= Material('test.png')
-    var testIMG = document.getElementById('img1')
-    var testTexture1 = new Texture(testIMG)
     var testMesh1 = new Mesh(testGeometry1, testMaterial1)
     var testMesh2 = new Mesh(testGeometry1, testMaterial1)
     var testResult
@@ -191,14 +227,14 @@ void main(void) {
             },null,
             function (){
                 // 텍스쳐 추가
-                scene1.addTexture('addTextureTest1',testTexture1)
+                scene1.addTexture('addTextureTest1',testTexture_IMG)
                 return scene1.getTexture('addTextureTest1')
-            },testTexture1,
+            },testTexture_IMG,
             function (){
                 // 중복 ID 추가
                 testResult = 1
                 try{
-                    scene1.addTexture('addTextureTest1',testTexture1)
+                    scene1.addTexture('addTextureTest1',testTexture_IMG)
                 }catch(e){
                     console.log(e)
                     testResult=0
@@ -206,9 +242,36 @@ void main(void) {
                 return testResult
             },0,
             function (){
-                // TODO 형식검사
-                return true
-            },true
+                // 이미지 형식체크 - 안되는놈
+                testResult = 1
+                try{
+                    scene1.addTexture('안되는걸테스트해볼까',{})
+                }catch(e){
+                    console.log(e)
+                    testResult=0
+                }
+                return testResult
+            },0,
+            function (){
+                // 이미지 형식체크 - imgData(rgba)
+                scene1.addTexture('testTexture_imgData',testTexture_imgData)
+                return scene1.getTexture('testTexture_imgData')
+            },testTexture_imgData,
+            function (){
+                // 이미지 형식체크 - urlData(base64)
+                scene1.addTexture('testTexture_dataURL',testTexture_dataURL)
+                return scene1.getTexture('testTexture_dataURL')
+            },testTexture_dataURL,
+            function (){
+                // 이미지 형식체크 - canvas element
+                scene1.addTexture('testTexture_canvas',testTexture_canvas)
+                return scene1.getTexture('testTexture_canvas')
+            },testTexture_canvas,
+            function (){
+                // 이미지 형식체크 - video element
+                scene1.addTexture('testTexture_VIDEO',testTexture_VIDEO)
+                return scene1.getTexture('testTexture_VIDEO')
+            },testTexture_VIDEO
     )
     bsTest('FragmentShader',
             function (){
