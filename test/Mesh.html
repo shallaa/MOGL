@@ -146,6 +146,7 @@
     bsTest('getMatrix',
             function () {
                 // getMatrix
+                console.log(mesh1.getMatrix())
                 return mesh1.getMatrix() instanceof Matrix && testScene.getChild('testGeometry1').getMatrix() instanceof Matrix
             }, true
     )

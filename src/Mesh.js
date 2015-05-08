@@ -14,7 +14,7 @@ var Mesh = (function () {
         this._geometry = geometry,
         this._material = material,
         this._scene = null,
-        this._matrix = Matrix()
+        this._matrix = new Matrix()
         this.rotateX = 0, this.rotateY = 0, this.rotateZ = 0,
         this.scaleX = 1, this.scaleY = 1, this.scaleZ = 1,
         this.x = 0, this.y = 0, this.z = 0
