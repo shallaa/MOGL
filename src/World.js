@@ -7,7 +7,12 @@
  */
 var World = (function () {
     var World, fn;
-    World = function World() {},
+    World = function World(id) {
+        this._cvs = document.getElementById(id);
+        var keys = 'webgl,experimental-webgl,webkit-3d,moz-webgl'.split(','), i = keys.length
+        while (i--) if (this._gl = this._cvs.getContext(keys[i])) break
+        console.log(this._gl ? id + ' : MoGL 초기화 성공!' : console.log(id + ' : MoGL 초기화 실패!!'))
+    },
     fn = World.prototype,
     fn._renderList = [],
     fn._sceneList = {},
