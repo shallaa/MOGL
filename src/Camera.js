@@ -1,9 +1,11 @@
 /**
- * Created by redcamel on 2015-05-04.
+ * Created by redcamel on 2015-05-05.
+ * description
  */
-var Camera;
-(function () {
+var Camera = (function () {
+    var Camera, fn;
     Camera = function Camera() {
     }
-    Camera = MoGL.ext(Camera, Mesh);
-})()
+    fn = Camera.prototype
+    return MoGL.ext(Camera, Mesh);
+})();
