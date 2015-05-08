@@ -21,7 +21,7 @@ var Scene = (function () {
         if (!(mesh instanceof Mesh)) MoGL.error('Scene', 'addChild', 1)
         mesh._scene = this,
         mesh.setGeometry(mesh._geometry),
-        mesh.setMaterial(mesh._material),
+        mesh.setMaterial(mesh._material), mesh._material._count++
         checks = mesh._geometry._vertexShaders;
         for (k in checks)
             if (typeof checks[k] == 'string')
@@ -60,18 +60,18 @@ var Scene = (function () {
             if (typeof checks[k] == 'string')
                 if (!this._textures[checks[k]]) MoGL.error('Scene', 'addMaterial', 3)
         this._materials[id] = material
+        this._materials[id]._scene = this
         return this
     },
     fn.addTexture = function addTexture(id, image/*,resizeType*/) { MoGL.isAlive(this);
         if (this._textures[id]) MoGL.error('Scene', 'addTexture', 0)
         if (checkDraft(image)) MoGL.error('Scene', 'addTexture', 1)
         function checkDraft(target) {
-            console.log(target,target instanceof HTMLVideoElement)
             if(target instanceof HTMLImageElement) return 0
             if(target instanceof HTMLCanvasElement) return 0
             if(target instanceof HTMLVideoElement) return 0
             if(target instanceof ImageData) return 0
-            if(target['substring'] && target.substring(0,10)=='data:image') return 0// base64문자열 - urlData형식으로 지정된 base64문자열
+            if(target['substring'] && target.substring(0,10)=='data:image' && target.indexOf('base64')>-1) return 0// base64문자열 - urlData형식으로 지정된 base64문자열
             // TODO 블랍은 어카지 -__;;;;;;;;;;;;;;;;;;;;;;;;실제 이미지를 포함하고 있는 Blob객체.
 
             return 1
@@ -116,7 +116,7 @@ var Scene = (function () {
     ///////////////////////////////////////////////////////////////////////////
     // Remove
     fn.removeChild = function removeChild(id) { MoGL.isAlive(this);
-        return this._children[id] ? (this._children[id]._scene = null,delete this._children[id], true) : false
+        return this._children[id] ? (this._children[id]._material._count--, this._children[id]._scene = null, delete this._children[id], true) : false
     },
     fn.removeGeometry = function removeGeometry(id) { MoGL.isAlive(this);
         return this._geometrys[id] ? (delete this._geometrys[id], true) : false
