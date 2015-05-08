@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../src/MoGL.js"></script>
+    <script src="../src/Vertex.js"></script>
+    <script src="../src/Matrix.js"></script>
+    <script src="../src/Geometry.js"></script>
+    <script src="../src/Material.js"></script>
+    <script src="../src/Texture.js"></script>
+    <script src="../src/Mesh.js"></script>
+    <script src="../src/Group.js"></script>
+    <script src="../src/Camera.js"></script>
+    <script src="../src/Scene.js"></script>
+    <script src="../src/World.js"></script>
+</head>
+<body>
+<script>
+    // 모글에 전역적인 루프 시스템이 있것고..
+    var loops = []
+    setInterval(function(){
+        for(var i=0; i<loops.length; i++) loops[i]._render()
+    },16)
+
+
+    var w = new World();
+    w.addScene('s0', new Scene());
+    w.getScene('s0').addGeometry('tri', new Geometry([-1, 0, 0, 1, 0, 0, 0, 1, 0], [0, 1, 2]));
+    w.getScene('s0').addMaterial('white', new Material('#fff'));
+    w.getScene('s0').addChild('tri', new Mesh('tri', new Material('#ff2244')));
+    w.getScene('s0').addChild('camera1', new Camera());
+    w.getScene('s0').addChild('camera2', new Camera());
+    w.addRender('s0', 'camera1');
+    w.addRender('s0', 'camera2');
+
+    loops.push(w)
+</script>
+</body>
+</html>
