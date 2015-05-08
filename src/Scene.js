@@ -71,7 +71,7 @@ var Scene = (function () {
             if(target instanceof HTMLCanvasElement) return 0
             if(target instanceof HTMLVideoElement) return 0
             if(target instanceof ImageData) return 0
-            if(target.substring(0,10)=='data:image') return 0// base64문자열 - urlData형식으로 지정된 base64문자열
+            if(target['substring'] && target.substring(0,10)=='data:image') return 0// base64문자열 - urlData형식으로 지정된 base64문자열
             // TODO 블랍은 어카지 -__;;;;;;;;;;;;;;;;;;;;;;;;실제 이미지를 포함하고 있는 Blob객체.
 
             return 1
