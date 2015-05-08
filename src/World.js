@@ -15,7 +15,7 @@ var World = (function () {
         for(var i = 0,len=this._renderList.length; i<len; i++){
             //console.log(this._renderList[i],'렌더')
             // 여기서 할일은 렌더리스트의 아이템에있는 카메라에 씬을 던져서 실제 렝더링을 시켜야함..
-            this._renderList[i].camera.render(this._renderList[i].scene)
+            this._renderList[i].camera.render(this._renderList[i].scene,this._renderList[i].sceneID,this._renderList[i].cameraID)
         }
     },
     fn.addRender = function addRender(sceneID, cameraID, index) { MoGL.isAlive(this);
