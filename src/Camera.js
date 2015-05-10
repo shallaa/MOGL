@@ -8,6 +8,35 @@ var Camera = (function () {
         this._geometry = new Geometry([],[])
         this._material = new Material()
         this._isCamera = 1
+        var hex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i, hex_s = /^#?([a-f\d]{1})([a-f\d]{1})([a-f\d]{1})$/i;
+        var t0 = arguments[0], t1, ta
+            this._r = 0,
+            this._g = 0,
+            this._b = 0,
+            this._a = 1,
+            this._count = 0
+        if (arguments.length == 1) {
+            if (t0.length > 7) ta = +t0.substr(7), t0 = t0.substr(0, 7)
+            if (t0.charAt(0) == '#') {
+                if (t1 = hex.exec(t0)) {
+                    this._r = parseInt(t1[1], 16) / 255,
+                    this._g = parseInt(t1[2], 16) / 255,
+                    this._b = parseInt(t1[3], 16) / 255
+
+                } else {
+                    t1 = hex_s.exec(t0),
+                    this._r = parseInt(t1[1] + t1[1], 16) / 255,
+                    this._g = parseInt(t1[2] + t1[2], 16) / 255,
+                    this._b = parseInt(t1[3] + t1[3], 16) / 255
+                }
+                this._a = ta ? ta > 1 ? 1 : ta : 1
+            }
+        } else {
+            this._r = arguments[0],
+            this._g = arguments[1],
+            this._b = arguments[2],
+            this._a = arguments[3] ? arguments[3] : 1
+        }
     }
     fn = Camera.prototype,
     fn.render = function render(scene){
@@ -15,7 +44,7 @@ var Camera = (function () {
         //console.log('카메라렌더',arguments[1],arguments[2], '실제 Scene : ',scene)
         var gl = scene._gl
         var children = scene._children
-        gl.clearColor(0,0,0,1)
+        gl.clearColor(this._r,this._g,this._b,this._a)
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
         var tItem, tMaterial,tProgram,tVBO,tIBO
         for(var k in children){
