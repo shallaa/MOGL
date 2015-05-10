@@ -59,7 +59,6 @@ var Camera = (function () {
                 tProgram = scene._PROGRAMs['base']
                 gl.useProgram(tProgram)
                 gl.bindBuffer(gl.ARRAY_BUFFER, tVBO),
-                    gl.enableVertexAttribArray(tProgram.aVertexPosition);
                 gl.vertexAttribPointer(tProgram.aVertexPosition, tVBO.stride, gl.FLOAT, false, 0, 0);
                 gl.uniform3fv(tProgram.uRotate,[tItem.rotateX,tItem.rotateY,tItem.rotateZ])
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, tIBO)

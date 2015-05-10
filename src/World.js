@@ -27,14 +27,9 @@ var World = (function () {
     },
     fn.addRender = function addRender(sceneID, cameraID, index) { MoGL.isAlive(this);
         var uuid = sceneID + '_' + cameraID, tScene = fn._sceneList[sceneID], tList = this._renderList;
-        for (var i = 0, len = tList.length; i < len; i++) {
-            if (tList[i].uuid == uuid) MoGL.error('World', 'addRender', 0)
-        }
+        for (var i = 0, len = tList.length; i < len; i++) if (tList[i].uuid == uuid) MoGL.error('World', 'addRender', 0)
         if(!tScene) MoGL.error('World','addRender',1)
-        if(tScene) {
-            if(!tScene.getChild(cameraID)) MoGL.error('World','addRender',2)
-        }
-
+        if(tScene) if(!tScene.getChild(cameraID)) MoGL.error('World','addRender',2)
         var temp = {
             uuid: uuid,
             sceneID: sceneID,
@@ -44,7 +39,6 @@ var World = (function () {
         }
         if (index) tList[index] = temp
         else tList.push(temp)
-        console.log(tList)
         return this
     },
     fn.addScene = function addScene(sceneID, scene) { MoGL.isAlive(this);
@@ -58,8 +52,7 @@ var World = (function () {
     },
     fn.removeRender = function removeRender(sceneID, cameraID) { MoGL.isAlive(this);
         var tList = this._renderList, i, len
-        for (i = 0, len = tList.length; i < len; i++) {
-
+        for (i = 0, len = tList.length; i < len; i++){
             if (tList[i] && tList[i].uuid == sceneID + '_' + cameraID) tList.splice(i, 1)
         }
         return this

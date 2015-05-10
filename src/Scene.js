@@ -8,11 +8,11 @@ var Scene = (function () {
         this._update=0
         // for JS
         this._children = {},
-        this._textures = {},
-        this._materials = {},
-        this._geometrys = {},
-        this._vertexShaders = {},
-        this._fragmentShaders = {}
+            this._textures = {},
+            this._materials = {},
+            this._geometrys = {},
+            this._vertexShaders = {},
+            this._fragmentShaders = {}
         // for GPU
         this._gl = null
         this._VBOs = {}
@@ -20,7 +20,7 @@ var Scene = (function () {
         this._PROGRAMs = {}
         this._TEXTUREs ={}
     }
-
+    /////////////////////////////////////////////////////////////////
     function makeVBO(_this, name, data, stride) {
         var gl = _this._gl
         var buffer = _this._VBOs[name]
@@ -57,19 +57,21 @@ var Scene = (function () {
 
     function makeProgram(_this, name) {
         var gl = _this._gl, vShader, fShader, program
-        vShader = gl.createShader(gl.VERTEX_SHADER)
-        gl.shaderSource(vShader, _this._vertexShaders[name]), gl.compileShader(vShader)
-        fShader = gl.createShader(gl.FRAGMENT_SHADER)
-        gl.shaderSource(fShader, _this._fragmentShaders[name]), gl.compileShader(fShader)
-        program = gl.createProgram()
-        gl.attachShader(program, vShader), gl.attachShader(program, fShader)
-        gl.linkProgram(program)
+        vShader = vertexShaderParser(gl, _this._vertexShaders[name]),
+        fShader = fragmentShaderParser(gl,_this._fragmentShaders[name]),
+        program = gl.createProgram(),
+        gl.attachShader(program, vShader),
+        gl.attachShader(program, fShader),
+        gl.linkProgram(program),
         vShader.name = name + '_vertex', fShader.name = name + '_fragment', program.name = name
-
-        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) MoGL.error(name,' 프로그램 쉐이더 초기화 실패!',0)
-        program['uRotate'] = gl.getUniformLocation(program, 'uRotate');
-
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) MoGL.error(name, ' 프로그램 쉐이더 초기화 실패!', 0)
         gl.useProgram(program)
+        for (var i = 0; i < vShader.attributes.length; i++) {
+            gl.enableVertexAttribArray(program[vShader.attributes[i]] = gl.getAttribLocation(program, vShader.attributes[i]))
+        }
+        for (var i = 0; i < vShader.uniforms.length; i++) {
+            program[vShader.uniforms[i]] = gl.getUniformLocation(program, vShader.uniforms[i])
+        }
         _this._PROGRAMs[name] = program
         console.log(vShader)
         console.log(fShader)
@@ -77,9 +79,55 @@ var Scene = (function () {
         return program
     }
 
+    function vertexShaderParser(gl,source){
+        var t0, len, i, resultStr
+        var shader = gl.createShader(gl.VERTEX_SHADER)
+        shader.uniforms = []
+        shader.attributes = []
+        resultStr = "", t0 = source.attributes, len = t0.length;
+        for (i = 0; i < len; i++) {
+            resultStr += 'attribute ' + t0[i] + ';\n'
+            shader.attributes.push(t0[i].split(' ')[1])
+        }
+        t0 = source.uniforms, len = t0.length
+        for (i = 0; i < len; i++) {
+            resultStr += 'uniform ' + t0[i] + ';\n'
+            shader.uniforms.push(t0[i].split(' ')[1])
+        }
+        t0 = source.varyings, len = t0.length
+        for (i = 0; i < len; i++) resultStr += 'varying ' + t0[i] + ';\n'
+        resultStr += VertexShader.baseFunction
+        resultStr += 'void main(void){\n'
+        resultStr += source.main + ';\n'
+        resultStr += '}\n'
+        gl.shaderSource(shader, resultStr), gl.compileShader(shader)
+        return shader
+
+    }
+    function fragmentShaderParser(gl,source){
+        var resultStr = "", i,t0,len;
+        var shader = gl.createShader(gl.FRAGMENT_SHADER)
+        shader.uniforms = []
+        if(source.precision) resultStr+='precision '+source.precision+';\n'
+        else resultStr+='precision mediump float;\n'
+        t0 = source.uniforms, len = t0.length
+        for(i=0; i<len; i++) {
+            resultStr += 'uniform '+t0[i]+';\n'
+            shader.uniforms.push(t0[i].split(' ')[1])
+        }
+        t0=source.varyings,len = t0.length
+        for(i=0; i<len; i++) resultStr += 'varying '+t0[i]+';\n'
+        resultStr+=VertexShader.baseFunction
+        resultStr+='void main(void){\n'
+        resultStr+=source.main+';\n'
+        resultStr+='}\n'
+        gl.shaderSource(shader, resultStr), gl.compileShader(shader)
+        shader.uniforms = source.uniforms
+        return shader
+    }
+/////////////////////////////////////////////////////////////////
     fn = Scene.prototype,
-    fn.update = function update() {
-        MoGL.isAlive(this)
+    fn.update = function update() { MoGL.isAlive(this);
         //for GPU
         for (var k in this._children) {
             var mesh = this._children[k]
@@ -97,8 +145,8 @@ var Scene = (function () {
         if (this._children[id]) MoGL.error('Scene', 'addChild', 0)
         if (!(mesh instanceof Mesh)) MoGL.error('Scene', 'addChild', 1)
         mesh._scene = this,
-        mesh.setGeometry(mesh._geometry),
-        mesh.setMaterial(mesh._material), mesh._material._count++
+            mesh.setGeometry(mesh._geometry),
+            mesh.setMaterial(mesh._material), mesh._material._count++
         checks = mesh._geometry._vertexShaders;
         for (k in checks)
             if (typeof checks[k] == 'string')
