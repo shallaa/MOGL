@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="viewport"
+          content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi"/>
+    <title>MoGL Test Suite - TotalTest.js</title>
+    <style>
+        html{
+            background: #222;
+        }
+        iframe{
+            background: #fff;
+            border: solid 0;
+            margin: 3px;
+            width:325px;
+            height:350px;
+            border-radius:10px;
+        }
+        div{
+            color: #eee;
+            font-size:11px;
+        }
+    </style>
+</head>
+<body>
+<script>
+    var list = ['drawTriangle.html','World.html', 'Scene.html', 'Group.html', 'Mesh.html', 'Geometry.html', 'Material.html', 'MoGL.html']
+    var BODY = document.body
+    for (var i = 0, len = list.length; i < len; i++) {
+        var container = document.createElement('div')
+        var title = document.createElement('div')
+        var iframe = document.createElement('iframe')
+
+        container.style.display = 'inline-block'
+        title.innerHTML = list[i]
+        iframe.src = list[i]
+        iframe.resultTarget = title
+
+        container.appendChild(title)
+        container.appendChild(iframe)
+        BODY.appendChild(container)
+
+
+    }
+</script>
+
+</body>
+</html>

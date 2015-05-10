@@ -13,6 +13,8 @@
 </head>
 <body>
 <img src="../src/ohno.png"/>
+<canvas id="canvasTest"></canvas>
+<canvas id="canvasTest2"></canvas>
 <div id="stage"></div>
 <div id="result"></div>
 <div id="test"></div>
@@ -29,8 +31,8 @@
 <script src="../src/World.js"></script>
 <script src="http://js.bsapi.co/test/"></script>
 <script>
-    var world = new World();
-    var world2 = World();
+    var world = new World('canvasTest');
+    var world2 = World('canvasTest2');
     var camera = new Camera(new Geometry([],[]),new Material())
     var sceneTest1 = new Scene()
     sceneTest1.addChild('cameraTest', camera)
