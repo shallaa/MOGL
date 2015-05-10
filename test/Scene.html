@@ -13,13 +13,14 @@
 </head>
 <body>
 <img src="../src/ohno.png" id="img1">
-<canvas id="canvas"></canvas>
-<canvas id="cvsImageData"></canvas>
-<video id="video1" width="400" controls autoplay >
+<canvas id="cvsDataURL" width="578" style="position: absolute;"></canvas>
+<canvas id="canvas" height="10"></canvas>
+<canvas id="cvsImageData" height="10"></canvas>
+<video id="video1" width="100"  height="50" controls autoplay >
     <source src="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
     <source src="http://www.w3schools.com/html/mov_bbb.ogg" type="video/ogg">
 </video>
-<canvas id="cvsDataURL" width="578"></canvas>
+
 <div id="stage"></div>
 <div id="result"></div>
 <div id="test"></div>
@@ -62,13 +63,13 @@ void main(void) {
     //////////////////////////////////////////////////////////////
     c = document.getElementById('cvsDataURL'),ctx = c.getContext('2d');
     ctx.beginPath();
-    ctx.moveTo(170, 80);
-    ctx.bezierCurveTo(130, 100, 130, 150, 230, 150);
-    ctx.bezierCurveTo(250, 180, 320, 180, 340, 150);
-    ctx.bezierCurveTo(420, 150, 420, 120, 390, 100);
-    ctx.bezierCurveTo(430, 40, 370, 30, 340, 50);
-    ctx.bezierCurveTo(320, 5, 250, 20, 250, 50);
-    ctx.bezierCurveTo(200, 5, 150, 20, 170, 80);
+    ctx.moveTo(170-130, 80-50);
+    ctx.bezierCurveTo(130-130, 100-50, 130-130, 150-50, 230-130, 150-50);
+    ctx.bezierCurveTo(250-130, 180-50, 320-130, 180-50, 340-130, 150-100);
+    ctx.bezierCurveTo(420-130, 150-50, 420-130, 120-50, 390-130, 100-100);
+    ctx.bezierCurveTo(430-130, 40-50, 370-130, 30-50, 340-130, 50-50);
+    ctx.bezierCurveTo(320-130, 5-50, 250-130, 20-50, 250-130, 50-50);
+    ctx.bezierCurveTo(200-130, 5-50, 150-130, 20-50, 170-130, 80-50);
     ctx.closePath();
     ctx.lineWidth = 5;
     ctx.fillStyle = '#8ED6FF';
