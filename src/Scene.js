@@ -132,8 +132,8 @@ var Scene = (function () {
         for (var k in this._children) {
             var mesh = this._children[k]
             if (!this._VBOs[mesh._geometry] && mesh._geometry) {
-                this._VBOs[mesh._geometry] = makeVBO(this, mesh._geometry, mesh._geometry._position, 3)
-                this._IBOs[mesh._geometry] = makeIBO(this, mesh._geometry, mesh._geometry._index, 1)
+                this._VBOs[mesh._geometry._name] = makeVBO(this, mesh._geometry._name, mesh._geometry._position, 3)
+                this._IBOs[mesh._geometry._name] = makeIBO(this, mesh._geometry._name, mesh._geometry._index, 1)
             }
         }
         var checks = this._vertexShaders;
@@ -145,8 +145,8 @@ var Scene = (function () {
         if (this._children[id]) MoGL.error('Scene', 'addChild', 0)
         if (!(mesh instanceof Mesh)) MoGL.error('Scene', 'addChild', 1)
         mesh._scene = this,
-            mesh.setGeometry(mesh._geometry),
-            mesh.setMaterial(mesh._material), mesh._material._count++
+        mesh.setGeometry(mesh._geometry),
+        mesh.setMaterial(mesh._material), mesh._material._count++
         checks = mesh._geometry._vertexShaders;
         for (k in checks)
             if (typeof checks[k] == 'string')

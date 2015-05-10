@@ -44,6 +44,7 @@ var Camera = (function () {
     fn.render = function render(scene){ MoGL.isAlive(this);
         // 먼가 차일드를 루프돌면 되것군..
         //console.log('카메라렌더',arguments[1],arguments[2], '실제 Scene : ',scene)
+
         var gl = scene._gl
         var children = scene._children
         gl.clearColor(this._r,this._g,this._b,this._a)
@@ -52,8 +53,8 @@ var Camera = (function () {
         for(var k in children){
             tItem = children[k]
             if(!tItem._isCamera){
-                tVBO = scene._VBOs[tItem._geometry]
-                tIBO = scene._IBOs[tItem._geometry]
+                tVBO = scene._VBOs[tItem._geometry._name]
+                tIBO = scene._IBOs[tItem._geometry._name]
                 tMaterial = tItem._material
                 tProgram = scene._PROGRAMs['base']
                 gl.useProgram(tProgram)

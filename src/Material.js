@@ -16,9 +16,9 @@ var Material = (function () {
             if (t0.length > 7) ta = +t0.substr(7), t0 = t0.substr(0, 7)
             if (t0.charAt(0) == '#') {
                 if (t1 = hex.exec(t0)) {
-                    this._r = parseInt(t1[1], 16) / 255,
-                    this._g = parseInt(t1[2], 16) / 255,
-                    this._b = parseInt(t1[3], 16) / 255
+                this._r = parseInt(t1[1], 16) / 255,
+                this._g = parseInt(t1[2], 16) / 255,
+                this._b = parseInt(t1[3], 16) / 255
 
                 } else {
                     t1 = hex_s.exec(t0),
@@ -30,9 +30,9 @@ var Material = (function () {
             }
         } else {
             this._r = arguments[0],
-                this._g = arguments[1],
-                this._b = arguments[2],
-                this._a = arguments[3] ? arguments[3] : 1
+            this._g = arguments[1],
+            this._b = arguments[2],
+            this._a = arguments[3] ? arguments[3] : 1
         }
     },
     fn = Material.prototype,

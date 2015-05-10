@@ -52,9 +52,9 @@ var Mesh = (function () {
         if (this._scene) {
             if (this._geometry = typeof geometry == 'string') this._geometry=this._scene._geometrys[geometry]
             else this._geometry = geometry
+            this._geometry._name = geometry
         }
         else this._geometry = geometry
-
         return this
     },
     fn.setMaterial = function setMaterial(material) { MoGL.isAlive(this);
@@ -62,6 +62,7 @@ var Mesh = (function () {
         if (this._scene) {
             if (this._material = typeof material == 'string') this._material= this._scene._materials[material]
             else this._material = material
+            this._material._name = material
         }
         else this._material = material
         return this
