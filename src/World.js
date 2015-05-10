@@ -17,17 +17,21 @@ var World = (function () {
     fn._renderList = [],
     fn._sceneList = {},
     fn._render = function(){
+        var t
         for(var i = 0,len=this._renderList.length; i<len; i++){
             //console.log(this._renderList[i],'렌더')
             // 여기서 할일은 렌더리스트의 아이템에있는 카메라에 씬을 던져서 실제 렝더링을 시켜야함..
-            if(this._renderList[i].scene._update) this._renderList[i].scene.update()
-            this._renderList[i].camera.render(this._renderList[i].scene,this._renderList[i].sceneID,this._renderList[i].cameraID)
+            var t = this._renderList[i]
+            if(t.scene._update) t.scene.update()
+            t.camera.render(t.scene,t.sceneID,t.cameraID)
         }
     },
     fn.addRender = function addRender(sceneID, cameraID, index) { MoGL.isAlive(this);
         var uuid = sceneID + '_' + cameraID, t = 1
-        for (var i = 0, len = this._renderList.length; i < len; i++) this._renderList[i].uuid == uuid ? (MoGL.error('World', 'addRender', 0), t = 0) : 0,
-            fn._sceneList[sceneID] ? 0 : (MoGL.error('World', 'addRender', 1), t = 0)
+        for (var i = 0, len = this._renderList.length; i < len; i++) {
+            this._renderList[i].uuid == uuid ? (MoGL.error('World', 'addRender', 0), t = 0) : 0,
+             fn._sceneList[sceneID] ? 0 : (MoGL.error('World', 'addRender', 1), t = 0)
+        }
         for (var k in this._sceneList) {
             if (k == sceneID) this._sceneList[k].getChild(cameraID) ? 0 : (MoGL.error('World', 'addRender', 2), t = 0)
         }
@@ -44,16 +48,16 @@ var World = (function () {
     fn.addScene = function addScene(sceneID, scene) { MoGL.isAlive(this);
         var t = 1
         this._sceneList[sceneID] ? (MoGL.error('World', 'addScene', 0), t = 0) : 0,
-            scene instanceof Scene ? 0 : (MoGL.error('World', 'addScene', 1), t = 0 ),
-            t ? this._sceneList[sceneID] = scene : 0, scene._gl = this._gl
+        scene instanceof Scene ? 0 : (MoGL.error('World', 'addScene', 1), t = 0 ),
+        t ? this._sceneList[sceneID] = scene : 0, scene._gl = this._gl
         return this
     },
     fn.getScene = function getScene(sceneID) { MoGL.isAlive(this);
         return this._sceneList[sceneID] ? this._sceneList[sceneID] : null
     },
     fn.removeRender = function removeRender(sceneID, cameraID) { MoGL.isAlive(this);
-        for (var i = 0, len = this._renderList.length; i < len; i++) {
-            if (this._renderList[i].uuid == sceneID + '_' + cameraID) this._renderList.splice(i, 1)
+        for (var i = 0,t=this._renderList, len = t.length; i < len; i++) {
+            if (t[i].uuid == sceneID + '_' + cameraID) t.splice(i, 1)
         }
         return this
     },
