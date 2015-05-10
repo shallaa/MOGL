@@ -52,6 +52,7 @@ var Camera = (function () {
         gl.clearColor(this._r, this._g, this._b, this._a)
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
         var tItem, tMaterial, tProgram, tVBO, tIBO
+        var len = 0
         for (var k in children) {
             tItem = children[k]
             if (!tItem._isCamera) {
@@ -69,8 +70,10 @@ var Camera = (function () {
                 gl.uniform3fv(tProgram.uColor, [tMaterial._r, tMaterial._g, tMaterial._b]),
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, tIBO),
                 gl.drawElements(gl.TRIANGLES, tIBO.numItem, gl.UNSIGNED_SHORT, 0)
+                len++
             }
         }
+        console.log(len)
     }
     return MoGL.ext(Camera, Mesh);
 })();

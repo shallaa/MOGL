@@ -142,6 +142,12 @@ var Scene = (function () {
         }
         var checks = this._vertexShaders;
         for (k in checks) makeProgram(this, k)
+        console.log('////////////////////////////////////////////')
+        console.log('Scene 업데이트')
+        console.log('this._VBOs :',this._VBOs)
+        console.log('this._IBOs :',this._IBOs)
+        console.log('this._PROGRAMs :',this._PROGRAMs)
+        console.log('////////////////////////////////////////////')
         this._update = 0
     },
     fn.addChild = function addChild(id, mesh) { MoGL.isAlive(this); // isAlive는 함수선언 줄에 바로 같이 씁니다.

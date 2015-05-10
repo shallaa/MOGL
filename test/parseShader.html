@@ -64,6 +64,19 @@
     ], [0, 1, 2, 1, 2, 3]));
     w.getScene('s0').addMaterial('white', new Material('#fff'));
     w.getScene('s0').addChild('tri', new Mesh('tri', new Material('#ff2244')));
+
+    for(var i =0; i<100; i++){
+        w.getScene('s0').addChild('tri'+i, new Mesh('tri', new Material(Math.random(),Math.random(),Math.random())));
+        var a =w.getScene('s0').getChild('tri'+i)
+        a.x = Math.random()-0.5
+        a.y = Math.random()-0.5
+        a.rotateX = Math.random()
+        a.rotateY = Math.random()
+        a.rotateZ = Math.random()
+        a.setScale(Math.random()/4,Math.random()/4,1)
+
+    }
+
     w.getScene('s0').addChild('rect', new Mesh('rect', new Material('#333')));
     w.getScene('s0').addChild('camera1', new Camera());
     w.getScene('s0')._update = 1
@@ -80,6 +93,14 @@
         w.getScene('s0').getChild('tri').scaleX = w.getScene('s0').getChild('tri').scaleY = w.getScene('s0').getChild('tri').scaleZ = Math.sin(w.getScene('s0').getChild('tri').rotateZ) / 2 + 0.5
         w.getScene('s0').getChild('tri').x = Math.sin(w.getScene('s0').getChild('tri').rotateZ) / 2
         w.getScene('s0').getChild('tri').y = Math.cos(w.getScene('s0').getChild('tri').rotateZ) / 2
+
+        for(var i = 0; i<100; i++){
+            var a =w.getScene('s0').getChild('tri'+i)
+            a.rotateX +=0.01
+            a.rotateY +=0.02
+            a.rotateZ +=0.03
+        }
+
         w.getScene('s0').getChild('camera1').setBackgroundColor('#ffdddf')
         w.getScene('s0').getChild('camera1')._r = Math.random()
         w.getScene('s0').getChild('camera1')._g = Math.random()
