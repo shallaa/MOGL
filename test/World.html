@@ -38,6 +38,7 @@
     sceneTest1.addChild('cameraTest', camera)
     var sceneTest2 = new Scene()
     var sceneTest3 = new Scene()
+    var testResult
     bsTest('new',
             function () {
                 return world.isAlive;
@@ -56,6 +57,17 @@
                 world.addRender('lobby', 'cameraTest')
                 return world._renderList[0].uuid;
             }, 'lobby_cameraTest',
+            function () {
+                testResult =1
+                // 존재하지않는 카메라 추가
+                try{
+                    world.addRender('lobby', 'cameraTestNull')
+                }catch(e){
+                    testResult=0
+                    console.log('!!!!!!!!!!!!',e)
+                }
+                return testResult
+            }, 0,
             function () {
                 // 씬추가
                 world.addScene('room', sceneTest2);

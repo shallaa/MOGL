@@ -25,6 +25,9 @@
             color: #eee;
             font-size:11px;
         }
+        a{
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -37,9 +40,8 @@
         var iframe = document.createElement('iframe')
 
         container.style.display = 'inline-block'
-        title.innerHTML = list[i]
+        title.innerHTML =  "<a href='"+list[i]+"'>"+list[i]+"</a>"
         iframe.src = list[i]
-        iframe.resultTarget = title
 
         container.appendChild(title)
         container.appendChild(iframe)

@@ -16,58 +16,55 @@ var World = (function () {
     fn = World.prototype,
     fn._renderList = [],
     fn._sceneList = {},
-    fn._render = function () { MoGL.isAlive(this);
-        var i, len, tList = this._renderList
-        for (var i = 0, len = tList.length; i < len; i++) {
-            //console.log(tList[i],'렌더')
+    fn._render = function(){
+        var t
+        for(var i = 0,len=this._renderList.length; i<len; i++){
+            //console.log(this._renderList[i],'렌더')
             // 여기서 할일은 렌더리스트의 아이템에있는 카메라에 씬을 던져서 실제 렝더링을 시켜야함..
-            if (tList[i].scene._update) tList[i].scene.update()
-            tList[i].camera.render(tList[i].scene, tList[i].sceneID, tList[i].cameraID)
+            var t = this._renderList[i]
+            if(t.scene._update) t.scene.update()
+            t.camera.render(t.scene,t.sceneID,t.cameraID)
         }
     },
     fn.addRender = function addRender(sceneID, cameraID, index) { MoGL.isAlive(this);
-        var uuid = sceneID + '_' + cameraID, tScene = fn._sceneList[sceneID], tList = this._renderList;
-        for (var i = 0, len = tList.length; i < len; i++) {
-            if (tList[i].uuid == uuid) MoGL.error('World', 'addRender', 0)
+        var uuid = sceneID + '_' + cameraID, t = 1
+        for (var i = 0, len = this._renderList.length; i < len; i++) {
+            this._renderList[i].uuid == uuid ? (MoGL.error('World', 'addRender', 0), t = 0) : 0,
+             fn._sceneList[sceneID] ? 0 : (MoGL.error('World', 'addRender', 1), t = 0)
         }
-        if(!tScene) MoGL.error('World','addRender',1)
-        if(tScene) {
-            if(!tScene.getChild(cameraID)) MoGL.error('World','addRender',2)
+        for (var k in this._sceneList) {
+            if (k == sceneID) this._sceneList[k].getChild(cameraID) ? 0 : (MoGL.error('World', 'addRender', 2), t = 0)
         }
-
-        var temp = {
-            uuid: uuid,
-            sceneID: sceneID,
-            cameraID: cameraID,
-            scene: tScene,
-            camera: tScene.getChild(cameraID)
+        if (t) {
+            var temp = {
+                uuid: uuid, sceneID: sceneID, cameraID: cameraID,
+                scene: this._sceneList[sceneID],
+                camera: this._sceneList[sceneID].getChild(cameraID)
+            }
+            index ? this._renderList[index] = temp : this._renderList.push(temp)
         }
-        if (index) tList[index] = temp
-        else tList.push(temp)
-        console.log(tList)
         return this
     },
     fn.addScene = function addScene(sceneID, scene) { MoGL.isAlive(this);
-        if (this._sceneList[sceneID]) MoGL.error('World', 'addScene', 0)
-        if (!(scene instanceof Scene )) MoGL.error('World', 'addScene', 1)
-        this._sceneList[sceneID] = scene, scene._gl = this._gl
+        var t = 1
+        this._sceneList[sceneID] ? (MoGL.error('World', 'addScene', 0), t = 0) : 0,
+        scene instanceof Scene ? 0 : (MoGL.error('World', 'addScene', 1), t = 0 ),
+        t ? this._sceneList[sceneID] = scene : 0, scene._gl = this._gl
         return this
     },
     fn.getScene = function getScene(sceneID) { MoGL.isAlive(this);
         return this._sceneList[sceneID] ? this._sceneList[sceneID] : null
     },
     fn.removeRender = function removeRender(sceneID, cameraID) { MoGL.isAlive(this);
-        var tList = this._renderList, i, len
-        for (i = 0, len = tList.length; i < len; i++) {
-
-            if (tList[i] && tList[i].uuid == sceneID + '_' + cameraID) tList.splice(i, 1)
+        for (var i = 0,t=this._renderList, len = t.length; i < len; i++) {
+            if (t[i].uuid == sceneID + '_' + cameraID) t.splice(i, 1)
         }
         return this
     },
     fn.removeScene = function removeScene(sceneID) { MoGL.isAlive(this);
         this._sceneList[sceneID] ? 0 : MoGL.error('World', 'addScene', 0),
-            this._sceneList[sceneID]._gl = this._gl,
-            delete this._sceneList[sceneID]
+        this._sceneList[sceneID]._gl = this._gl,
+        delete this._sceneList[sceneID]
         return this
     }
     return MoGL.ext(World, MoGL);
