@@ -12,8 +12,7 @@ var Camera = (function () {
         this._r = 0,
         this._g = 0,
         this._b = 0,
-        this._a = 1,
-        this._count = 0
+        this._a = 1
     }
     fn = Camera.prototype,
     fn.setBackgroundColor = function setBackgroundColor(){ MoGL.isAlive(this);
