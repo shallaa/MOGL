@@ -28,7 +28,10 @@ var Mesh = (function () {
     },
     fn.getMatrix = function getMatrix() { MoGL.isAlive(this);
         //TODO
-        return this._matrix
+        var scale = this._matrix.scale(this.scaleX,this.scaleY,this.scaleZ)
+        var rotate = this._matrix.rotate(this.rotateX,this.rotateY,this.rotateZ)
+        var position = this._matrix.translate(this.x,this.y,this.z)
+        return scale.multiplyLeft(rotate).multiplyLeft(position)
     },
     fn.getParent = function getParent() { MoGL.isAlive(this);
         return this._scene ? this._scene : null
@@ -63,12 +66,11 @@ var Mesh = (function () {
         else this._material = material
         return this
     },
-    fn.setMatrix = function setMatrix(t) { MoGL.isAlive(this);
+    fn.setMatrix = function setMatrix(matrix) { MoGL.isAlive(this);
         //TODO 구현
-        var t = this._matrix.data
-        if (t) t[0] = t[0], t[1] = t[1], t[2] = t[2], t[3] = t[3], t[4] = t[4], t[5] = t[5], t[6] = t[6], t[7] = t[7], t[8] = t[8], t[9] = t[9], t[10] = t[10], t[11] = t[11], t[12] = t[12], t[13] = t[13], t[14] = t[14], t[15] = t[15]
-        else if (t instanceof Matrix) t[0] = 1, t[1] = 0, t[2] = 0, t[3] = 0, t[4] = 0, t[5] = 1, t[6] = 0, t[7] = 0, t[8] = 0, t[9] = 0, t[10] = 1, t[11] = 0, t[12] = 0, t[13] = 0, t[14] = 0, t[15] = 1
-        else this._matrix.identity()
+        // 인자를 보내지 않으면 초기화됨(좌표 0점, 회전 0, 확대 1)
+        //Array or TypedArray - 16개의 원소로 이루어진 배열로 4x4행렬의 각 요소에 대응함.
+        //Matrix - Matrix 객체가 오면 그 정보를 바탕으로 처리됨.
         return this
     },
 
