@@ -23,4 +23,11 @@
 
 this - 메서드체이닝을 위해 자신을 반환함.
 
+**sample**
+```javascript
+scene.getChild('camera').setBackgroundColor('#fff')
+scene.getChild('camera').setBackgroundColor(1,0.4,0.3,1)
+```
+
+
 [top](#)
