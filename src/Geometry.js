@@ -7,39 +7,40 @@
 var Geometry = (function () {
     //그중에 자신의 4좌표랑 7uv랑 8rgba랑 9노말은 지오메트리거고
     var Geometry, fn;
-    Geometry = function Geometry(vertex, index,info) {
-        var i, len, t,t2,
+    Geometry = function Geometry(vertex, index, info) {
+        var i, len, t, t2,
             isFloat32 = vertex instanceof Float32Array,
             isUint16 = index instanceof Uint16Array
-            //isUint32 = Object.prototype.toString.call(index) == '[object Uint32Array]'
+        //isUint32 = Object.prototype.toString.call(index) == '[object Uint32Array]'
         if (!(Array.isArray(vertex) || isFloat32 )) MoGL.error('Geometry', 'constructor', 0)
         if (!(Array.isArray(index) || isUint16 || isUint32 )) MoGL.error('Geometry', 'constructor', 1)
         if (info) {
-            ( vertex.length % info.length) ? MoGL.error('Geometry', 'constructor', 2) : 0;
-            for (i = 0, len = info.length; i < len; i++) info[info[i]] = i
+            i = info.length
+            if(vertex.length % i) MoGL.error('Geometry', 'constructor', 2)
+            while(i--) info[info[i]] = i
             console.log(info)
         }
         /////////////////////////////////////
         t = arguments[2] ? arguments[2].length : 3
         this._vertexCount = vertex.length / t,
         this._triangleCount = index.length / 3,
-        this._vertexShaders = {}
+        this._vertexShaders = {},
+        this._position = [],
+        this._normal = [],
+        this._uv = [],
+        this._color = []
         ///////////////////////////////
-        if(arguments[2]){
-            this._position = []
-            this._normal = []
-            this._uv = []
-            this._color = []
+        if (arguments[2]) {
             for (i = 0, len = vertex.length / t; i < len; i++) {
-                t2 = t * i
-                this._position.push(vertex[t2 + info.x], vertex[t2 + info.y], vertex[t2 + info.z])
-                this._normal.push(vertex[t2 + info.nx], vertex[t2 + info.ny], vertex[t2 + info.nz])
-                this._uv.push(vertex[t2 + info.u], vertex[t2 + info.v])
+                t2 = t * i,
+                this._position.push(vertex[t2 + info.x], vertex[t2 + info.y], vertex[t2 + info.z]),
+                this._normal.push(vertex[t2 + info.nx], vertex[t2 + info.ny], vertex[t2 + info.nz]),
+                this._uv.push(vertex[t2 + info.u], vertex[t2 + info.v]),
                 this._color.push(vertex[t2 + info.r], vertex[t2 + info.g], vertex[t2 + info.b], vertex[t2 + info.a])
             }
-            this._position = new Float32Array(this._position)
-            this._normal = new Float32Array(this._normal)
-            this._uv = new Float32Array(this._uv)
+            this._position = new Float32Array(this._position),
+            this._normal = new Float32Array(this._normal),
+            this._uv = new Float32Array(this._uv),
             this._color = new Float32Array(this._color)
         } else {
             this._position = isFloat32 ? vertex : new Float32Array(vertex)
@@ -61,16 +62,16 @@ var Geometry = (function () {
         return this._triangleCount
     },
     fn.getVolume = function getVolume() { MoGL.isAlive(this);
-        if(!('_volume' in this)){
-            var minX = 0, minY = 0, minZ = 0,maxX = 0, maxY = 0, maxZ = 0
-            var t0,t1,t2,t = this._position
-            for (var i = 0, len = t.length; i < len; i++) {
+        if (!('_volume' in this)) {
+            var minX = 0, minY = 0, minZ = 0, maxX = 0, maxY = 0, maxZ = 0
+            var t0, t1, t2, t = this._position,i= t.length
+            while(i--){
                 t0 = i * 3, t1 = t0 + 1, t2 = t0 + 2
                 minX = t[t0] < minX ? t[t0] : minX,
-                maxX = t[t0] > maxX ? t[t0] : maxX
-                minY = t[t1] < minY ? t[t1] : minY
-                maxY = t[t1] > maxY ? t[t1] : maxY
-                minZ = t[t2] < minZ ? t[t2] : minZ
+                maxX = t[t0] > maxX ? t[t0] : maxX,
+                minY = t[t1] < minY ? t[t1] : minY,
+                maxY = t[t1] > maxY ? t[t1] : maxY,
+                minZ = t[t2] < minZ ? t[t2] : minZ,
                 maxZ = t[t2] > maxZ ? t[t2] : maxZ
             }
             this._volume = [maxX - minX, maxY - minY, maxZ - minZ]
@@ -81,7 +82,6 @@ var Geometry = (function () {
         // TODO 마일스톤0.2
         return delete this._vertexShaders[id], this
     },
-
     Geometry = MoGL.ext(Geometry, MoGL)
     return Geometry
 })();
