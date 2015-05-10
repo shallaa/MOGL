@@ -95,11 +95,14 @@ var Scene = (function () {
             shader.uniforms.push(t0[i].split(' ')[1])
         }
         t0 = source.varyings, len = t0.length
-        for (i = 0; i < len; i++) resultStr += 'varying ' + t0[i] + ';\n'
+        for (i = 0; i < len; i++) {
+            resultStr += 'varying ' + t0[i] + ';\n'
+        }
         resultStr += VertexShader.baseFunction
         resultStr += 'void main(void){\n'
         resultStr += source.main + ';\n'
         resultStr += '}\n'
+        console.log(resultStr)
         gl.shaderSource(shader, resultStr), gl.compileShader(shader)
         return shader
 
@@ -116,8 +119,9 @@ var Scene = (function () {
             shader.uniforms.push(t0[i].split(' ')[1])
         }
         t0=source.varyings,len = t0.length
-        for(i=0; i<len; i++) resultStr += 'varying '+t0[i]+';\n'
-        resultStr+=VertexShader.baseFunction
+        for(i=0; i<len; i++) {
+            resultStr += 'varying '+t0[i]+';\n'
+        }
         resultStr+='void main(void){\n'
         resultStr+=source.main+';\n'
         resultStr+='}\n'
