@@ -61,6 +61,8 @@ var Camera = (function () {
                 gl.bindBuffer(gl.ARRAY_BUFFER, tVBO),
                 gl.vertexAttribPointer(tProgram.aVertexPosition, tVBO.stride, gl.FLOAT, false, 0, 0);
                 gl.uniform3fv(tProgram.uRotate,[tItem.rotateX,tItem.rotateY,tItem.rotateZ])
+                gl.uniform3fv(tProgram.uPosition,[tItem.x,tItem.y,tItem.z])
+                gl.uniform3fv(tProgram.uScale,[tItem.scaleX,tItem.scaleY,tItem.scaleZ])
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, tIBO)
                 gl.drawElements(gl.TRIANGLES, tIBO.numItem, gl.UNSIGNED_SHORT, 0)
             }
