@@ -5,6 +5,7 @@
 var Scene = (function () {
     var Scene, fn;
     Scene = function Scene() {
+        this._update=0
         // for JS
         this._children = {},
         this._textures = {},
@@ -13,8 +14,84 @@ var Scene = (function () {
         this._vertexShaders = {},
         this._fragmentShaders = {}
         // for GPU
-    },
+        this._gl = null
+        this._VBOs = {}
+        this._IBOs = {}
+        this._PROGRAMs = {}
+        this._TEXTUREs ={}
+    }
+
+    function makeVBO(_this, name, data, stride) {
+        var gl = _this._gl
+        var buffer = _this._VBOs[name]
+        if (buffer) return buffer
+        buffer = gl.createBuffer()
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW)
+        buffer.name = name
+        buffer.type = 'VBO'
+        buffer.data = data
+        buffer.stride = stride
+        buffer.numItem = data.length / stride
+        _this._VBOs[name] = buffer
+        console.log('VBO생성', _this._VBOs[name])
+        return _this._VBOs[name]
+    }
+
+    function makeIBO(_this, name, data, stride) {
+        var gl = _this._gl
+        var buffer = _this._IBOs[name]
+        if (buffer) return buffer
+        buffer = gl.createBuffer()
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer)
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(data), gl.STATIC_DRAW)
+        buffer.name = name
+        buffer.type = 'IBO'
+        buffer.data = data
+        buffer.stride = stride
+        buffer.numItem = data.length / stride
+        _this._IBOs[name] = buffer
+        console.log('IBO생성', _this._IBOs[name])
+        return _this._IBOs[name]
+    }
+
+    function makeProgram(_this, name) {
+        var gl = _this._gl, vShader, fShader, program
+        vShader = gl.createShader(gl.VERTEX_SHADER)
+        gl.shaderSource(vShader, _this._vertexShaders[name]), gl.compileShader(vShader)
+        fShader = gl.createShader(gl.FRAGMENT_SHADER)
+        gl.shaderSource(fShader, _this._fragmentShaders[name]), gl.compileShader(fShader)
+        program = gl.createProgram()
+        gl.attachShader(program, vShader), gl.attachShader(program, fShader)
+        gl.linkProgram(program)
+        vShader.name = name + '_vertex', fShader.name = name + '_fragment', program.name = name
+
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) MoGL.error(name,' 프로그램 쉐이더 초기화 실패!',0)
+        program['uRotate'] = gl.getUniformLocation(program, 'uRotate');
+
+        gl.useProgram(program)
+        _this._PROGRAMs[name] = program
+        console.log(vShader)
+        console.log(fShader)
+        console.log(program)
+        return program
+    }
+
     fn = Scene.prototype,
+    fn.update = function update() {
+        MoGL.isAlive(this)
+        //for GPU
+        for (var k in this._children) {
+            var mesh = this._children[k]
+            if (!this._VBOs[mesh._geometry] && mesh._geometry) {
+                this._VBOs[mesh._geometry] = makeVBO(this, mesh._geometry, mesh._geometry._position, 3)
+                this._IBOs[mesh._geometry] = makeIBO(this, mesh._geometry, mesh._geometry._index, 1)
+            }
+        }
+        var checks = this._vertexShaders;
+        for (k in checks) makeProgram(this, k)
+        this._update = 0
+    },
     fn.addChild = function addChild(id, mesh) { MoGL.isAlive(this); // isAlive는 함수선언 줄에 바로 같이 씁니다.
         var k, checks;
         if (this._children[id]) MoGL.error('Scene', 'addChild', 0)
@@ -34,8 +111,8 @@ var Scene = (function () {
         for (k in checks)
             if (typeof checks[k] == 'string')
                 if (!this._textures[checks[k]]) MoGL.error('Scene', 'addChild', 4)
-
         this._children[id] = mesh
+        this._update=1
         return this
     },
     fn.addGeometry = function (id, geometry) { MoGL.isAlive(this);
@@ -79,12 +156,18 @@ var Scene = (function () {
         this._textures[id] = image
         return this
     },
-    fn.addFragmentShader = function (id, shaderStr) { MoGL.isAlive(this);
+    fn.addFragmentShader = function addFragmentShader(id, shaderStr) { MoGL.isAlive(this);
+        if (this._fragmentShaders[id]) MoGL.error('Scene', 'addFragmentShader', 0)
+        // TODO'Scene.addVertexShader:1' - MoGL 표준 인터페이스를 준수하지 않는 vertex shader를 등록하려할 때.
         // TODO 마일스톤0.2
+        this._fragmentShaders[id] = shaderStr
         return this
     },
-    fn.addVertexShader = function (id, shaderStr) { MoGL.isAlive(this);
+    fn.addVertexShader = function addVertexShader(id, shaderStr) { MoGL.isAlive(this);
+        if (this._vertexShaders[id]) MoGL.error('Scene', 'addVertexShader', 0)
+        // TODO'Scene.addVertexShader:1' - MoGL 표준 인터페이스를 준수하지 않는 vertex shader를 등록하려할 때.
         // TODO 마일스톤0.2
+        this._vertexShaders[id] = shaderStr
         return this
     },
     ///////////////////////////////////////////////////////////////////////////

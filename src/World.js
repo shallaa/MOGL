@@ -20,6 +20,7 @@ var World = (function () {
         for(var i = 0,len=this._renderList.length; i<len; i++){
             //console.log(this._renderList[i],'렌더')
             // 여기서 할일은 렌더리스트의 아이템에있는 카메라에 씬을 던져서 실제 렝더링을 시켜야함..
+            if(this._renderList[i].scene._update) this._renderList[i].scene.update()
             this._renderList[i].camera.render(this._renderList[i].scene,this._renderList[i].sceneID,this._renderList[i].cameraID)
         }
     },
@@ -44,7 +45,7 @@ var World = (function () {
         var t = 1
         this._sceneList[sceneID] ? (MoGL.error('World', 'addScene', 0), t = 0) : 0,
             scene instanceof Scene ? 0 : (MoGL.error('World', 'addScene', 1), t = 0 ),
-            t ? this._sceneList[sceneID] = scene : 0
+            t ? this._sceneList[sceneID] = scene : 0, scene._gl = this._gl
         return this
     },
     fn.getScene = function getScene(sceneID) { MoGL.isAlive(this);
@@ -58,6 +59,7 @@ var World = (function () {
     },
     fn.removeScene = function removeScene(sceneID) { MoGL.isAlive(this);
         this._sceneList[sceneID] ? 0 : MoGL.error('World', 'addScene', 0),
+        this._sceneList[sceneID]._gl = this._gl,
         delete this._sceneList[sceneID]
         return this
     }
