@@ -13,7 +13,8 @@
 </head>
 <body>
 <img src="../src/ohno.png" id="img0" height="50"><img src="../src/ohno.png" id="img1"height="50">
-
+<div>TODO 텍스쳐 아이디가 멀의미하는지 알아야함</div>
+<div>TODO - Mesh.setMaterial등으로 변경되는 요소들을 어떻게 카운팅할것인가!</div>
 <div id="stage"></div>
 <div id="result"></div>
 <div id="test"></div>
@@ -31,8 +32,8 @@
 <script src="../src/World.js"></script>
 <script src="http://js.bsapi.co/test/"></script>
 <script>
-    var testMaterial1 = new Material('#fff');
-    var testMaterial2 = new Material('#ffffff');
+    var testMaterial1 = new Material('#000');
+    var testMaterial2 = new Material('#000000');
     var testMaterial3 = new Material('#ffffff0.8');
     var testMaterial4 = new Material(0xff / 0xff, 0xaf / 0xff, 0x45 / 0xff, 0.5);
     var testMaterial5 = new Material('#ffffff127.8');
@@ -62,11 +63,11 @@
     bsTest('colorCheck',
             // 잘생성이되었나
             function () {
-                return testMaterial1._r == 1 && testMaterial1._g == 1 && testMaterial1._b == 1 && testMaterial1._a == 1;
+                return testMaterial1._r == 0 && testMaterial1._g == 0 && testMaterial1._b == 0 && testMaterial1._a == 1;
             }, true,
             // 잘생성이되었나
             function () {
-                return testMaterial2._r == 1 && testMaterial2._g == 1 && testMaterial2._b == 1 && testMaterial2._a == 1;
+                return testMaterial2._r == 0 && testMaterial2._g == 0 && testMaterial2._b == 0 && testMaterial2._a == 1;
             }, true,
             function () {
                 return testMaterial3._r == 1 && testMaterial3._g == 1 && testMaterial3._b == 1 && testMaterial3._a == 0.8;
@@ -176,6 +177,5 @@
             },1
     )
 </script>
-<div>TODO - Mesh.setMaterial등으로 변경되는 요소들을 어떻게 카운팅할것인가!</div>
 </body>
 </html>

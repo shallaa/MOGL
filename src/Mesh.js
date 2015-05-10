@@ -9,8 +9,10 @@
 var Mesh = (function () {
     var Mesh, fn, f3 = new Float32Array(3);
     Mesh = function Mesh(geometry, material) {
-        //if(!(typeof geometry =='string' || geometry instanceof Geometry)) MoGL.error('Mesh','contructor',0)
-        //if(!(typeof material =='string' || material instanceof Material)) MoGL.error('Mesh','contructor',1)
+        // TODO 어디까지 허용할건가..
+        console.log(geometry,material)
+        if(!(typeof geometry =='string' || geometry instanceof Geometry || !geometry)) MoGL.error('Mesh','contructor',0)
+        if(!(typeof material =='string' || material instanceof Material || !geometry)) MoGL.error('Mesh','contructor',1)
         this._geometry = geometry,
         this._material = material,
         this._scene = null,

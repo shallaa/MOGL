@@ -7,11 +7,12 @@ var Material = (function () {
     Material = function Material() {
         var t0 = arguments[0], t1, ta
         this._textures = {},
-        this._r = null,
-        this._g = null,
-        this._b = null,
-        this._a = null,
-        this._count = 0
+        this._r = 1,
+        this._g = 1,
+        this._b = 1,
+        this._a = 1,
+        this._count = 0,
+        this._scene = null
         if (arguments.length == 1) {
             if (t0.length > 7) ta = +t0.substr(7), t0 = t0.substr(0, 7)
             if (t0.charAt(0) == '#') {
@@ -37,6 +38,8 @@ var Material = (function () {
     fn = Material.prototype,
     fn.addTexture = function addTexture(textureID/*,index,blendMode*/) {
         //TODO 와 이거어렵네..
+        //TODO index 구현
+        //TODO blnedMode 구현 구현
         var t = this._scene
         if(t && !t._textures[textureID]) MoGL.error('Material','addTexture',0)
         if(this._textures[textureID]) MoGL.error('Material','addTexture',1)

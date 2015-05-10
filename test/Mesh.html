@@ -9,11 +9,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <meta name="viewport"
           content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi"/>
-    <link rel="stylesheet" type="text/css" href="css.css" />
+    <link rel="stylesheet" type="text/css" href="css.css"/>
 </head>
 <body>
 <img src="../src/ohno.png">
-
+<div>TODO 매트릭스 체크해야됨</div>
 <div id="stage"></div>
 <div id="result"></div>
 <div id="test"></div>
@@ -33,7 +33,7 @@
     var mesh1 = new Mesh('cube', 'mat1');
     var mesh2 = new Mesh(new Geometry([], []), new Material('#f00'));
     var mesh3 = Mesh('cube', 'mat1');
-    var mesh4 = Mesh();
+    var mesh4 = Mesh(null, null);
     var testGeometry1 = new Geometry([], [])
     var testGeometry2 = new Geometry([], [])
     var testMaterial1 = Material('#f00')
@@ -56,8 +56,18 @@
             }, true,
             function () {
                 // Mesh();
-                return mesh3.isAlive;
+                return mesh4.isAlive;
             }, true
+    );
+    bsTest('nullInit',
+            function () {
+                // null을 입력하면?;
+                return mesh4.getGeometry();
+            }, null,
+            function () {
+                // null을 입력하면?;
+                return mesh4.getMaterial();
+            }, null
     );
     bsTest('Geometry',
             function () {
@@ -135,6 +145,11 @@
                 return tempMaterial;
             }, testMaterial1,
             function () {
+                // 등록된 녀석이 Material 형식이냐..
+                tempMaterial = testScene.getChild('testGeometry1').getMaterial();
+                return tempMaterial instanceof Material;
+            }, true,
+            function () {
                 // 잘 바뀌나 테스트
                 mesh1.setMaterial(testMaterial2)
                 return mesh1.getMaterial() == testMaterial1;
@@ -142,15 +157,17 @@
             function () {
                 // 잘 바뀌나 테스트
                 return mesh1.getMaterial() == testMaterial2;
-            }, true
-    )
-    bsTest('getMatrix',
+            }, true,
             function () {
-                // getMatrix
-                console.log(mesh1.getMatrix())
-                return mesh1.getMatrix() instanceof Matrix && testScene.getChild('testGeometry1').getMatrix() instanceof Matrix
+                // 널로 된놈은 등록후에도 찾아지면안됨
+                return mesh4.getMaterial() == null;
+            }, true,
+            function () {
+                // 널로 된놈은 등록후에도 찾아지면안됨
+                return mesh4.getGeometry() == null;
             }, true
     )
+
     bsTest('getParent',
             function () {
                 // getParent
