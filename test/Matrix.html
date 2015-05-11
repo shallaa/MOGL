@@ -39,15 +39,40 @@
     //    console.log(testMatrix)
 
     var testMesh = new Mesh(new Geometry([], []), Material())
-    console.log(testMesh.getMatrix())
-    testMesh.x = 100
-    testMesh.y = 200
-    testMesh.z = 300
+    //    console.log(testMesh.getMatrix())
+    testMesh.x = 1
+    testMesh.y = 1
+    testMesh.z = 1
+    testMesh.scaleX = 1
     testMesh.scaleY = 10
-    testMesh.rotateX = 30
+    testMesh.scaleZ = 30
+    testMesh.rotateX = 0
+    testMesh.rotateY = 10
+    testMesh.rotateZ = 10
+    console.log(testMesh.getMatrix().toString())
+
+    testMesh.setMatrix([
+        .969846, 0.17101, -0.173648, 0, -1.73648, 9.84808, 0, 0, 5.1303, 0.904611, 29.5442, 0, 1, 1, 1, 1
+    ])
     console.log(testMesh.getMatrix())
 
-    console.log(new Camera)
+    var mat1 = new Matrix()
+    mat1 = mat1.translate(1,1,1)
+    mat1 = mat1.rotate(0,10,10)
+    mat1 = mat1.scale(1,10,30)
+    console.log(mat1)
+
+    testMesh.setMatrix(mat1)
+
+
+    console.log('position',testMesh.x, testMesh.y, testMesh.z)
+    console.log('scale',testMesh.scaleX, testMesh.scaleY, testMesh.scaleZ)
+    console.log('rotate',testMesh.rotateX, testMesh.rotateY, testMesh.rotateZ)
+    //    console.log(testMesh.getMatrix())
+    //    console.log(testMesh)
+    //    console.log(testMesh.getMatrix())
+    //    console.log(testMesh.setMatrix()._matrix)
+
 </script>
 <div></div>
 </body>

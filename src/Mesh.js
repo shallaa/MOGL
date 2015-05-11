@@ -10,7 +10,7 @@ var Mesh = (function () {
     var Mesh, fn, f3 = new Float32Array(3);
     Mesh = function Mesh(geometry, material) {
         // TODO 어디까지 허용할건가..
-        console.log(geometry,material)
+        //console.log(geometry,material)
         if(!(typeof geometry =='string' || geometry instanceof Geometry || !geometry)) MoGL.error('Mesh','contructor',0)
         if(!(typeof material =='string' || material instanceof Material || !geometry)) MoGL.error('Mesh','contructor',1)
         this._geometry = geometry,
@@ -30,10 +30,11 @@ var Mesh = (function () {
     },
     fn.getMatrix = function getMatrix() { MoGL.isAlive(this);
         //TODO
+        this._matrix = new Matrix()
         var scale = this._matrix.scale(this.scaleX,this.scaleY,this.scaleZ)
         var rotate = this._matrix.rotate(this.rotateX,this.rotateY,this.rotateZ)
         var position = this._matrix.translate(this.x,this.y,this.z)
-        return scale.multiplyLeft(rotate).multiplyLeft(position)
+        return this._matrix =position.multiply(rotate).multiply(scale)
     },
     fn.getParent = function getParent() { MoGL.isAlive(this);
         return this._scene ? this._scene : null
@@ -70,13 +71,46 @@ var Mesh = (function () {
         return this
     },
     fn.setMatrix = function setMatrix(matrix) { MoGL.isAlive(this);
-        //TODO 구현
-        // 인자를 보내지 않으면 초기화됨(좌표 0점, 회전 0, 확대 1)
-        //Array or TypedArray - 16개의 원소로 이루어진 배열로 4x4행렬의 각 요소에 대응함.
-        //Matrix - Matrix 객체가 오면 그 정보를 바탕으로 처리됨.
+        var m = matrix, radianX, radianY, radianZ, scaleX, scaleY, scaleZ;
+        if(m){
+            if (m instanceof Matrix) {
+                m = [
+                    matrix.m11,matrix.m12,matrix.m13,matrix.m14,
+                    matrix.m21,matrix.m22,matrix.m23,matrix.m24,
+                    matrix.m31,matrix.m32,matrix.m33,matrix.m34,
+                    matrix.m41,matrix.m42,matrix.m43,matrix.m44
+                ]
+            }
+            this.x = m[12], this.y = m[13], this.z = m[14]
+            //* [0],  [4],  [8],  [12]
+            //* [1],  [5],  [9],  [13]
+            //* [2],  [6],  [10], [14]
+            //* [3],  [7],  [11], [15]
+            //this.rawData = new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
+            var SQRT = Math.sqrt, ATAN2 = Math.atan2
+
+            var m11 = m[0], m12 = m[4], m13 = m[8], m21 = m[1], m22 = m[5], m23 = m[9], m31 = m[2], m32 = m[6], m33 = m[10];
+            scaleX = SQRT(m11 * m11 + m21 * m21 + m31 * m31),
+            scaleY = SQRT(m12 * m12 + m22 * m22 + m32 * m32),
+            scaleZ = SQRT(m13 * m13 + m23 * m23 + m33 * m33),
+            this.scaleX = scaleX, this.scaleY = scaleY, this.scaleZ = scaleZ
+            if (0 < scaleX) m11 /= scaleX, m21 /= scaleX, m31 /= scaleX;
+
+            var md31 = -m31;
+            if (md31 <= -1) radianY = -Math.PI * 0.5;
+            else if (1 <= md31) radianY = Math.PI * 0.5;
+            else radianY = Math.asin(md31);
+            var cosY = Math.cos(radianY);
+            if (cosY <= 0.001) radianZ = 0, radianX = ATAN2(-m23, m22);
+            else radianZ = ATAN2(m21, m11), radianX = ATAN2(m32, m33)
+            this.rotateX = radianX * 180 / Math.PI, this.rotateY = radianY * 180 / Math.PI, this.rotateZ = radianZ * 180 / Math.PI
+        }else{
+            this.x = 0,this.y = 0,this.z = 0
+            this.rotateX = 0,this.rotateY = 0,this.rotateZ = 0
+            this.scaleX = 1,this.scaleY = 1,this.scaleZ = 1
+        }
         return this
     },
-
     fn.setPosition = function setPosition() { MoGL.isAlive(this);
         return this.x = arguments[0], this.y = arguments[1], this.z = arguments[2], this
     },
