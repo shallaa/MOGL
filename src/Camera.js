@@ -55,14 +55,12 @@ var Camera = (function () {
         var len = 0
         for (var k in children) {
             tItem = children[k]
-            if (!tItem._isCamera) {
-                tVBO = scene._VBOs[tItem._geometry._name]
-                tIBO = scene._IBOs[tItem._geometry._name]
-                tMaterial = tItem._material
-                tProgram = scene._PROGRAMs['base'] // TODO 이놈은 어디서 결정하지?
-
-                gl.useProgram(tProgram)
-                gl.bindBuffer(gl.ARRAY_BUFFER, tVBO),
+            tVBO = scene._VBOs[tItem._geometry._name]
+            tIBO = scene._IBOs[tItem._geometry._name]
+            tMaterial = tItem._material
+            tProgram = scene._PROGRAMs['base'] // TODO 이놈은 어디서 결정하지?
+            gl.useProgram(tProgram)
+            gl.bindBuffer(gl.ARRAY_BUFFER, tVBO),
                 gl.vertexAttribPointer(tProgram.aVertexPosition, tVBO.stride, gl.FLOAT, false, 0, 0),
                 gl.uniform3fv(tProgram.uRotate, [tItem.rotateX, tItem.rotateY, tItem.rotateZ]),
                 gl.uniform3fv(tProgram.uPosition, [tItem.x, tItem.y, tItem.z]),
@@ -70,8 +68,7 @@ var Camera = (function () {
                 gl.uniform3fv(tProgram.uColor, [tMaterial._r, tMaterial._g, tMaterial._b]),
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, tIBO),
                 gl.drawElements(gl.TRIANGLES, tIBO.numItem, gl.UNSIGNED_SHORT, 0)
-                len++
-            }
+            len++
         }
         //console.log(len)
     }

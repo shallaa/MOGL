@@ -65,7 +65,7 @@
     w.getScene('s0').addMaterial('white', new Material('#fff'));
     w.getScene('s0').addChild('tri', new Mesh('tri', new Material('#ff2244')));
 
-    for(var i =0; i<100; i++){
+    for(var i =0; i<1000; i++){
         w.getScene('s0').addChild('tri'+i, new Mesh('tri', new Material(Math.random(),Math.random(),Math.random())));
         var a =w.getScene('s0').getChild('tri'+i)
         a.x = Math.random()-0.5
@@ -84,6 +84,8 @@
     w.addRender('s0', 'camera1');
     //    w.addRender('s0', 'camera2');
     //
+    console.log(   w.getScene('s0')._children)
+    console.log(   w.getScene('s0')._cameras)
     LOOP['test '] = function () {
         w.getScene('s0').getChild('rect').rotateZ += 0.01
         w.getScene('s0').getChild('rect').setScale(0.1, 0.1, 0.1)
@@ -94,7 +96,7 @@
         w.getScene('s0').getChild('tri').x = Math.sin(w.getScene('s0').getChild('tri').rotateZ) / 2
         w.getScene('s0').getChild('tri').y = Math.cos(w.getScene('s0').getChild('tri').rotateZ) / 2
 
-        for(var i = 0; i<100; i++){
+        for(var i = 0; i<1000; i++){
             var a =w.getScene('s0').getChild('tri'+i)
             a.rotateX +=0.01
             a.rotateY +=0.02

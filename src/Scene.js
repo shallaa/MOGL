@@ -8,6 +8,7 @@ var Scene = (function () {
         this._update=0
         // for JS
         this._children = {},
+        this._cameras={}
         this._textures = {},
         this._materials = {},
         this._geometrys = {},
@@ -147,6 +148,12 @@ var Scene = (function () {
         console.log('this._VBOs :',this._VBOs)
         console.log('this._IBOs :',this._IBOs)
         console.log('this._PROGRAMs :',this._PROGRAMs)
+        console.log('this._geometrys :',this._geometrys)
+        console.log('this._materials :',this._materials)
+        console.log('this._textures :',this._textures)
+        console.log('this._vertexShaders :',this._vertexShaders)
+        console.log('this._fragmentShaders :',this._fragmentShaders)
+
         console.log('////////////////////////////////////////////')
         this._update = 0
     },
@@ -169,7 +176,8 @@ var Scene = (function () {
         for (k in checks)
             if (typeof checks[k] == 'string')
                 if (!this._textures[checks[k]]) MoGL.error('Scene', 'addChild', 4)
-        this._children[id] = mesh
+        if(mesh instanceof Camera) this._cameras[id] = mesh
+        else this._children[id] = mesh
         this._update=1
         return this
     },
@@ -232,6 +240,7 @@ var Scene = (function () {
     // Get
     fn.getChild = function getChild(id) { MoGL.isAlive(this);
         var t = this._children[id];
+        t = t ? t : this._cameras[id]
         return t ? t : null
     },
     fn.getGeometry = function getGeometry(id) { MoGL.isAlive(this);
