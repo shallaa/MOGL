@@ -176,6 +176,11 @@ var Scene = (function () {
         for (k in checks)
             if (typeof checks[k] == 'string')
                 if (!this._textures[checks[k]]) MoGL.error('Scene', 'addChild', 4)
+                else {
+                    console.log(mesh._material._textures)
+                    console.log(checks[k])
+                    mesh._material._textures[checks[k]] = this._textures[checks[k]]
+                }
         if(mesh instanceof Camera) this._cameras[id] = mesh
         else this._children[id] = mesh
         this._update=1
