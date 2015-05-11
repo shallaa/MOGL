@@ -8,11 +8,11 @@ var Scene = (function () {
         this._update=0
         // for JS
         this._children = {},
-            this._textures = {},
-            this._materials = {},
-            this._geometrys = {},
-            this._vertexShaders = {},
-            this._fragmentShaders = {}
+        this._textures = {},
+        this._materials = {},
+        this._geometrys = {},
+        this._vertexShaders = {},
+        this._fragmentShaders = {}
         // for GPU
         this._gl = null
         this._VBOs = {}
@@ -208,10 +208,10 @@ var Scene = (function () {
             if(target instanceof ImageData) return 0
             if(target['substring'] && target.substring(0,10)=='data:image' && target.indexOf('base64')>-1) return 0// base64문자열 - urlData형식으로 지정된 base64문자열
             // TODO 블랍은 어카지 -__;;;;;;;;;;;;;;;;;;;;;;;;실제 이미지를 포함하고 있는 Blob객체.
-
             return 1
         }
         this._textures[id] = image
+        this._textures[id].resizeType = arguments[2]
         return this
     },
     fn.addFragmentShader = function addFragmentShader(id, shaderStr) { MoGL.isAlive(this);
@@ -243,6 +243,7 @@ var Scene = (function () {
         return t ? t : null
     },
     fn.getTexture = function getTexture(id) { MoGL.isAlive(this);
+        //TODO image엘리먼트 - id에 해당되는 image엘리먼트. src는 dataURL로 되어있음.
         var t = this._textures[id]
         return t ? t : null
     },

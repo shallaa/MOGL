@@ -73,7 +73,7 @@ var Camera = (function () {
                 len++
             }
         }
-        console.log(len)
+        //console.log(len)
     }
     return MoGL.ext(Camera, Mesh);
 })();
