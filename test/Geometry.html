@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <meta name="viewport"
           content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi"/>
-    <link rel="stylesheet" type="text/css" href="css.css" />
+    <link rel="stylesheet" type="text/css" href="css.css"/>
 </head>
 <body>
 <img src="../src/ohno.png">
@@ -198,12 +198,22 @@
                 for (var i = 0, len = testValue.length; i < len; i++) {
                     if (testSeperator._position[i] != testValue[i]) result = false
                 }
-                console.log('testSeperator._position',testSeperator._position)
-                console.log('testSeperator._uv',testSeperator._uv)
-                console.log('testSeperator._color',testSeperator._color)
-                console.log('testSeperator._normal',testSeperator._normal)
+                console.log('testSeperator._position', testSeperator._position)
+                console.log('testSeperator._uv', testSeperator._uv)
+                console.log('testSeperator._color', testSeperator._color)
+                console.log('testSeperator._normal', testSeperator._normal)
                 return result
             }, true
+    )
+    var testSeperator2 = new Geometry([
+        1, 2, 3, 4, 5, 6, 7, 8, // x,y,z, u,v, normalX,normalY,normalZ,
+        1, 2, 3, 4, 5, 6, 7, 8,
+        1, 2, 3, 4, 5, 6, 7, 8
+    ], [0, 1, 2], [Vertex.x, Vertex.y, Vertex.z, Vertex.u, Vertex.v, Vertex.normalX, Vertex.normalY, Vertex.normalZ])
+    bsTest('seperator2',
+            function () {
+                return testSeperator2._color.length
+            }, 0
     )
     // waffle shader등록
     bsTest('test',
