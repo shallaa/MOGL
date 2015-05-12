@@ -8,6 +8,7 @@
  */
 var Mesh = (function () {
     var Mesh, fn, f3 = new Float32Array(3);
+    var SQRT = Math.sqrt, ATAN2 = Math.atan2, ASIN = Math.asin, COS = Math.cos, PIH = Math.PI * 0.5,PERPI=180 / Math.PI
     Mesh = function Mesh(geometry, material) {
         // TODO 어디까지 허용할건가..
         //console.log(geometry,material)
@@ -88,23 +89,20 @@ var Mesh = (function () {
             //* [2],  [6],  [10], [14]
             //* [3],  [7],  [11], [15]
             //this.rawData = new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
-            var SQRT = Math.sqrt, ATAN2 = Math.atan2
-
             var m11 = m[0], m12 = m[4], m13 = m[8], m21 = m[1], m22 = m[5], m23 = m[9], m31 = m[2], m32 = m[6], m33 = m[10];
             scaleX = SQRT(m11 * m11 + m21 * m21 + m31 * m31),
             scaleY = SQRT(m12 * m12 + m22 * m22 + m32 * m32),
             scaleZ = SQRT(m13 * m13 + m23 * m23 + m33 * m33),
             this.scaleX = scaleX, this.scaleY = scaleY, this.scaleZ = scaleZ
             if (0 < scaleX) m11 /= scaleX, m21 /= scaleX, m31 /= scaleX;
-
             var md31 = -m31;
-            if (md31 <= -1) radianY = -Math.PI * 0.5;
-            else if (1 <= md31) radianY = Math.PI * 0.5;
-            else radianY = Math.asin(md31);
-            var cosY = Math.cos(radianY);
+            if (md31 <= -1) radianY = -PIH;
+            else if (1 <= md31) radianY = PIH;
+            else radianY = ASIN(md31);
+            var cosY = COS(radianY);
             if (cosY <= 0.001) radianZ = 0, radianX = ATAN2(-m23, m22);
             else radianZ = ATAN2(m21, m11), radianX = ATAN2(m32, m33)
-            this.rotateX = radianX * 180 / Math.PI, this.rotateY = radianY * 180 / Math.PI, this.rotateZ = radianZ * 180 / Math.PI
+            this.rotateX = radianX * PERPI, this.rotateY = radianY * PERPI, this.rotateZ = radianZ * PERPI
         }else{
             this.x = 0,this.y = 0,this.z = 0
             this.rotateX = 0,this.rotateY = 0,this.rotateZ = 0
