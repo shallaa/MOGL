@@ -238,7 +238,7 @@ void main(void) {
             function (){
                 // 텍스쳐 추가
                 scene1.addTexture('addTextureTest1',testTexture_IMG)
-                return scene1.getTexture('addTextureTest1')
+                return scene1.getTexture('addTextureTest1').img
             },testTexture_IMG,
             function (){
                 // 중복 ID 추가
@@ -265,22 +265,22 @@ void main(void) {
             function (){
                 // 이미지 형식체크 - imgData(rgba)
                 scene1.addTexture('testTexture_imgData',testTexture_imgData)
-                return scene1.getTexture('testTexture_imgData')
+                return scene1.getTexture('testTexture_imgData').img
             },testTexture_imgData,
             function (){
                 // 이미지 형식체크 - urlData(base64)
                 scene1.addTexture('testTexture_dataURL',testTexture_dataURL)
-                return scene1.getTexture('testTexture_dataURL')
+                return scene1.getTexture('testTexture_dataURL').img
             },testTexture_dataURL,
             function (){
                 // 이미지 형식체크 - canvas element
                 scene1.addTexture('testTexture_canvas',testTexture_canvas)
-                return scene1.getTexture('testTexture_canvas')
+                return scene1.getTexture('testTexture_canvas').img
             },testTexture_canvas,
             function (){
                 // 이미지 형식체크 - video element
                 scene1.addTexture('testTexture_VIDEO',testTexture_VIDEO)
-                return scene1.getTexture('testTexture_VIDEO')
+                return scene1.getTexture('testTexture_VIDEO').img
             },testTexture_VIDEO
     )
     bsTest('FragmentShader',

@@ -209,8 +209,9 @@ var Scene = (function () {
             // TODO 블랍은 어카지 -__;;;;;;;;;;;;;;;;;;;;;;;;실제 이미지를 포함하고 있는 Blob객체.
             return 1
         }
-        this._textures[id] = image,
-        this._textures[id].resizeType = arguments[2]
+        this._textures[id] = {
+            count:0,last:0,img:image,resizeType:arguments[2] ? arguments[2] : null
+        }
         return this
     },
     fn.addFragmentShader = function addFragmentShader(id, shaderStr) { MoGL.isAlive(this);
