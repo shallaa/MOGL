@@ -22,7 +22,7 @@ var Scene = (function () {
         this._glTEXTUREs ={}
     }
     /////////////////////////////////////////////////////////////////
-    var makeVBO = function (self, name, data, stride) {
+    var makeVBO = function makeVBO(self, name, data, stride) {
         var gl = self._gl,buffer = self._glVBOs[name]
         if (buffer) return buffer
         buffer = gl.createBuffer(),
@@ -54,7 +54,7 @@ var Scene = (function () {
         return self._glIBOs[name]
     }
 
-    var makeProgram = function (self, name) {
+    var makeProgram = function makeProgram(self, name) {
         var gl = self._gl, vShader, fShader, program,i
         vShader = vertexShaderParser( self,self._vertexShaders[name]),
         fShader = fragmentShaderParser(self,self._fragmentShaders[name]),
@@ -78,7 +78,7 @@ var Scene = (function () {
         return program
     }
 
-    var vertexShaderParser = function (self, source) {
+    var vertexShaderParser = function vertexShaderParser(self, source) {
         var gl=self._gl,t0, len, i, resultStr,shader = gl.createShader(gl.VERTEX_SHADER)
         shader.uniforms = [],
         shader.attributes = [],
@@ -133,23 +133,23 @@ var Scene = (function () {
         for (var k in this._children) {
             var mesh = this._children[k]
             if (!this._glVBOs[mesh._geometry] && mesh._geometry) {
-                this._glVBOs[mesh._geometry._name] = makeVBO(this, mesh._geometry._name, mesh._geometry._position, 3)
+                this._glVBOs[mesh._geometry._name] = makeVBO(this, mesh._geometry._name, mesh._geometry._position, 3),
                 this._glIBOs[mesh._geometry._name] = makeIBO(this, mesh._geometry._name, mesh._geometry._index, 1)
             }
         }
         var checks = this._vertexShaders;
         for (k in checks) makeProgram(this, k)
-        console.log('////////////////////////////////////////////')
-        console.log('Scene 업데이트')
-        console.log('this._glVBOs :',this._glVBOs)
-        console.log('this._glIBOs :',this._glIBOs)
-        console.log('this._glPROGRAMs :',this._glPROGRAMs)
-        console.log('this._geometrys :',this._geometrys)
-        console.log('this._materials :',this._materials)
-        console.log('this._textures :',this._textures)
-        console.log('this._vertexShaders :',this._vertexShaders)
-        console.log('this._fragmentShaders :',this._fragmentShaders)
-        console.log('////////////////////////////////////////////')
+        console.log('////////////////////////////////////////////'),
+        console.log('Scene 업데이트'),
+        console.log('this._glVBOs :',this._glVBOs),
+        console.log('this._glIBOs :',this._glIBOs),
+        console.log('this._glPROGRAMs :',this._glPROGRAMs),
+        console.log('this._geometrys :',this._geometrys),
+        console.log('this._materials :',this._materials),
+        console.log('this._textures :',this._textures),
+        console.log('this._vertexShaders :',this._vertexShaders),
+        console.log('this._fragmentShaders :',this._fragmentShaders),
+        console.log('////////////////////////////////////////////'),
         this._update = 0
     },
     fn.addChild = function addChild(id, mesh) { MoGL.isAlive(this); // isAlive는 함수선언 줄에 바로 같이 씁니다.
@@ -158,7 +158,8 @@ var Scene = (function () {
         if (!(mesh instanceof Mesh)) MoGL.error('Scene', 'addChild', 1)
         mesh._scene = this,mesh._parent = this,
         mesh.setGeometry(mesh._geometry),
-        mesh.setMaterial(mesh._material), mesh._material._count++
+        mesh.setMaterial(mesh._material),
+        mesh._material._count++,
         checks = mesh._geometry._vertexShaders;
         for (k in checks) if (typeof checks[k] == 'string') if (!this._vertexShaders[checks[k]]) MoGL.error('Scene', 'addChild', 2)
         checks = mesh._material._fragmentShaders;
@@ -168,8 +169,8 @@ var Scene = (function () {
             if (typeof checks[k] == 'string')
                 if (!this._textures[checks[k]]) MoGL.error('Scene', 'addChild', 4)
                 else {
-                    console.log(mesh._material._textures)
-                    console.log(checks[k])
+                    console.log(mesh._material._textures),
+                    console.log(checks[k]),
                     mesh._material._textures[checks[k]] = this._textures[checks[k]]
                 }
         if(mesh instanceof Camera) this._cameras[id] = mesh
@@ -200,15 +201,15 @@ var Scene = (function () {
         if (this._textures[id]) MoGL.error('Scene', 'addTexture', 0)
         if (checkDraft(image)) MoGL.error('Scene', 'addTexture', 1)
         function checkDraft(target) {
-            if(target instanceof HTMLImageElement) return 0
-            if(target instanceof HTMLCanvasElement) return 0
-            if(target instanceof HTMLVideoElement) return 0
-            if(target instanceof ImageData) return 0
-            if(target['substring'] && target.substring(0,10)=='data:image' && target.indexOf('base64')>-1) return 0// base64문자열 - urlData형식으로 지정된 base64문자열
+            if (target instanceof HTMLImageElement) return 0
+            if (target instanceof HTMLCanvasElement) return 0
+            if (target instanceof HTMLVideoElement) return 0
+            if (target instanceof ImageData) return 0
+            if (target['substring'] && target.substring(0, 10) == 'data:image' && target.indexOf('base64') > -1) return 0// base64문자열 - urlData형식으로 지정된 base64문자열
             // TODO 블랍은 어카지 -__;;;;;;;;;;;;;;;;;;;;;;;;실제 이미지를 포함하고 있는 Blob객체.
             return 1
         }
-        this._textures[id] = image
+        this._textures[id] = image,
         this._textures[id].resizeType = arguments[2]
         return this
     },
