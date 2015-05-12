@@ -106,6 +106,10 @@ void main(void) {
                 return scene1.getChild('meshKey1')
             }, testMesh1,
             function () {
+                // Scene과 Parent가 잘 적용되었나..
+                return scene1.getChild('meshKey1')._scene == scene1 && scene1.getChild('meshKey1')._parent == scene1
+            }, true,
+            function () {
                 // 같은 키값으로 등록하는걸 잘 체크하나..
                 testResult=1
                 try{
@@ -146,7 +150,11 @@ void main(void) {
                 // 삭제는 잘되나..
                 scene1.removeChild('meshKey1')
                 return scene1.getChild('meshkey1')
-            },null
+            },null,
+            function () {
+                // Scene과 Parent가 잘 삭제되었나..
+                return testMesh1._scene == null && testMesh1._parent == null
+            }, true
     );
     bsTest('Geometry',
             function(){
