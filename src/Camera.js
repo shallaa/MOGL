@@ -55,10 +55,10 @@ var Camera = (function () {
         var len = 0
         for (var k in children) {
             tItem = children[k]
-            tVBO = scene._VBOs[tItem._geometry._name]
-            tIBO = scene._IBOs[tItem._geometry._name]
+            tVBO = scene._glVBOs[tItem._geometry._name]
+            tIBO = scene._glIBOs[tItem._geometry._name]
             tMaterial = tItem._material
-            tProgram = scene._PROGRAMs['base'] // TODO 이놈은 어디서 결정하지?
+            tProgram = scene._glPROGRAMs['base'] // TODO 이놈은 어디서 결정하지?
             gl.useProgram(tProgram)
             gl.bindBuffer(gl.ARRAY_BUFFER, tVBO),
                 gl.vertexAttribPointer(tProgram.aVertexPosition, tVBO.stride, gl.FLOAT, false, 0, 0),
