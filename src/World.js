@@ -16,9 +16,9 @@ var World = (function () {
     fn = World.prototype,
     fn._renderList = [],
     fn._sceneList = {},
-    fn._render = function () { MoGL.isAlive(this);
+    fn._render = function _render() { MoGL.isAlive(this);
         var i, len, tList = this._renderList
-        for (var i = 0, len = tList.length; i < len; i++) {
+        for (i = 0, len = tList.length; i < len; i++) {
             //console.log(tList[i],'렌더')
             // 여기서 할일은 렌더리스트의 아이템에있는 카메라에 씬을 던져서 실제 렝더링을 시켜야함..
             if (tList[i].scene._update) tList[i].scene.update()

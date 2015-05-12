@@ -8,17 +8,17 @@ var Scene = (function () {
         this._update=0
         // for JS
         this._children = {},
-        this._cameras={}
+        this._cameras={},
         this._textures = {},
         this._materials = {},
         this._geometrys = {},
         this._vertexShaders = {},
         this._fragmentShaders = {}
         // for GPU
-        this._gl = null
-        this._glVBOs = {}
-        this._glIBOs = {}
-        this._glPROGRAMs = {}
+        this._gl = null,
+        this._glVBOs = {},
+        this._glIBOs = {},
+        this._glPROGRAMs = {},
         this._glTEXTUREs ={}
     }
     /////////////////////////////////////////////////////////////////

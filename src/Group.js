@@ -11,7 +11,7 @@
 var Group = (function () {
     var Group, fn;
     Group = function Group() {
-        this._children = {}
+        this._children = {},
         this._scene = null
     },
     fn = Group.prototype,
@@ -22,7 +22,6 @@ var Group = (function () {
         mesh._scene = this,
         mesh.setGeometry(mesh._geometry),
         mesh.setMaterial(mesh._material),
-
         checks = mesh._geometry._vertexShaders;
         for (k in checks)
             if (typeof checks[k] == 'string')
