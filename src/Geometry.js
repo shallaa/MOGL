@@ -30,21 +30,20 @@ var Geometry = (function () {
         this._uv = [],
         this._color = []
         ///////////////////////////////
+        //TODO 노말,UV,컬러없을떄 판별
         if (arguments[2]) {
             for (i = 0, len = vertex.length / t; i < len; i++) {
                 t2 = t * i,
                 this._position.push(vertex[t2 + info.x], vertex[t2 + info.y], vertex[t2 + info.z]),
-                this._normal.push(vertex[t2 + info.nx], vertex[t2 + info.ny], vertex[t2 + info.nz]),
-                this._uv.push(vertex[t2 + info.u], vertex[t2 + info.v]),
-                this._color.push(vertex[t2 + info.r], vertex[t2 + info.g], vertex[t2 + info.b], vertex[t2 + info.a])
+                info.nx ? this._normal.push(vertex[t2 + info.nx], vertex[t2 + info.ny], vertex[t2 + info.nz]) : 0,
+                info.u ? this._uv.push(vertex[t2 + info.u], vertex[t2 + info.v]) : 0,
+                info.r ? this._color.push(vertex[t2 + info.r], vertex[t2 + info.g], vertex[t2 + info.b], vertex[t2 + info.a]) : 0
             }
             this._position = new Float32Array(this._position),
             this._normal = new Float32Array(this._normal),
             this._uv = new Float32Array(this._uv),
             this._color = new Float32Array(this._color)
-        } else {
-            this._position = isFloat32 ? vertex : new Float32Array(vertex)
-        }
+        } else this._position = isFloat32 ? vertex : new Float32Array(vertex)
         //TODO Uint32Array을 받아줄것인가! 고민해야됨..
         this._index = isUint16 ? index : new Uint16Array(index)
         ///////////////////////////////
