@@ -9,31 +9,37 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <meta name="viewport"
           content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi"/>
+    <link rel="stylesheet" type="text/css" href="css.css" />
 
 </head>
 <body>
 <img src="../src/ohno.png"/>
+<canvas id="canvasTest" height="10"></canvas>
+<canvas id="canvasTest2" height="10"></canvas>
 <div id="stage"></div>
 <div id="result"></div>
 <div id="test"></div>
 <script src="../src/MoGL.js"></script>
+<script src="../src/Vertex.js"></script>
 <script src="../src/Matrix.js"></script>
 <script src="../src/Geometry.js"></script>
 <script src="../src/Material.js"></script>
-<script src="../src/Mesh.js"></script>
 <script src="../src/Texture.js"></script>
+<script src="../src/Mesh.js"></script>
+<script src="../src/Group.js"></script>
+<script src="../src/Camera.js"></script>
 <script src="../src/Scene.js"></script>
 <script src="../src/World.js"></script>
-<script src="../src/Camera.js"></script>
 <script src="http://js.bsapi.co/test/"></script>
 <script>
-    var world = new World();
-    var world2 = World();
-    var camera = new Camera()
+    var world = new World('canvasTest');
+    var world2 = World('canvasTest2');
+    var camera = new Camera(new Geometry([],[]),new Material())
     var sceneTest1 = new Scene()
     sceneTest1.addChild('cameraTest', camera)
     var sceneTest2 = new Scene()
     var sceneTest3 = new Scene()
+    var testResult
     bsTest('new',
             function () {
                 return world.isAlive;
@@ -42,7 +48,7 @@
                 return world2.isAlive;
             }, true
     );
-    bsTest('add/get/remove Scene',
+    bsTest('add/get/remove ',
             function () {
                 world.addScene('lobby', sceneTest1)
                 return world.getScene('lobby');
@@ -52,6 +58,17 @@
                 world.addRender('lobby', 'cameraTest')
                 return world._renderList[0].uuid;
             }, 'lobby_cameraTest',
+            function () {
+                testResult =1
+                // 존재하지않는 카메라 추가
+                try{
+                    world.addRender('lobby', 'cameraTestNull')
+                }catch(e){
+                    testResult=0
+                    console.log('!!!!!!!!!!!!',e)
+                }
+                return testResult
+            }, 0,
             function () {
                 // 씬추가
                 world.addScene('room', sceneTest2);
@@ -86,6 +103,7 @@
                 return world._renderList[0];
             }, undefined
     );
+
     world.destroy()
     world2.destroy()
     bsTest('destroy',

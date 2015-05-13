@@ -11,7 +11,38 @@
 var Group = (function () {
     var Group, fn;
     Group = function Group() {
+        this._children = {},
+        this._scene = null
+    },
+    fn = Group.prototype,
+    fn.addChild = function addChild(id, mesh) {
+        var k,checks
+        if(this._children[id]) MoGL.error('Group','addChild',0)
+        if(!(mesh instanceof Mesh )) MoGL.error('Group','addChild',1)
+        mesh._scene = this,
+        mesh.setGeometry(mesh._geometry),
+        mesh.setMaterial(mesh._material),
+        checks = mesh._geometry._vertexShaders;
+        for (k in checks)
+            if (typeof checks[k] == 'string')
+                if (!this._scene._vertexShaders[checks[k]]) MoGL.error('Group', 'addChild', 2)
+        checks = mesh._material._fragmentShaders;
+        for (k in checks)
+            if (typeof checks[k] == 'string')
+                if (!this._scene._fragmentShaders[checks[k]]) MoGL.error('Group', 'addChild', 3)
+        checks = mesh._material._textures;
+        for (k in checks)
+            if (typeof checks[k] == 'string')
+                if (!this._scene._textures[checks[k]]) MoGL.error('Group', 'addChild', 4)
+        this._children[id] = mesh
+        return this
+    },
+    fn.getChild = function getChild(id) {
+        var t = this._children[id];
+        return t ? t : null
+    },
+    fn.removeChild = function removeChild(id) {
+        return this._children[id] ? (delete this._children[id], true) : false
     }
-    fn = Group.prototype
     return MoGL.ext(Group, Mesh);
 })();

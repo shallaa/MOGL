@@ -8,33 +8,38 @@
  */
 var Mesh = (function () {
     var Mesh, fn, f3 = new Float32Array(3);
+    var SQRT = Math.sqrt, ATAN2 = Math.atan2, ASIN = Math.asin, COS = Math.cos, PIH = Math.PI * 0.5,PERPI=180 / Math.PI
     Mesh = function Mesh(geometry, material) {
-        //if(!(typeof geometry =='string' || geometry instanceof Geometry)) MoGL.error('Mesh','contructor',0)
-        //if(!(typeof material =='string' || material instanceof Material)) MoGL.error('Mesh','contructor',1)
+        // TODO 어디까지 허용할건가..
+        //console.log(geometry,material)
+        if( geometry && !(typeof geometry =='string' || geometry instanceof Geometry  ) ) MoGL.error('Mesh','contructor',0)
+        if( material && !(typeof material =='string' || material instanceof Material  ) ) MoGL.error('Mesh','contructor',1)
         this._geometry = geometry,
         this._material = material,
         this._scene = null,
         this._parent = null,
-        this._matrix = Matrix()
-    },
-    Mesh.prototype = {
-        rotateX: 0, rotateY: 0, rotateZ: 0,
-        scaleX: 1, scaleY: 1, scaleZ: 1,
-        x: 0, y: 0, z: 0
+        this._matrix = new Matrix()
+        this.rotateX = 0, this.rotateY = 0, this.rotateZ = 0,
+        this.scaleX = 1, this.scaleY = 1, this.scaleZ = 1,
+        this.x = 0, this.y = 0, this.z = 0
     },
     fn = Mesh.prototype,
     fn.getGeometry = function getGeometry() { MoGL.isAlive(this);
-        return this._parent ? this._geometry : null
+        return this._scene ? this._geometry : null
     },
     fn.getMaterial = function getMaterial() { MoGL.isAlive(this);
-        return this._parent ? this._material : null
+        return this._scene ? this._material : null
     },
     fn.getMatrix = function getMatrix() { MoGL.isAlive(this);
         //TODO
-        return this._matrix
+        this._matrix = new Matrix()
+        var scale = this._matrix.scale(this.scaleX,this.scaleY,this.scaleZ)
+        var rotate = this._matrix.rotate(this.rotateX,this.rotateY,this.rotateZ)
+        var position = this._matrix.translate(this.x,this.y,this.z)
+        return this._matrix =position.multiply(rotate).multiply(scale)
     },
-    fn.getParent = function get_parent() { MoGL.isAlive(this);
-        return this._parent ? this._parent : null
+    fn.getParent = function getParent() { MoGL.isAlive(this);
+        return this._scene ? this._scene : null
     },
     fn.getPosition = function getPosition() { MoGL.isAlive(this);
         return f3[0] = this.x, f3[1] = this.y, f3[2] = this.z, f3
@@ -49,31 +54,62 @@ var Mesh = (function () {
     // set
     fn.setGeometry = function setGeometry(geometry) { MoGL.isAlive(this);
         if (!(geometry instanceof Geometry || typeof geometry == 'string')) MoGL.error('Mesh', 'setGeometry', 0)
-        if (this._parent) {
-            if (this._geometry = typeof geometry == 'string') this._scene._geometrys[geometry]
+        if (this._scene) {
+            if (this._geometry = typeof geometry == 'string') this._geometry=this._scene._geometrys[geometry]
             else this._geometry = geometry
+            this._geometry._name = geometry
         }
         else this._geometry = geometry
         return this
     },
     fn.setMaterial = function setMaterial(material) { MoGL.isAlive(this);
         if (!(material instanceof Material || typeof material == 'string')) MoGL.error('Mesh', 'setMaterial', 0)
-        if (this._parent) {
-            if (this._material = typeof material == 'string') this._scene._materials[material]
+        if (this._scene) {
+            if (this._material = typeof material == 'string') this._material= this._scene._materials[material]
             else this._material = material
+            this._material._name = material
         }
         else this._material = material
         return this
     },
-    fn.setMatrix = function setMatrix(t) { MoGL.isAlive(this);
-        //TODO 구현
-        var t = this._matrix.data
-        if (t) t[0] = t[0], t[1] = t[1], t[2] = t[2], t[3] = t[3], t[4] = t[4], t[5] = t[5], t[6] = t[6], t[7] = t[7], t[8] = t[8], t[9] = t[9], t[10] = t[10], t[11] = t[11], t[12] = t[12], t[13] = t[13], t[14] = t[14], t[15] = t[15]
-        else if (t instanceof Matrix) t[0] = 1, t[1] = 0, t[2] = 0, t[3] = 0, t[4] = 0, t[5] = 1, t[6] = 0, t[7] = 0, t[8] = 0, t[9] = 0, t[10] = 1, t[11] = 0, t[12] = 0, t[13] = 0, t[14] = 0, t[15] = 1
-        else this._matrix.identity()
+    fn.setMatrix = function setMatrix(matrix) { MoGL.isAlive(this);
+        var m = matrix, radianX, radianY, radianZ, scaleX, scaleY, scaleZ;
+        if(m){
+            if (m instanceof Matrix) {
+                m = [
+                    matrix.m11,matrix.m12,matrix.m13,matrix.m14,
+                    matrix.m21,matrix.m22,matrix.m23,matrix.m24,
+                    matrix.m31,matrix.m32,matrix.m33,matrix.m34,
+                    matrix.m41,matrix.m42,matrix.m43,matrix.m44
+                ]
+            }
+            this.x = m[12], this.y = m[13], this.z = m[14]
+            //* [0],  [4],  [8],  [12]
+            //* [1],  [5],  [9],  [13]
+            //* [2],  [6],  [10], [14]
+            //* [3],  [7],  [11], [15]
+            //this.rawData = new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
+            var m11 = m[0], m12 = m[4], m13 = m[8], m21 = m[1], m22 = m[5], m23 = m[9], m31 = m[2], m32 = m[6], m33 = m[10];
+            scaleX = SQRT(m11 * m11 + m21 * m21 + m31 * m31),
+            scaleY = SQRT(m12 * m12 + m22 * m22 + m32 * m32),
+            scaleZ = SQRT(m13 * m13 + m23 * m23 + m33 * m33),
+            this.scaleX = scaleX, this.scaleY = scaleY, this.scaleZ = scaleZ
+            if (0 < scaleX) m11 /= scaleX, m21 /= scaleX, m31 /= scaleX;
+            var md31 = -m31;
+            if (md31 <= -1) radianY = -PIH;
+            else if (1 <= md31) radianY = PIH;
+            else radianY = ASIN(md31);
+            var cosY = COS(radianY);
+            if (cosY <= 0.001) radianZ = 0, radianX = ATAN2(-m23, m22);
+            else radianZ = ATAN2(m21, m11), radianX = ATAN2(m32, m33)
+            this.rotateX = radianX * PERPI, this.rotateY = radianY * PERPI, this.rotateZ = radianZ * PERPI
+        }else{
+            this.x = 0,this.y = 0,this.z = 0
+            this.rotateX = 0,this.rotateY = 0,this.rotateZ = 0
+            this.scaleX = 1,this.scaleY = 1,this.scaleZ = 1
+        }
         return this
     },
-
     fn.setPosition = function setPosition() { MoGL.isAlive(this);
         return this.x = arguments[0], this.y = arguments[1], this.z = arguments[2], this
     },
