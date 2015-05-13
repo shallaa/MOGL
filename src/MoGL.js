@@ -3,32 +3,32 @@ var MoGL = (function(){
 
     //내부용 상수
     isFactory = {factory:1},//팩토리 함수용 식별상수
-    isSuperChain = {superChain:1},//생성자체인용 상수
-    isProtoChain = {isProtoChain:1},//프로토타입상속체인을 위한 상수
+        isSuperChain = {superChain:1},//생성자체인용 상수
+        isProtoChain = {isProtoChain:1},//프로토타입상속체인을 위한 상수
 
-    //인스턴스 카운트 시스템
-    uuid = 0,//모든 인스턴스는 고유한 uuid를 갖게 됨.
-    totalCount = 0, //생성된 인스턴스의 갯수를 관리함
-    counter = {}, //클래스별로 관리
+        //인스턴스 카운트 시스템
+        uuid = 0,//모든 인스턴스는 고유한 uuid를 갖게 됨.
+        totalCount = 0, //생성된 인스턴스의 갯수를 관리함
+        counter = {}, //클래스별로 관리
 
-    MoGL = function MoGL(){
-        if( arguments[0] === isProtoChain ) return;
-        Object.defineProperty( this, 'uuid', {value:uuid++} );
-        Object.defineProperty( this, 'isAlive', {value:true, writable:true} );
-        counter[this.constructor.uuid]++;
-        totalCount++;
-    },
-    fn = MoGL.prototype,
+        MoGL = function MoGL(){
+            if( arguments[0] === isProtoChain ) return;
+            Object.defineProperty( this, 'uuid', {value:uuid++} );
+            Object.defineProperty( this, 'isAlive', {value:true, writable:true} );
+            counter[this.constructor.uuid]++;
+            totalCount++;
+        },
+        fn = MoGL.prototype,
 
-    //파괴자
-    fn.destroy = function destroy(){
-        var key;
-        for( key in this ) if( this.hasOwnProperty(key) ) this[key] = null;
-        this.isAlive = false;
-        counter[this.constructor.uuid]--;
-        totalCount--;
-    },
-    Object.seal(fn);
+        //파괴자
+        fn.destroy = function destroy(){
+            var key;
+            for( key in this ) if( this.hasOwnProperty(key) ) this[key] = null;
+            this.isAlive = false;
+            counter[this.constructor.uuid]--;
+            totalCount--;
+        },
+        Object.seal(fn);
     //인스턴스의 갯수를 알아냄
     MoGL.count = function count( cls ){
         if( typeof cls == 'function' ){
@@ -37,14 +37,14 @@ var MoGL = (function(){
             return totalCount;
         }
     },
-    //표준 error처리
-    MoGL.error = function error( cls, method, id ){
-        throw new Error( cls + '.' + method + ':' + id );
-    },
-    //isAlive확인
-    MoGL.isAlive = function isAlive(instance){
-        if( !instance.isAlive ) throw new Error( 'Destroyed Object:' + instance );
-    };
+        //표준 error처리
+        MoGL.error = function error( cls, method, id ){
+            throw new Error( cls + '.' + method + ':' + id );
+        },
+        //isAlive확인
+        MoGL.isAlive = function isAlive(instance){
+            if( !instance.isAlive ) throw new Error( 'Destroyed Object:' + instance );
+        };
     //parent클래스를 상속하는 자식클래스를 만들어냄.
     MoGL.ext = function ext( child, parent ){
         var cls, oldProto, newProto, key;
@@ -85,12 +85,12 @@ var MoGL = (function(){
         for( key in oldProto ) if( oldProto.hasOwnProperty(key) ) newProto[key] = oldProto[key];
 
         //새롭게 프로토타입을 정의함
-		newProto.constructor = cls;
+        newProto.constructor = cls;
         cls.prototype = newProto;
         Object.freeze(cls),
-        Object.seal(newProto);
+            Object.seal(newProto);
         return cls;
     },
-    Object.seal(MoGL);
+        Object.seal(MoGL);
     return MoGL;
 })();

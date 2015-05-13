@@ -165,7 +165,7 @@ var Scene = (function () {
             texture.loaded=1
         }
         self._glTEXTUREs[id] = texture
-        return self._glTEXTUREs[id]
+        return texture
     }
 /////////////////////////////////////////////////////////////////
     fn = Scene.prototype,
@@ -182,6 +182,7 @@ var Scene = (function () {
         }
         for (k in this._cameras){
             var camera = this._cameras[k]
+            camera._cvs = this._cvs
             if(!camera._renderArea) camera.setRenderArea(0,0,this._cvs.width,this._cvs.height)
         }
         var checks = this._vertexShaders;
@@ -220,7 +221,7 @@ var Scene = (function () {
                     console.log(checks[k]),
                     mesh._material._textures[checks[k]] = this._textures[checks[k]]
                 }
-        if(mesh instanceof Camera) this._cameras[id] = mesh
+        if(mesh instanceof Camera) this._cameras[id] = mesh,mesh._cvs = this._cvs
         else this._children[id] = mesh
         this._update=1
         return this

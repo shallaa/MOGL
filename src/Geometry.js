@@ -28,6 +28,7 @@ var Geometry = (function () {
         this._position = [],
         this._normal = [],
         this._uv = [],
+        this._name = null
         this._color = []
         ///////////////////////////////
         //TODO 노말,UV,컬러없을떄 판별

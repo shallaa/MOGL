@@ -6,6 +6,7 @@ var Camera = (function () {
     var Camera, fn,a4=[];
     var hex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i, hex_s = /^#?([a-f\d]{1})([a-f\d]{1})([a-f\d]{1})$/i;
     Camera = function Camera() {
+        this._cvs=null
         this._geometry = new Geometry([], [])
         this._material = new Material()
         this._r = 0,
@@ -252,8 +253,15 @@ var Camera = (function () {
         return this
     },
     fn.setRenderArea = function setRenderArea(x,y,w,h){MoGL.isAlive(this);
-        // TODO %단위 결정해야함
-        this._renderArea = [x,y,w,h]
+        var tw = this._cvs.clientWidth
+        var th = this._cvs.clientHeight
+        console.log(typeof x =='string' ? tw * x.replace('%', '') : x)
+        this._renderArea = [
+            typeof x =='string' ? tw * x.replace('%', '')*0.01 : x,
+            typeof y =='string' ? th * y.replace('%', '')*0.01 : y,
+            typeof w =='string' ? tw * w.replace('%', '')*0.01 : w,
+            typeof h =='string' ? th * h.replace('%', '')*0.01 : h,
+        ]
         return this
     },
     fn.setAntialias = function setAntialias(isAntialias){MoGL.isAlive(this);

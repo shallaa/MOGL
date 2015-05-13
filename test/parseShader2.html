@@ -85,7 +85,7 @@
     w.getScene('s0')._update = 1
     w.addRender('s0', 'camera1');
 
-    w.getScene('s0').getChild('camera1').setRenderArea(100,10,200,200);
+    w.getScene('s0').getChild('camera1').setRenderArea('50%',10,200,200);
     console.log(w.getScene('s0')._children)
     console.log(w.getScene('s0')._cameras)
     LOOP['test '] = function () {
