@@ -11,7 +11,15 @@ var Camera = (function () {
         this._r = 0,
         this._g = 0,
         this._b = 0,
-        this._a = 1
+        this._a = 1,
+        this._fov = 55 * Math.PI / 180,
+        this._near = 0.1,
+        this._far = 100000,
+        this._renderArea = [],
+        this._visible=1,
+        this._filters ={},
+        this._fog = null,
+        this._stereo = null
     }
     fn = Camera.prototype
     fn.getBackgroundColor = function getBackgroundColor(){MoGL.isAlive(this);
@@ -22,16 +30,20 @@ var Camera = (function () {
     fn.getFilters = function getFilters(){MoGL.isAlive(this);
     },
     fn.getFog = function getFog(){MoGL.isAlive(this);
+        return this._fog
     },
     fn.getFOV = function getFOV(){MoGL.isAlive(this);
+        return this._fov
     },
     fn.getProjectionMatrix = function getProjectionMatrix(){MoGL.isAlive(this);
     },
     fn.getRenderArea = function getRenderArea(){MoGL.isAlive(this);
+        return this._renderArea
     },
     fn.getStereo = function getStereo(){MoGL.isAlive(this);
     },
     fn.getVisible = function getVisible(){MoGL.isAlive(this);
+        return this._visible
     },
     fn.setBackgroundColor = function setBackgroundColor() {MoGL.isAlive(this);
         var t0 = arguments[0], t1, ta
@@ -68,7 +80,8 @@ var Camera = (function () {
     fn.setFog = function setFog(){MoGL.isAlive(this);
         return this
     },
-    fn.setFOV = function setFOV(){MoGL.isAlive(this);
+    fn.setFOV = function setFOV(value){MoGL.isAlive(this);
+        this._fov = value
         return this
     },
     fn.setOthogonal = function setOthogonal(){MoGL.isAlive(this);
@@ -80,13 +93,15 @@ var Camera = (function () {
     fn.setProjectionMatrix = function setProjectionMatrix(){MoGL.isAlive(this);
         return this
     },
-    fn.setRenderArea = function setRenderArea(){MoGL.isAlive(this);
+    fn.setRenderArea = function setRenderArea(area){MoGL.isAlive(this);
+        this._renderArea = area
         return this
     },
     fn.setStereo = function setStereo(){MoGL.isAlive(this);
         return this
     },
-    fn.setVisible = function setVisible(){MoGL.isAlive(this);
+    fn.setVisible = function setVisible(value){MoGL.isAlive(this);
+        this._visible=value
         return this
     },
     fn.removeFilter = function removeFilter(){MoGL.isAlive(this);

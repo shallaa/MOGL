@@ -25,44 +25,45 @@ var World = (function () {
             if (tList[i].scene._update) tList[i].scene.update()
             //console.log('카메라렌더',tList[i].sceneID,tList[i].cameraID, '실제 Scene : ',tList[i].scene)
             scene = tList[i].scene,
-            camera = scene.getChild(tList[i].cameraID),
-            gl = scene._gl,
-            children = scene._children,
-            gl.clearColor(camera._r, camera._g, camera._b, camera._a),
-            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT),
-            tItem = tMaterial = tProgram = tVBO = tIBO = null
-            for (k in children) {
-                tItem = children[k],
-                tVBO = scene._glVBOs[tItem._geometry._name],
-                tUVBO = scene._glUVBOs[tItem._geometry._name],
-                tIBO = scene._glIBOs[tItem._geometry._name],
-                tMaterial = tItem._material,
-                tProgram = tMaterial._textures.__indexList.length>0 ?scene._glPROGRAMs['bitmap'] :scene._glPROGRAMs['base'], // TODO 이놈은 어디서 결정하지?
-                gl.useProgram(tProgram)
-                if(tProgram==scene._glPROGRAMs['base']){
-                    gl.bindBuffer(gl.ARRAY_BUFFER, tVBO),
-                    gl.vertexAttribPointer(tProgram.aVertexPosition, tVBO.stride, gl.FLOAT, false, 0, 0),
-                    gl.uniform3fv(tProgram.uRotate, [tItem.rotateX, tItem.rotateY, tItem.rotateZ]),
-                    gl.uniform3fv(tProgram.uPosition, [tItem.x, tItem.y, tItem.z]),
-                    gl.uniform3fv(tProgram.uScale, [tItem.scaleX, tItem.scaleY, tItem.scaleZ]),
-                    gl.uniform3fv(tProgram.uColor, [tMaterial._r, tMaterial._g, tMaterial._b]),
-                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, tIBO),
-                    gl.drawElements(gl.TRIANGLES, tIBO.numItem, gl.UNSIGNED_SHORT, 0)
-                }else  if(tProgram==scene._glPROGRAMs['bitmap']){
-                    gl.bindBuffer(gl.ARRAY_BUFFER, tVBO),
-                    gl.vertexAttribPointer(tProgram.aVertexPosition, tVBO.stride, gl.FLOAT, false, 0, 0),
-                    gl.bindBuffer(gl.ARRAY_BUFFER, tUVBO),
-                    gl.vertexAttribPointer(tProgram.aUV, tUVBO.stride, gl.FLOAT, false, 0, 0),
-                    gl.uniform3fv(tProgram.uRotate, [tItem.rotateX, tItem.rotateY, tItem.rotateZ]),
-                    gl.uniform3fv(tProgram.uPosition, [tItem.x, tItem.y, tItem.z]),
-                    gl.uniform3fv(tProgram.uScale, [tItem.scaleX, tItem.scaleY, tItem.scaleZ]),
-                    gl.activeTexture(gl.TEXTURE0);
-                    var texture = scene._glTEXTUREs[tMaterial._textures.__indexList[0].id]
-                    gl.bindTexture(gl.TEXTURE_2D, texture);
-                    gl.uniform1i(tProgram.uSampler, 0);
-                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, tIBO),
-                    gl.drawElements(gl.TRIANGLES, tIBO.numItem, gl.UNSIGNED_SHORT, 0)
-
+            camera = scene.getChild(tList[i].cameraID)
+            if(camera._visible){
+                gl = scene._gl,
+                    children = scene._children,
+                    gl.clearColor(camera._r, camera._g, camera._b, camera._a),
+                    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT),
+                    tItem = tMaterial = tProgram = tVBO = tIBO = null
+                for (k in children) {
+                    tItem = children[k],
+                    tVBO = scene._glVBOs[tItem._geometry._name],
+                    tUVBO = scene._glUVBOs[tItem._geometry._name],
+                    tIBO = scene._glIBOs[tItem._geometry._name],
+                    tMaterial = tItem._material,
+                    tProgram = tMaterial._textures.__indexList.length>0 ?scene._glPROGRAMs['bitmap'] :scene._glPROGRAMs['base'], // TODO 이놈은 어디서 결정하지?
+                    gl.useProgram(tProgram)
+                    if(tProgram==scene._glPROGRAMs['base']){
+                        gl.bindBuffer(gl.ARRAY_BUFFER, tVBO),
+                        gl.vertexAttribPointer(tProgram.aVertexPosition, tVBO.stride, gl.FLOAT, false, 0, 0),
+                        gl.uniform3fv(tProgram.uRotate, [tItem.rotateX, tItem.rotateY, tItem.rotateZ]),
+                        gl.uniform3fv(tProgram.uPosition, [tItem.x, tItem.y, tItem.z]),
+                        gl.uniform3fv(tProgram.uScale, [tItem.scaleX, tItem.scaleY, tItem.scaleZ]),
+                        gl.uniform3fv(tProgram.uColor, [tMaterial._r, tMaterial._g, tMaterial._b]),
+                        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, tIBO),
+                        gl.drawElements(gl.TRIANGLES, tIBO.numItem, gl.UNSIGNED_SHORT, 0)
+                    }else if(tProgram==scene._glPROGRAMs['bitmap']){
+                        gl.bindBuffer(gl.ARRAY_BUFFER, tVBO),
+                        gl.vertexAttribPointer(tProgram.aVertexPosition, tVBO.stride, gl.FLOAT, false, 0, 0),
+                        gl.bindBuffer(gl.ARRAY_BUFFER, tUVBO),
+                        gl.vertexAttribPointer(tProgram.aUV, tUVBO.stride, gl.FLOAT, false, 0, 0),
+                        gl.uniform3fv(tProgram.uRotate, [tItem.rotateX, tItem.rotateY, tItem.rotateZ]),
+                        gl.uniform3fv(tProgram.uPosition, [tItem.x, tItem.y, tItem.z]),
+                        gl.uniform3fv(tProgram.uScale, [tItem.scaleX, tItem.scaleY, tItem.scaleZ]),
+                        gl.activeTexture(gl.TEXTURE0);
+                        var texture = scene._glTEXTUREs[tMaterial._textures.__indexList[0].id]
+                        gl.bindTexture(gl.TEXTURE_2D, texture);
+                        gl.uniform1i(tProgram.uSampler, 0);
+                        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, tIBO),
+                        gl.drawElements(gl.TRIANGLES, tIBO.numItem, gl.UNSIGNED_SHORT, 0)
+                    }
                 }
             }
         }
