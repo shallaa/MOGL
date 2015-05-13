@@ -45,8 +45,7 @@ var Material = (function () {
         var t = this._scene
         if (t && !t._textures[textureID]) MoGL.error('Material', 'addTexture', 0)
         if (this._textures[textureID]) MoGL.error('Material', 'addTexture', 1)
-        if(t) this._textures[textureID] = t._textures[textureID]
-        else this._textures[textureID] = textureID
+        this._textures[textureID] = textureID
         var result
         if (arguments[1]) result=this._textures.__indexList.splice(arguments[1], 0,{id: textureID,blendMode : arguments[2]})
         else result=this._textures.__indexList.push({id: textureID,blendMode : arguments[2]})
