@@ -12,14 +12,14 @@ var Camera = (function () {
         this._g = 0,
         this._b = 0,
         this._a = 1,
-        this._fov = 55 * Math.PI / 180,
+        this._fov = 55,
         this._near = 0.1,
         this._far = 100000,
         this._renderArea = null,
         this._visible=1,
         this._filters ={},
         this._fog = null,
-        this._antialias = 0
+        this._antialias = false
         this._pixelMatrix = Matrix()
     }
     fn = Camera.prototype
@@ -30,10 +30,12 @@ var Camera = (function () {
         return [this._near,this._far]
     },
     fn.getFilters = function getFilters(){MoGL.isAlive(this);
-        //TODO
+        var result = [],t = this._filters
+        for(var k in t) result.push(k)
+        return result
     },
     fn.getFog = function getFog(){MoGL.isAlive(this);
-        return this._fog
+        return this._fog ? true : false
     },
     fn.getFOV = function getFOV(){MoGL.isAlive(this);
         return this._fov
@@ -41,7 +43,7 @@ var Camera = (function () {
     fn.getProjectionMatrix = function getProjectionMatrix(){MoGL.isAlive(this);
         //TODO 크기를 반영해야함..
         //TODO 이렇다는건...카메라 렌더시에 _renderArea를 알고있다는 가정인가?
-        var aspectRatio = this._renderArea[2]/this._renderArea[3],yScale = 1.0 / Math.tan(this._fov / 2.0),xScale = yScale / aspectRatio;
+        var aspectRatio = this._renderArea[2]/this._renderArea[3],yScale = 1.0 / Math.tan(this._fov * Math.PI / 180 / 2.0),xScale = yScale / aspectRatio;
         this._pixelMatrix = [
             xScale, 0, 0, 0,
             0, -yScale, 0, 0,
@@ -54,10 +56,10 @@ var Camera = (function () {
         return this._renderArea
     },
     fn.getAntialias = function getAntialias(){MoGL.isAlive(this);
-        return this._antialias
+        return this._antialias ? true : false
     },
     fn.getVisible = function getVisible(){MoGL.isAlive(this);
-        return this._visible
+        return this._visible ? true : false
     },
     fn.setBackgroundColor = function setBackgroundColor() {MoGL.isAlive(this);
         var t0 = arguments[0], t1, ta
@@ -89,16 +91,152 @@ var Camera = (function () {
         this._near = near,this._far = far
         return this
     },
-    fn.setFilter = function setFilter(){MoGL.isAlive(this);
-        //TODO
+    fn.setFilter = function setFilter(filter/*,needIe*/){MoGL.isAlive(this);
+        var result
+        if(arguments[1]){
+            result = arguments[1]
+        }else{
+            switch (filter) {
+                case Filter.anaglyph :
+                    result = {
+                        offsetL: 0.008,
+                        offsetR: 0.008,
+                        gIntensity: 0.7,
+                        bIntensity: 0.7
+                    }
+                    break
+                case Filter.bevel :
+                    result = {
+                        distance: 4.0,
+                        angle: 45,
+                        highlightColor: '#FFF',
+                        highlightAlpha: 1.0,
+                        shadowColor: '#000',
+                        shadowAlpha: 1.0,
+                        blurX: 4.0,
+                        blurY: 4.0,
+                        strength: 1,
+                        quality: 1,
+                        type: "inner",
+                        knockout: false
+                    }
+                    break
+                case Filter.bloom :
+                    result = {
+                        threshold: 0.3,
+                        sourceSaturation: 1.0,
+                        bloomSaturation: 1.3,
+                        sourceIntensity: 1.0,
+                        bloomIntensity: 1.0
+                    }
+                    break
+                case Filter.blur :
+                    result = {
+                        blurX: 4.0,
+                        blurY: 4.0,
+                        quality : 1
+                    }
+                    break
+                case Filter.colorMatrix :
+                    result =  {}
+                    break
+                case Filter.convolution :
+                    result = {
+                        matrixX: 0,
+                        matrixY: 0,
+                        matrix: null,
+                        divisor: 1.0,
+                        bias: 0.0,
+                        preserveAlpha: true,
+                        clamp: true,
+                        color: 0,
+                        alpha: 0.0
+                    }
+                    break
+                case Filter.displacementMap :
+                    result =  {
+                        mapTextureID: null,
+                        mapPoint: null,
+                        componentX: 0,
+                        componentY: 0,
+                        scaleX: 0.0,
+                        scaleY: 0.0,
+                        mode: "wrap",
+                        color: 0,
+                        alpha: 0.0
+                    }
+                    break
+                case Filter.fxaa :
+                    result =  {}
+                    break
+                case Filter.glow :
+                    result = {
+                        color: '#F00',
+                        alpha: 1.0,
+                        blurX: 6.0,
+                        blurY: 6.0,
+                        strength: 2,
+                        quality: 1,
+                        inner: false,
+                        knockout: false
+                    }
+                    break
+                case Filter.invert :
+                    result =  {}
+                    break
+                case Filter.mono :
+                    result =  {}
+                    break
+                case Filter.sepia :
+                    result =  {}
+                    break
+                case Filter.shadow :
+                    result = {
+                        distance: 4.0,
+                        angle: 45,
+                        color: 0,
+                        alpha: 1.0,
+                        blurX: 4.0,
+                        blurY: 4.0,
+                        strength: 1.0,
+                        quality: 1,
+                        inner: false,
+                        knockout: false,
+                        hideObject: false
+                    }
+                    break
+            }
+        }
+        this._filters[filter] = result
         return this
     },
-    fn.setFog = function setFog(){MoGL.isAlive(this);
-        //TODO
+    fn.setFog = function setFog(color,near,far){MoGL.isAlive(this);
+        var t0 = color,t1,result
+        if (t0.charAt(0) == '#') {
+            result= {}
+            if (t1 = hex.exec(t0)) {
+                result.r = parseInt(t1[1], 16) / 255,
+                result.g = parseInt(t1[2], 16) / 255,
+                result.b = parseInt(t1[3], 16) / 255
+
+            } else {
+                t1 = hex_s.exec(t0),
+                result.r = parseInt(t1[1] + t1[1], 16) / 255,
+                result.g = parseInt(t1[2] + t1[2], 16) / 255,
+                result.b = parseInt(t1[3] + t1[3], 16) / 255
+            }
+            result.a =1
+            result.near = near
+            result.far = far
+            this._fog = result
+        }else if(!color){
+            this._fog = null
+        }
         return this
     },
-    fn.setFOV = function setFOV(value){MoGL.isAlive(this);
-        this._fov = value
+    fn.setFOV = function setFOV(){MoGL.isAlive(this);
+        if (arguments.length == 1)this._fov = arguments[0]
+        else this._fov = Math.ceil(2 * Math.atan(Math.tan(arguments[2] * (Math.PI / 180) / 2) * (arguments[1] / arguments[0])) * (180 / Math.PI))
         return this
     },
     fn.setOthogonal = function setOthogonal(){MoGL.isAlive(this);
@@ -114,20 +252,20 @@ var Camera = (function () {
         return this
     },
     fn.setRenderArea = function setRenderArea(x,y,w,h){MoGL.isAlive(this);
-        //TODO
+        // TODO %단위 결정해야함
         this._renderArea = [x,y,w,h]
         return this
     },
-    fn.setAntialias = function setAntialias(value){MoGL.isAlive(this);
-        this._antialias = value
+    fn.setAntialias = function setAntialias(isAntialias){MoGL.isAlive(this);
+        this._antialias = isAntialias
         return this
     },
     fn.setVisible = function setVisible(value){MoGL.isAlive(this);
         this._visible=value
         return this
     },
-    fn.removeFilter = function removeFilter(){MoGL.isAlive(this);
-        //TODO
+    fn.removeFilter = function removeFilter(filter){MoGL.isAlive(this);
+        delete this._filters[filter]
         return this
     }
     return MoGL.ext(Camera, Mesh);
