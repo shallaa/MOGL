@@ -18,7 +18,7 @@
 * [setAntiAlias](#setantialias-isantialiasboolean-)
 * [setBackgroundColor](#setbackgroundcolor-colorstring-)
 * [setClipPlane](#setclipplane-nearnumber-farnumber-)
-* [setFilter](#)
+* [setFilter](#setfilter-filterstring-needleobject-)
 * [setFog](#setfog-colorstring-nearnumber-farnumber-)
 * [setFOV](#setfov-fovnumber-)
 * [setOthogonal](#setothogonal)
@@ -255,7 +255,7 @@ var cam = Camera().setAntialias( true );
 ```
 
 [top](#)
-## setBackgroundColor( color:String )
+## setBackgroundColor( color:string )
 └ setBackgroundColor( r:number, b:number, b:number, a:number )
 
 **description**
@@ -329,17 +329,17 @@ var cam = Camera().setClipPlane( 10, 200 );
        * ?gIntensity:number = 0.7,
        * ?bIntensity:number = 0.7 }
     * [Filter.bevel](Filter.md#bevel) - {
-       * ?distance:Number = 4.0, 
-       * ?angle:Number = 45, 
+       * ?distance:number = 4.0, 
+       * ?angle:number = 45, 
        * ?highlightColor:string = '#FFF', 
-       * ?highlightAlpha:Number = 1.0, 
+       * ?highlightAlpha:number = 1.0, 
        * ?shadowColor:string = '#000', 
-       * ?shadowAlpha:Number = 1.0, 
-       * ?blurX:Number = 4.0, 
-       * ?blurY:Number = 4.0, 
-       * ?strength:Number = 1, 
+       * ?shadowAlpha:number = 1.0, 
+       * ?blurX:number = 4.0, 
+       * ?blurY:number = 4.0, 
+       * ?strength:number = 1, 
        * ?quality:int = 1,
-       * ?type:String = "inner", 
+       * ?type:string = "inner", 
        * ?knockout:Boolean = false }
     * [Filter.bloom](Filter.md#bloom) - {
        * ?threshold:number = 0.3,
@@ -348,37 +348,37 @@ var cam = Camera().setClipPlane( 10, 200 );
        * ?sourceIntensity:number = 1.0,
        * ?bloomIntensity:number = 1.0 }
     * [Filter.blur](Filter.md#blur) - {
-       * ?blurX:Number = 4.0, 
-       * ?blurY:Number = 4.0, 
+       * ?blurX:number = 4.0, 
+       * ?blurY:number = 4.0, 
        * ?quality:int = 1 }
     * [Filter.colorMatrix](Filter.md#colormatrix) - [Matrix](Matrix.md)
     * [Filter.convolution](Filter.md#convolution) - {
-       * ?matrixX:Number = 0,
-       * ?matrixY:Number = 0,
+       * ?matrixX:number = 0,
+       * ?matrixY:number = 0,
        * ?matrix:Array = null,
-       * ?divisor:Number = 1.0,
-       * ?bias:Number = 0.0,
+       * ?divisor:number = 1.0,
+       * ?bias:number = 0.0,
        * ?preserveAlpha:Boolean = true,
        * ?clamp:Boolean = true,
        * ?color:uint = 0,
-       * ?alpha:Number = 0.0 }
+       * ?alpha:number = 0.0 }
     * [Filter.displacementMap](Filter.md#displacementmap) - {
        * ?mapTextureID:string = null,
        * ?mapPoint:Array[x,y] = null,
        * ?componentX:uint = 0,
        * ?componentY:uint = 0,
-       * ?scaleX:Number = 0.0,
-       * ?scaleY:Number = 0.0,
-       * ?mode:String = "wrap",
+       * ?scaleX:number = 0.0,
+       * ?scaleY:number = 0.0,
+       * ?mode:string = "wrap",
        * ?color:uint = 0,
-       * ?alpha:Number = 0.0 }
+       * ?alpha:number = 0.0 }
     * [Filter.fxaa](Filter.md#fxaa) - 없음.
     * [Filter.glow](Filter.md#glow) - {
        * ?color:string = '#F00', 
-       * ?alpha:Number = 1.0, 
-       * ?blurX:Number = 6.0, 
-       * ?blurY:Number = 6.0, 
-       * ?strength:Number = 2, 
+       * ?alpha:number = 1.0, 
+       * ?blurX:number = 6.0, 
+       * ?blurY:number = 6.0, 
+       * ?strength:number = 2, 
        * ?quality:int = 1, 
        * ?inner:Boolean = false, 
        * ?knockout:Boolean = false }
@@ -386,13 +386,13 @@ var cam = Camera().setClipPlane( 10, 200 );
     * [Filter.mono](Filter.md#mono) - 없음.
     * [Filter.sepia](Filter.md#sepia) - 없음.
     * [Filter.shadow](Filter.md#shadow) - {
-       * ?distance:Number = 4.0, 
-       * ?angle:Number = 45,
+       * ?distance:number = 4.0, 
+       * ?angle:number = 45,
        * ?color:uint = 0,
-       * ?alpha:Number = 1.0,
-       * ?blurX:Number = 4.0,
-       * ?blurY:Number = 4.0,
-       * ?strength:Number = 1.0,
+       * ?alpha:number = 1.0,
+       * ?blurX:number = 4.0,
+       * ?blurY:number = 4.0,
+       * ?strength:number = 1.0,
        * ?quality:int = 1,
        * ?inner:Boolean = false,
        * ?knockout:Boolean = false,
