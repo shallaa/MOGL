@@ -66,10 +66,12 @@ var World = (function () {
                         gl.uniform3fv(tProgram.uScale, [tItem.scaleX, tItem.scaleY, tItem.scaleZ]),
                         gl.activeTexture(gl.TEXTURE0);
                         var texture = scene._glTEXTUREs[tMaterial._textures.__indexList[0].id]
-                        gl.bindTexture(gl.TEXTURE_2D, texture);
-                        gl.uniform1i(tProgram.uSampler, 0);
-                        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, tIBO),
-                        gl.drawElements(gl.TRIANGLES, tIBO.numItem, gl.UNSIGNED_SHORT, 0)
+                        if(texture.loaded){
+                            gl.bindTexture(gl.TEXTURE_2D, texture);
+                            gl.uniform1i(tProgram.uSampler, 0);
+                            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, tIBO),
+                            gl.drawElements(gl.TRIANGLES, tIBO.numItem, gl.UNSIGNED_SHORT, 0)
+                        }
                     }
                 }
             }

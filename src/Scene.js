@@ -84,7 +84,9 @@ var Scene = (function () {
         if (!gl.getProgramParameter(program, gl.LINK_STATUS)) MoGL.error(name, ' 프로그램 쉐이더 초기화 실패!', 0)
         gl.useProgram(program)
         for (i = 0; i < vShader.attributes.length; i++) {
-            gl.enableVertexAttribArray(program[vShader.attributes[i]] = gl.getAttribLocation(program, vShader.attributes[i]))
+            gl.bindBuffer(gl.ARRAY_BUFFER, self._glVBOs['null']),
+            gl.enableVertexAttribArray(program[vShader.attributes[i]] = gl.getAttribLocation(program, vShader.attributes[i])),
+            gl.vertexAttribPointer(program[vShader.attributes[i]], self._glVBOs['null'].stride, gl.FLOAT, false, 0, 0)
         }
         for (i = 0; i < vShader.uniforms.length; i++) {
             program[vShader.uniforms[i]] = gl.getUniformLocation(program, vShader.uniforms[i])
@@ -168,6 +170,7 @@ var Scene = (function () {
 /////////////////////////////////////////////////////////////////
     fn = Scene.prototype,
     fn.update = function update() { MoGL.isAlive(this);
+        this._glVBOs['null'] = makeVBO(this, 'null', new Float32Array([0.0,0.0,0.0]), 3)
         //for GPU
         for (var k in this._children) {
             var mesh = this._children[k]

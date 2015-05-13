@@ -48,6 +48,23 @@
         main: ['gl_FragColor =  vec4(vColor, 1.0)']
     }
 
+    var bitmapVertexShader = {
+        attributes: ['vec3 aVertexPosition', 'vec2 aUV'],
+        uniforms: ['mat4 uPixelMatrix','vec3 uRotate', 'vec3 uScale', 'vec3 uPosition'],
+        varyings: ['vec2 vUV'],
+        function: [VertexShader.baseFunction],
+        main: ['' +
+        'gl_Position = uPixelMatrix*positionMTX(uPosition)*rotationMTX(uRotate)*scaleMTX(uScale)*vec4(aVertexPosition, 1.0);\n' +
+        'vUV = aUV;'
+        ]
+    }
+    var bitmapFragmentShader = {
+        precision: 'mediump float',
+        uniforms: ['sampler2D uSampler'],
+        varyings: ['vec2 vUV'],
+        function: [],
+        main: ['gl_FragColor =  texture2D(uSampler, vec2(vUV.s, vUV.t))']
+    }
 
     var w = new World('firstTest');
     w.addScene('s0', new Scene());
@@ -55,15 +72,23 @@
     w.getScene('s0').addVertexShader('base', baseVertexShader);
     w.getScene('s0').addFragmentShader('base', baseFragmentShader);
 
+    w.getScene('s0').addVertexShader('bitmap', bitmapVertexShader);
+    w.getScene('s0').addFragmentShader('bitmap', bitmapFragmentShader);
+
     w.getScene('s0').addGeometry('tri', new Geometry([-1, 0, 0, 1, 0, 0, 0, 1, 0], [0, 1, 2]));
     w.getScene('s0').addGeometry('rect', new Geometry([
-        1.0, 1.0, 0.0,
-        -1.0, 1.0, 0.0,
-        1.0, -1.0, 0.0,
-        -1.0, -1.0, 0.0
-    ], [0, 1, 2, 1, 2, 3]));
+        1.0, 1.0, 0.0, 0.0, 0.0,
+        -1.0, 1.0, 0.0, 1.0, 0.0,
+        1.0, -1.0, 0.0, 0.0, 1.0,
+        -1.0, -1.0, 0.0, 1.0, 1.0
+    ], [0, 1, 2, 1, 2, 3], [Vertex.x, Vertex.y, Vertex.z, Vertex.u, Vertex.v]));
     w.getScene('s0').addMaterial('white', new Material('#fff'));
     w.getScene('s0').addChild('tri', new Mesh('tri', new Material('#ff2244')));
+
+    var bitmapMaterial = new Material(Math.random(), Math.random(), Math.random())
+    w.getScene('s0').addTexture('bitmapTextureTest', '../src/ohno.png')
+    bitmapMaterial.addTexture('bitmapTextureTest')
+    w.getScene('s0').addMaterial('bitmapMaterial', bitmapMaterial)
 
     for (var i = 0; i < 100; i++) {
         w.getScene('s0').addChild('tri' + i, new Mesh('tri', new Material(Math.random(), Math.random(), Math.random())));
@@ -76,6 +101,17 @@
         a.rotateZ = Math.random()
         a.setScale(Math.random() / 4, Math.random() / 4, 1)
 
+    }
+    for (var i = 0; i < 100; i++) {
+        w.getScene('s0').addChild('rect' + i, new Mesh('rect', 'bitmapMaterial'));
+        var a = w.getScene('s0').getChild('rect' + i)
+        a.x = Math.random()*2 - 1
+        a.y = Math.random()*2 - 1
+        a.z = Math.random()*2+1
+        a.rotateX = Math.random()
+        a.rotateY = Math.random()
+        a.rotateZ = Math.random()
+        a.setScale(Math.random() / 4, Math.random() / 4, 1)
     }
 
     w.getScene('s0').addChild('rect', new Mesh('rect', new Material('#333')));
@@ -100,6 +136,11 @@
 
         for (var i = 0; i < 100; i++) {
             var a = w.getScene('s0').getChild('tri' + i)
+            a.rotateX += 0.01
+            a.rotateY += 0.02
+            a.rotateZ += 0.03
+
+            var a = w.getScene('s0').getChild('rect' + i)
             a.rotateX += 0.01
             a.rotateY += 0.02
             a.rotateZ += 0.03

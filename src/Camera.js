@@ -19,7 +19,7 @@ var Camera = (function () {
         this._visible=1,
         this._filters ={},
         this._fog = null,
-        this._stereo = null
+        this._antialias = 0
         this._pixelMatrix = Matrix()
     }
     fn = Camera.prototype
@@ -53,8 +53,8 @@ var Camera = (function () {
     fn.getRenderArea = function getRenderArea(){MoGL.isAlive(this);
         return this._renderArea
     },
-    fn.getStereo = function getStereo(){MoGL.isAlive(this);
-        //TODO
+    fn.getAntialias = function getAntialias(){MoGL.isAlive(this);
+        return this._antialias
     },
     fn.getVisible = function getVisible(){MoGL.isAlive(this);
         return this._visible
@@ -118,8 +118,8 @@ var Camera = (function () {
         this._renderArea = [x,y,w,h]
         return this
     },
-    fn.setStereo = function setStereo(){MoGL.isAlive(this);
-        //TODO
+    fn.setAntialias = function setAntialias(value){MoGL.isAlive(this);
+        this._antialias = value
         return this
     },
     fn.setVisible = function setVisible(value){MoGL.isAlive(this);
