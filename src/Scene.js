@@ -6,6 +6,7 @@ var Scene = (function () {
     var Scene, fn;
     Scene = function Scene() {
         this._update=0
+        this._cvs = null,
         // for JS
         this._children = {},
         this._cameras={},
@@ -83,7 +84,9 @@ var Scene = (function () {
         if (!gl.getProgramParameter(program, gl.LINK_STATUS)) MoGL.error(name, ' 프로그램 쉐이더 초기화 실패!', 0)
         gl.useProgram(program)
         for (i = 0; i < vShader.attributes.length; i++) {
-            gl.enableVertexAttribArray(program[vShader.attributes[i]] = gl.getAttribLocation(program, vShader.attributes[i]))
+            gl.bindBuffer(gl.ARRAY_BUFFER, self._glVBOs['null']),
+            gl.enableVertexAttribArray(program[vShader.attributes[i]] = gl.getAttribLocation(program, vShader.attributes[i])),
+            gl.vertexAttribPointer(program[vShader.attributes[i]], self._glVBOs['null'].stride, gl.FLOAT, false, 0, 0)
         }
         for (i = 0; i < vShader.uniforms.length; i++) {
             program[vShader.uniforms[i]] = gl.getUniformLocation(program, vShader.uniforms[i])
@@ -167,6 +170,7 @@ var Scene = (function () {
 /////////////////////////////////////////////////////////////////
     fn = Scene.prototype,
     fn.update = function update() { MoGL.isAlive(this);
+        this._glVBOs['null'] = makeVBO(this, 'null', new Float32Array([0.0,0.0,0.0]), 3)
         //for GPU
         for (var k in this._children) {
             var mesh = this._children[k]
@@ -175,6 +179,10 @@ var Scene = (function () {
                 this._glUVBOs[mesh._geometry._name] = makeUVBO(this, mesh._geometry._name, mesh._geometry._uv, 2),
                 this._glIBOs[mesh._geometry._name] = makeIBO(this, mesh._geometry._name, mesh._geometry._index, 1)
             }
+        }
+        for (k in this._cameras){
+            var camera = this._cameras[k]
+            if(!camera._renderArea) camera.setRenderArea(0,0,this._cvs.width,this._cvs.height)
         }
         var checks = this._vertexShaders;
         for (k in checks) makeProgram(this, k)

@@ -28,10 +28,17 @@ var World = (function () {
             camera = scene.getChild(tList[i].cameraID)
             if(camera._visible){
                 gl = scene._gl,
-                    children = scene._children,
-                    gl.clearColor(camera._r, camera._g, camera._b, camera._a),
-                    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT),
-                    tItem = tMaterial = tProgram = tVBO = tIBO = null
+                children = scene._children,
+                //TODO 뷰포트가 아닌....이게...프레임에 어떻게 그릴껀지로 가야함..
+                gl.viewport(camera._renderArea[0],camera._renderArea[1]==0 ? 0 :camera._renderArea[3]-camera._renderArea[1],camera._renderArea[2],camera._renderArea[3])
+                gl.clearColor(camera._r, camera._g, camera._b, camera._a)
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+                for(k in scene._glPROGRAMs){
+                    tProgram = scene._glPROGRAMs[k]
+                    gl.useProgram(tProgram)
+                    gl.uniformMatrix4fv(tProgram.uPixelMatrix,false,camera.getProjectionMatrix())
+                }
+                tItem = tMaterial = tProgram = tVBO = tIBO = null
                 for (k in children) {
                     tItem = children[k],
                     tVBO = scene._glVBOs[tItem._geometry._name],
@@ -59,10 +66,12 @@ var World = (function () {
                         gl.uniform3fv(tProgram.uScale, [tItem.scaleX, tItem.scaleY, tItem.scaleZ]),
                         gl.activeTexture(gl.TEXTURE0);
                         var texture = scene._glTEXTUREs[tMaterial._textures.__indexList[0].id]
-                        gl.bindTexture(gl.TEXTURE_2D, texture);
-                        gl.uniform1i(tProgram.uSampler, 0);
-                        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, tIBO),
-                        gl.drawElements(gl.TRIANGLES, tIBO.numItem, gl.UNSIGNED_SHORT, 0)
+                        if(texture.loaded){
+                            gl.bindTexture(gl.TEXTURE_2D, texture);
+                            gl.uniform1i(tProgram.uSampler, 0);
+                            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, tIBO),
+                            gl.drawElements(gl.TRIANGLES, tIBO.numItem, gl.UNSIGNED_SHORT, 0)
+                        }
                     }
                 }
             }
@@ -87,7 +96,7 @@ var World = (function () {
     fn.addScene = function addScene(sceneID, scene) { MoGL.isAlive(this);
         if (this._sceneList[sceneID]) MoGL.error('World', 'addScene', 0)
         if (!(scene instanceof Scene )) MoGL.error('World', 'addScene', 1)
-        this._sceneList[sceneID] = scene, scene._gl = this._gl
+        this._sceneList[sceneID] = scene, scene._gl = this._gl,scene._cvs = this._cvs
         return this
     },
     fn.getScene = function getScene(sceneID) { MoGL.isAlive(this);
