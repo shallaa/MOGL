@@ -15,13 +15,6 @@
 * [Filter.mono](#mono)
 * [Filter.sepia](#sepia)
 * [Filter.shadow](#shadow)
-    
-[top](#)
-## Vertex.x
-
-**description**
-
-'x' - x좌표.
 
 [top](#)
 ## Filter.anaglyph
@@ -108,7 +101,7 @@
 'sepia' - 세피아효과를 줄 수 있는 필터.
 
 [top](#)
-## ilter.shadow
+## Filter.shadow
 
 **description**
 
