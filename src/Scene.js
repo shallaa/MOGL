@@ -17,6 +17,7 @@ var Scene = (function () {
         // for GPU
         this._gl = null,
         this._glVBOs = {},
+        this._glUVBOs = {},
         this._glIBOs = {},
         this._glPROGRAMs = {},
         this._glTEXTUREs ={}
@@ -52,6 +53,22 @@ var Scene = (function () {
         self._glIBOs[name] = buffer,
         console.log('IBO생성', self._glIBOs[name])
         return self._glIBOs[name]
+    }
+
+    var makeUVBO = function makeUVBO(self, name, data, stride) {
+        var gl = self._gl,buffer = self._glUVBOs[name]
+        if (buffer) return buffer
+        buffer = gl.createBuffer(),
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer),
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW),
+            buffer.name = name,
+            buffer.type = 'UVBO',
+            buffer.data = data,
+            buffer.stride = stride,
+            buffer.numItem = data.length / stride,
+            self._glUVBOs[name] = buffer,
+            console.log('UVBO생성', self._glUVBOs[name])
+        return self._glUVBOs[name]
     }
 
     var makeProgram = function makeProgram(self, name) {
@@ -105,7 +122,7 @@ var Scene = (function () {
         gl.compileShader(shader)
         return shader
     }
-    function fragmentShaderParser(self,source){
+    var fragmentShaderParser = function fragmentShaderParser(self,source){
         var gl=self._gl,resultStr = "", i,t0,len,shader = gl.createShader(gl.FRAGMENT_SHADER);
         shader.uniforms = []
         if(source.precision) resultStr+='precision '+source.precision+';\n'
@@ -126,6 +143,25 @@ var Scene = (function () {
         shader.uniforms = source.uniforms
         return shader
     }
+    var makeTexture = function makeTexture(self, id,image) {
+        var gl = self._gl, texture = self._glTEXTUREs[id];
+        //TODO 일단 이미지만
+        if (texture) return texture
+        texture = gl.createTexture(),
+        texture.img = new Image(),
+        texture.img.src = image.src
+        texture.img.onload = function () {
+            gl.bindTexture(gl.TEXTURE_2D, texture),
+            //TODO 다변화 대응해야됨
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.img),
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+            gl.bindTexture(gl.TEXTURE_2D, null)
+            texture.loaded=1
+        }
+        self._glTEXTUREs[id] = texture
+        return self._glTEXTUREs[id]
+    }
 /////////////////////////////////////////////////////////////////
     fn = Scene.prototype,
     fn.update = function update() { MoGL.isAlive(this);
@@ -134,6 +170,7 @@ var Scene = (function () {
             var mesh = this._children[k]
             if (!this._glVBOs[mesh._geometry] && mesh._geometry) {
                 this._glVBOs[mesh._geometry._name] = makeVBO(this, mesh._geometry._name, mesh._geometry._position, 3),
+                this._glUVBOs[mesh._geometry._name] = makeUVBO(this, mesh._geometry._name, mesh._geometry._uv, 2),
                 this._glIBOs[mesh._geometry._name] = makeIBO(this, mesh._geometry._name, mesh._geometry._index, 1)
             }
         }
@@ -192,7 +229,9 @@ var Scene = (function () {
         var checks = material._fragmentShaders, k;
         for (k in checks) if (typeof checks[k] == 'string') if (!this._fragmentShaders[checks[k]]) MoGL.error('Scene', 'addMaterial', 2)
         checks = material._textures;
-        for (k in checks) if (typeof checks[k] == 'string') if (!this._textures[checks[k]]) MoGL.error('Scene', 'addMaterial', 3)
+        for (k in checks) if (typeof checks[k] == 'string') if (!this._textures[checks[k]]) {
+            MoGL.error('Scene', 'addMaterial', 3)
+        }
         this._materials[id] = material
         this._materials[id]._scene = this
         return this
@@ -209,8 +248,11 @@ var Scene = (function () {
             // TODO 블랍은 어카지 -__;;;;;;;;;;;;;;;;;;;;;;;;실제 이미지를 포함하고 있는 Blob객체.
             return 1
         }
-        this._textures[id] = {
-            count:0,last:0,img:image,resizeType:arguments[2] ? arguments[2] : null
+        if(this._textures[id]) this._textures[id].img=makeTexture(this,id,image)
+        else{
+            this._textures[id] = {
+                count: 0, last: 0, img: makeTexture(this,id, image), resizeType: arguments[2] || null
+            }
         }
         return this
     },
