@@ -323,32 +323,79 @@ var cam = Camera().setClipPlane( 10, 200 );
 
 2. needle?:Object - 각 필터에 따라 추가로 원하는 다음과 같은 인자가 있음(= 뒤는 기본값을 의미함)
     * [Filter.anaglyph](Filter.md#anaglyph) - {
-       distance:Number = 4.0, 
-       angle:Number = 45, 
-       highlightColor:uint = 0xFFFFFF, 
-       highlightAlpha:Number = 1.0, 
-       shadowColor:uint = 0x000000, 
-       shadowAlpha:Number = 1.0, 
-       blurX:Number = 4.0, 
-       blurY:Number = 4.0, 
-       strength:Number = 1, 
-       quality:int = 1, 
-       type:String = "inner", 
-       knockout:Boolean = false
-       }
-
-    * [Filter.bevel](Filter.md#bevel) or 'bevel' - 경사효과를 줄 수 있는 필터.
-    * [Filter.bloom](Filter.md#bloom) or 'bloom' - 일명 뽀샤시효과를 줄 수 있는 필터.
-    * [Filter.blur](Filter.md#blur) or 'blur' - 흐름효과를 줄 수 있는 필터.
-    * [Filter.colorMatrix](Filter.md#colormatrix) or 'colorMatrix' - 행렬변환을 이용해 색상을 변화시키는 필터.
-    * [Filter.convolution](Filter.md#convolution) or 'convolution' - 행렬회선을 이용한 필터 효과.
-    * [Filter.displacementMap](Filter.md#displacementmap) or 'displacementMap' - 지정된 텍스쳐를 이용한 왜곡효과를 주는 필터.
-    * [Filter.fxaa](Filter.md#fxaa) or 'fxaa' - 후처리 안티알리아스 필터를 적용함.
-    * [Filter.glow](Filter.md#glow) or 'glow' - 광선효과를 줄 수 있는 필터.
-    * [Filter.invert](Filter.md#invert) or 'invert' - 반전효과를 줄 수 있는 필터.
-    * [Filter.mono](Filter.md#mono) or 'mono' - 흑백효과를 줄 수 있는 필터.
-    * [Filter.sepia](Filter.md#sepia) or 'sepia' - 세피아효과를 줄 수 있는 필터.
-    * [Filter.shadow](Filter.md#shadow) or 'shadow' - 그림자효과를 줄 수 있는 필터.
+       * ?offsetL:number = 0.008,
+       * ?offsetR:number = 0.008,
+       * ?gIntensity:number = 0.7,
+       * ?bIntensity:number = 0.7 }
+    * [Filter.bevel](Filter.md#bevel) - {
+       * ?distance:Number = 4.0, 
+       * ?angle:Number = 45, 
+       * ?highlightColor:string = '#FFF', 
+       * ?highlightAlpha:Number = 1.0, 
+       * ?shadowColor:string = '#000', 
+       * ?shadowAlpha:Number = 1.0, 
+       * ?blurX:Number = 4.0, 
+       * ?blurY:Number = 4.0, 
+       * ?strength:Number = 1, 
+       * ?quality:int = 1,
+       * ?type:String = "inner", 
+       * ?knockout:Boolean = false }
+    * [Filter.bloom](Filter.md#bloom) - {
+       * ?threshold:number = 0.3,
+       * ?sourceSaturation:number = 1.0,
+       * ?bloomSaturation:number = 1.3,
+       * ?sourceIntensity:number = 1.0,
+       * ?bloomIntensity:number = 1.0 }
+    * [Filter.blur](Filter.md#blur) - {
+       * ?blurX:Number = 4.0, 
+       * ?blurY:Number = 4.0, 
+       * ?quality:int = 1 }
+    * [Filter.colorMatrix](Filter.md#colormatrix) - [Matrix](Matrix.md)
+    * [Filter.convolution](Filter.md#convolution) - {
+       * ?matrixX:Number = 0,
+       * ?matrixY:Number = 0,
+       * ?matrix:Array = null,
+       * ?divisor:Number = 1.0,
+       * ?bias:Number = 0.0,
+       * ?preserveAlpha:Boolean = true,
+       * ?clamp:Boolean = true,
+       * ?color:uint = 0,
+       * ?alpha:Number = 0.0 }
+    * [Filter.displacementMap](Filter.md#displacementmap) - {
+       * ?mapTextureID:string = null,
+       * ?mapPoint:Array[x,y] = null,
+       * ?componentX:uint = 0,
+       * ?componentY:uint = 0,
+       * ?scaleX:Number = 0.0,
+       * ?scaleY:Number = 0.0,
+       * ?mode:String = "wrap",
+       * ?color:uint = 0,
+       * ?alpha:Number = 0.0 }
+    * [Filter.fxaa](Filter.md#fxaa) - 없음.
+    * [Filter.glow](Filter.md#glow) - {
+       * ?color:string = '#F00', 
+       * ?alpha:Number = 1.0, 
+       * ?blurX:Number = 6.0, 
+       * ?blurY:Number = 6.0, 
+       * ?strength:Number = 2, 
+       * ?quality:int = 1, 
+       * ?inner:Boolean = false, 
+       * ?knockout:Boolean = false }
+    * [Filter.invert](Filter.md#invert) - 없음.
+    * [Filter.mono](Filter.md#mono) - 없음.
+    * [Filter.sepia](Filter.md#sepia) - 없음.
+    * [Filter.shadow](Filter.md#shadow) - {
+       * ?distance:Number = 4.0, 
+       * ?angle:Number = 45,
+       * ?color:uint = 0,
+       * ?alpha:Number = 1.0,
+       * ?blurX:Number = 4.0,
+       * ?blurY:Number = 4.0,
+       * ?strength:Number = 1.0,
+       * ?quality:int = 1,
+       * ?inner:Boolean = false,
+       * ?knockout:Boolean = false,
+       * ?hideObject:Boolean = false }
 
 **return**
 
@@ -357,16 +404,26 @@ this - 메서드체이닝을 위해 자신을 반환.
 **sample**
 
 ```javascript
-var cam = Camera().setRenderArea( 10, 20, '50%', '50%' );
+var cam = Camera().setFilter( Filter.glow, {
+  color:'#fff',
+  blurX:3,
+  blurY:3
+} );
 ```
 
 [top](#)
-## setFog()
+## setFog( color:string, near:number far:number )
+└ setFog( false )
 
 **description**
 
+안개효과 적용여부를 결정하고 안개효과에 사용할 색상을 지정하거나 비활성화함.
+
 **param**
-없음.
+1. color:string - 안개효과에 적용할 색상을 지정함. 색상을 지정하면 자동으로 활성화됨. '#RGB' 또는 '#RRGGBB' 형식으로 지정.
+2. near:number - 안개효과가 시작되는 z축의 거리.
+3. far:number - 완전히 안개만 남고 아무것도 안보이게 되는 시점의 z축 거리.
+4. false - 인자로 false가 넘어오면 안개효과를 비활성화함.
 
 **return**
 
@@ -375,16 +432,21 @@ this - 메서드체이닝을 위해 자신을 반환.
 **sample**
 
 ```javascript
-var cam = Camera().setRenderArea( 10, 20, '50%', '50%' );
+var cam = Camera().setFog( '#eefe00', 10, 100 );
 ```
 
 [top](#)
-## setFOV()
+## setFOV( fov:number )
+└ setFOV( width:number, height:number, angle:degree )
 
 **description**
 
+FOV(Field of view) 시야각을 정의함. 
+
 **param**
-없음.
+1. fov:number - 직접 fov값을 정의함.
+2. width:*, height:*, angle:degree - 화면사이즈와 시야에 들어올 각도를 지정하여 역으로 계산하게 함.
+    * width, height는 일반적인 숫자가 오거나 'screen' - 프레임버퍼의 크기, 'area' - 카메라의 렌더링 크기 등이 올 수 있음.
 
 **return**
 
@@ -393,7 +455,7 @@ this - 메서드체이닝을 위해 자신을 반환.
 **sample**
 
 ```javascript
-var cam = Camera().setRenderArea( 10, 20, '50%', '50%' );
+var cam = Camera().setFOV( 1280, 760, 90 );
 ```
 
 [top](#)
@@ -401,6 +463,8 @@ var cam = Camera().setRenderArea( 10, 20, '50%', '50%' );
 
 **description**
 
+직교투영모드로 전환함.
+
 **param**
 없음.
 
@@ -411,7 +475,7 @@ this - 메서드체이닝을 위해 자신을 반환.
 **sample**
 
 ```javascript
-var cam = Camera().setRenderArea( 10, 20, '50%', '50%' );
+var cam = Camera().setOthogonal();
 ```
 
 [top](#)
@@ -419,6 +483,8 @@ var cam = Camera().setRenderArea( 10, 20, '50%', '50%' );
 
 **description**
 
+원근투영모드로 전환함.
+
 **param**
 없음.
 
@@ -429,16 +495,18 @@ this - 메서드체이닝을 위해 자신을 반환.
 **sample**
 
 ```javascript
-var cam = Camera().setRenderArea( 10, 20, '50%', '50%' );
+var cam = Camera().setPerspective();
 ```
 
 [top](#)
-## setProjectionMatrix()
+## setProjectionMatrix( matrix:[Matrix](Matrix.md) )
 
 **description**
 
+투영에 대한 행렬을 직접 정의함.
+
 **param**
-없음.
+1. matrix:[Matrix](Matrix.md) - 투영을 처리할 행렬
 
 **return**
 
@@ -447,7 +515,7 @@ this - 메서드체이닝을 위해 자신을 반환.
 **sample**
 
 ```javascript
-var cam = Camera().setRenderArea( 10, 20, '50%', '50%' );
+var cam = Camera().setProjectionMatrix( Matrix() );
 ```
 
 [top](#)
@@ -475,12 +543,14 @@ var cam = Camera().setRenderArea( 10, 20, '50%', '50%' );
 ```
 
 [top](#)
-## setStereo()
+## setVisible( isVisible:boolean )
 
 **description**
 
+렌더링에 포함될지 여부를 설정함. 기본값은 true.
+
 **param**
-없음.
+1. isVisible:boolean - 렌더링 포함 여부.
 
 **return**
 
@@ -489,16 +559,19 @@ this - 메서드체이닝을 위해 자신을 반환.
 **sample**
 
 ```javascript
-var cam = Camera().setRenderArea( 10, 20, '50%', '50%' );
+var cam = Camera().setVisible( true );
 ```
 
 [top](#)
-## setVisible()
+## removeFilter( filter:string )
 
 **description**
 
+등록된 필터를 제거함
+
 **param**
-없음.
+
+1. filter:string - 등록된 필터의 이름. [Filter](Filter.md) 의 상수값을 이용해도 됨.
 
 **return**
 
@@ -507,25 +580,7 @@ this - 메서드체이닝을 위해 자신을 반환.
 **sample**
 
 ```javascript
-var cam = Camera().setRenderArea( 10, 20, '50%', '50%' );
-```
-
-[top](#)
-## removeFilter()
-
-**description**
-
-**param**
-없음.
-
-**return**
-
-this - 메서드체이닝을 위해 자신을 반환.
-
-**sample**
-
-```javascript
-var cam = Camera().setRenderArea( 10, 20, '50%', '50%' );
+var cam = Camera().removeFilter( Filter.glow );
 ```
 
 [top](#)
