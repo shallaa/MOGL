@@ -6,6 +6,7 @@ var Scene = (function () {
     var Scene, fn;
     Scene = function Scene() {
         this._update=0
+        this._cvs = null,
         // for JS
         this._children = {},
         this._cameras={},
@@ -212,7 +213,10 @@ var Scene = (function () {
                     console.log(checks[k]),
                     mesh._material._textures[checks[k]] = this._textures[checks[k]]
                 }
-        if(mesh instanceof Camera) this._cameras[id] = mesh
+        if(mesh instanceof Camera) {
+            this._cameras[id] = mesh
+            if(!mesh._renderArea) mesh.setRenderArea(0,0,this._cvs.width,this._cvs.height)
+        }
         else this._children[id] = mesh
         this._update=1
         return this

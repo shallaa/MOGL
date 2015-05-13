@@ -29,7 +29,9 @@ var World = (function () {
             if(camera._visible){
                 gl = scene._gl,
                 children = scene._children,
-                gl.clearColor(camera._r, camera._g, camera._b, camera._a),
+                //TODO 뷰포트가 아닌....이게...프레임에 어떻게 그릴껀지로 가야함..
+                gl.viewport(camera._renderArea[0],camera._renderArea[1]==0 ? 0 :camera._renderArea[3]-camera._renderArea[1],camera._renderArea[2],camera._renderArea[3])
+                gl.clearColor(camera._r, camera._g, camera._b, camera._a)
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
                 for(k in scene._glPROGRAMs){
                     tProgram = scene._glPROGRAMs[k]
@@ -92,7 +94,7 @@ var World = (function () {
     fn.addScene = function addScene(sceneID, scene) { MoGL.isAlive(this);
         if (this._sceneList[sceneID]) MoGL.error('World', 'addScene', 0)
         if (!(scene instanceof Scene )) MoGL.error('World', 'addScene', 1)
-        this._sceneList[sceneID] = scene, scene._gl = this._gl
+        this._sceneList[sceneID] = scene, scene._gl = this._gl,scene._cvs = this._cvs
         return this
     },
     fn.getScene = function getScene(sceneID) { MoGL.isAlive(this);

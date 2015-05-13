@@ -15,7 +15,7 @@ var Camera = (function () {
         this._fov = 55 * Math.PI / 180,
         this._near = 0.1,
         this._far = 100000,
-        this._renderArea = [],
+        this._renderArea = null,
         this._visible=1,
         this._filters ={},
         this._fog = null,
@@ -41,9 +41,7 @@ var Camera = (function () {
     fn.getProjectionMatrix = function getProjectionMatrix(){MoGL.isAlive(this);
         //TODO 크기를 반영해야함..
         //TODO 이렇다는건...카메라 렌더시에 _renderArea를 알고있다는 가정인가?
-        var aspectRatio = 600/400
-        var yScale = 1.0 / Math.tan(this._fov / 2.0);
-        var xScale = yScale / aspectRatio;
+        var aspectRatio = this._renderArea[2]/this._renderArea[3],yScale = 1.0 / Math.tan(this._fov / 2.0),xScale = yScale / aspectRatio;
         this._pixelMatrix = [
             xScale, 0, 0, 0,
             0, -yScale, 0, 0,
@@ -115,9 +113,9 @@ var Camera = (function () {
         //TODO
         return this
     },
-    fn.setRenderArea = function setRenderArea(area){MoGL.isAlive(this);
+    fn.setRenderArea = function setRenderArea(x,y,w,h){MoGL.isAlive(this);
         //TODO
-        this._renderArea = area
+        this._renderArea = [x,y,w,h]
         return this
     },
     fn.setStereo = function setStereo(){MoGL.isAlive(this);
