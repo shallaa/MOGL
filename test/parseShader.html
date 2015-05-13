@@ -33,11 +33,11 @@
 
     var baseVertexShader = {
         attributes: ['vec3 aVertexPosition'],
-        uniforms: ['vec3 uRotate', 'vec3 uScale', 'vec3 uPosition', 'vec3 uColor'],
+        uniforms: ['mat4 uPixelMatrix','vec3 uRotate', 'vec3 uScale', 'vec3 uPosition', 'vec3 uColor'],
         varyings: ['vec3 vColor'],
         function: [VertexShader.baseFunction],
         main: ['' +
-        'gl_Position = positionMTX(uPosition)*rotationMTX(uRotate)*scaleMTX(uScale)*vec4(aVertexPosition, 1.0);\n' +
+        'gl_Position = uPixelMatrix*positionMTX(uPosition)*rotationMTX(uRotate)*scaleMTX(uScale)*vec4(aVertexPosition, 1.0);\n' +
         'vColor = uColor ;']
     }
     var baseFragmentShader = {
@@ -70,6 +70,7 @@
         var a = w.getScene('s0').getChild('tri' + i)
         a.x = Math.random() - 0.5
         a.y = Math.random() - 0.5
+        a.z = Math.random()*2 +1
         a.rotateX = Math.random()
         a.rotateY = Math.random()
         a.rotateZ = Math.random()

@@ -28,10 +28,15 @@ var World = (function () {
             camera = scene.getChild(tList[i].cameraID)
             if(camera._visible){
                 gl = scene._gl,
-                    children = scene._children,
-                    gl.clearColor(camera._r, camera._g, camera._b, camera._a),
-                    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT),
-                    tItem = tMaterial = tProgram = tVBO = tIBO = null
+                children = scene._children,
+                gl.clearColor(camera._r, camera._g, camera._b, camera._a),
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+                for(k in scene._glPROGRAMs){
+                    tProgram = scene._glPROGRAMs[k]
+                    gl.useProgram(tProgram)
+                    gl.uniformMatrix4fv(tProgram.uPixelMatrix,false,camera.getProjectionMatrix())
+                }
+                tItem = tMaterial = tProgram = tVBO = tIBO = null
                 for (k in children) {
                     tItem = children[k],
                     tVBO = scene._glVBOs[tItem._geometry._name],
