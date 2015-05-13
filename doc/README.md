@@ -9,6 +9,7 @@
 * [Camera](Camera.md)
 * [Geometry](Geometry.md)
 * [Group](Group.md)
+* [Filter](Filter.md)
 * [Light](Light.md)
 * [Material](Material.md)
 * [Matrix](Matrix.md)
