@@ -12,8 +12,8 @@ var Mesh = (function () {
     Mesh = function Mesh(geometry, material) {
         // TODO 어디까지 허용할건가..
         //console.log(geometry,material)
-        if(!(typeof geometry =='string' || geometry instanceof Geometry || !geometry)) MoGL.error('Mesh','contructor',0)
-        if(!(typeof material =='string' || material instanceof Material || !geometry)) MoGL.error('Mesh','contructor',1)
+        if( geometry && !(typeof geometry =='string' || geometry instanceof Geometry  ) ) MoGL.error('Mesh','contructor',0)
+        if( material && !(typeof material =='string' || material instanceof Material  ) ) MoGL.error('Mesh','contructor',1)
         this._geometry = geometry,
         this._material = material,
         this._scene = null,

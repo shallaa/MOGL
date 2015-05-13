@@ -145,11 +145,12 @@ var Scene = (function () {
     }
     var makeTexture = function makeTexture(self, id,image) {
         var gl = self._gl, texture = self._glTEXTUREs[id];
-        //TODO 일단 이미지만
         if (texture) return texture
         texture = gl.createTexture(),
-        texture.img = new Image(),
-        texture.img.src = image.src
+        //TODO 일단 이미지만
+        texture.img = new Image()
+        if (typeof image == 'string') texture.img.src = image
+        else if (image instanceof HTMLImageElement) texture.img.src = image.src
         texture.img.onload = function () {
             gl.bindTexture(gl.TEXTURE_2D, texture),
             //TODO 다변화 대응해야됨
@@ -246,6 +247,7 @@ var Scene = (function () {
             if (target instanceof HTMLVideoElement) return 0
             if (target instanceof ImageData) return 0
             if (target['substring'] && target.substring(0, 10) == 'data:image' && target.indexOf('base64') > -1) return 0// base64문자열 - urlData형식으로 지정된 base64문자열
+            if (typeof target == 'string') return 0
             // TODO 블랍은 어카지 -__;;;;;;;;;;;;;;;;;;;;;;;;실제 이미지를 포함하고 있는 Blob객체.
             return 1
         }

@@ -19,7 +19,6 @@
 </head>
 <body>
 <canvas id="firstTest" width="600" height="400"></canvas>
-<img src="../src/ohno.png" id="bitmapIMG">
 <script>
     // 모글에 전역적인 루프 시스템이 있것고..
     var renders = []
@@ -63,7 +62,7 @@
         -1.0, -1.0, 0.0, 1.0, 1.0
     ], [0, 1, 2, 1, 2, 3], [Vertex.x, Vertex.y, Vertex.z, Vertex.u, Vertex.v]));
     var bitmapMaterial = new Material(Math.random(), Math.random(), Math.random())
-    w.getScene('s0').addTexture('bitmapTextureTest', document.getElementById('bitmapIMG'))
+    w.getScene('s0').addTexture('bitmapTextureTest', '../src/ohno.png')
     bitmapMaterial.addTexture('bitmapTextureTest')
     w.getScene('s0').addMaterial('bitmapMaterial', bitmapMaterial)
 
