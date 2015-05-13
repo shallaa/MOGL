@@ -13,6 +13,7 @@
 </head>
 <body>
 <img src="../src/ohno.png" id="img0" height="50"><img src="../src/ohno.png" id="img1" height="50">
+<canvas id="canvas"></canvas>
 <div>TODO - Mesh.setMaterial등으로 변경되는 요소들을 어떻게 카운팅할것인가!</div>
 <div id="stage"></div>
 <div id="result"></div>
@@ -81,8 +82,9 @@
                 return testMaterial6._r == 1 && testMaterial6._g == 1 && testMaterial6._b == 1 && testMaterial6._a == 1;
             }, true
     );
-
+    var world = new World('canvas')
     var lobby = new Scene();
+    world.addScene('lobby',lobby)
     // 텍스쳐용 이미지 등록
     lobby.addTexture('floorTexture', document.getElementById('img0'));
     lobby.addTexture('scratchTexture', document.getElementById('img1'));
@@ -143,6 +145,7 @@
             }, true
     );
     var lobby2 = Scene()
+    world.addScene('lobby2',lobby2)
     lobby2.addTexture('countTexture', document.getElementById('img0'));
     lobby2.addGeometry('cube', new Geometry([], []))
     var matCount
