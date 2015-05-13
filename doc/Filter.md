@@ -2,19 +2,19 @@
 
 **const**
 
-* [Filter.anaglyph](#anaglyph)
-* [Filter.bevel](#bevel)
-* [Filter.bloom](#bloom)
-* [Filter.blur](#blur)
-* [Filter.colorMatrix](#colormatrix)
-* [Filter.convolution](#convolution)
-* [Filter.displacementMap](#displacementmap)
-* [Filter.fxaa](#fxaa)
-* [Filter.glow](#glow)
-* [Filter.invert](#invert)
-* [Filter.mono](#mono)
-* [Filter.sepia](#sepia)
-* [Filter.shadow](#shadow)
+* [Filter.anaglyph](#filteranaglyph)
+* [Filter.bevel](#filterbevel)
+* [Filter.bloom](#filterbloom)
+* [Filter.blur](#filterblur)
+* [Filter.colorMatrix](#filtercolormatrix)
+* [Filter.convolution](#filterconvolution)
+* [Filter.displacementMap](#filterdisplacementmap)
+* [Filter.fxaa](#filterfxaa)
+* [Filter.glow](#filterglow)
+* [Filter.invert](#filterinvert)
+* [Filter.mono](#filtermono)
+* [Filter.sepia](#filtersepia)
+* [Filter.shadow](#filtershadow)
 
 [top](#)
 ## Filter.anaglyph
