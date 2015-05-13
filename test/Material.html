@@ -113,7 +113,7 @@
             function () {
                 //다중 texture 등록
                 sceneAddedMaterial.addTexture('scratchTexture', null, BlendMode.multiply);
-                return sceneAddedMaterial._textures['scratchTexture']
+                return sceneAddedMaterial._scene._textures['scratchTexture']
             }, lobby.getTexture('scratchTexture'),
             function () {
                 testResult = 1

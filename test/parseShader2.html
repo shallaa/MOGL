@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>MoGL Test Suite - drawTriangle By ParserShader</title>
+    <script src="../src/MoGL.js"></script>
+    <script src="../src/Vertex.js"></script>
+    <script src="../src/VertexShaderFunctions.js"></script>
+    <script src="../src/Matrix.js"></script>
+    <script src="../src/Geometry.js"></script>
+    <script src="../src/Material.js"></script>
+    <script src="../src/Texture.js"></script>
+    <script src="../src/Mesh.js"></script>
+    <script src="../src/Group.js"></script>
+    <script src="../src/Camera.js"></script>
+    <script src="../src/Scene.js"></script>
+    <script src="../src/World.js"></script>
+    <link rel="stylesheet" type="text/css" href="css.css"/>
+</head>
+<body>
+<canvas id="firstTest" width="600" height="400"></canvas>
+<img src="../src/ohno.png" id="bitmapIMG">
+<script>
+    // 모글에 전역적인 루프 시스템이 있것고..
+    var renders = []
+    var LOOP = {}
+    setInterval(function () {
+        for (var i = 0; i < renders.length; i++) renders[i]._render()
+        for (var k in LOOP) {
+            LOOP[k]()
+        }
+    }, 16)
+
+
+    var baseVertexShader = {
+        attributes: ['vec3 aVertexPosition', 'vec2 aUV'],
+        uniforms: ['vec3 uRotate', 'vec3 uScale', 'vec3 uPosition'],
+        varyings: ['vec2 vUV'],
+        function: [VertexShader.baseFunction],
+        main: ['' +
+        'gl_Position = positionMTX(uPosition)*rotationMTX(uRotate)*scaleMTX(uScale)*vec4(aVertexPosition, 1.0);\n' +
+        'vUV = aUV;'
+        ]
+    }
+    var baseFragmentShader = {
+        precision: 'mediump float',
+        uniforms: ['sampler2D uSampler'],
+        varyings: ['vec2 vUV'],
+        function: [],
+        main: ['gl_FragColor =  texture2D(uSampler, vec2(vUV.s, vUV.t))']
+    }
+
+
+    var w = new World('firstTest');
+    w.addScene('s0', new Scene());
+
+    w.getScene('s0').addVertexShader('bitmap', baseVertexShader);
+    w.getScene('s0').addFragmentShader('bitmap', baseFragmentShader);
+    w.getScene('s0').addGeometry('rect', new Geometry([
+        1.0, 1.0, 0.0, 0.0, 0.0,
+        -1.0, 1.0, 0.0, 1.0, 0.0,
+        1.0, -1.0, 0.0, 0.0, 1.0,
+        -1.0, -1.0, 0.0, 1.0, 1.0
+    ], [0, 1, 2, 1, 2, 3], [Vertex.x, Vertex.y, Vertex.z, Vertex.u, Vertex.v]));
+    var bitmapMaterial = new Material(Math.random(), Math.random(), Math.random())
+    w.getScene('s0').addTexture('bitmapTextureTest', document.getElementById('bitmapIMG'))
+    bitmapMaterial.addTexture('bitmapTextureTest')
+    w.getScene('s0').addMaterial('bitmapMaterial', bitmapMaterial)
+
+    console.log(w.getScene('s0').getTexture('bitmapTextureTest'))
+    console.log(w.getScene('s0').getGeometry('rect'))
+    for (var i = 0; i < 100; i++) {
+        w.getScene('s0').addChild('rect' + i, new Mesh('rect', 'bitmapMaterial'));
+        var a = w.getScene('s0').getChild('rect' + i)
+        a.x = Math.random()*2 - 1
+        a.y = Math.random()*2 - 1
+        a.rotateX = Math.random()
+        a.rotateY = Math.random()
+        a.rotateZ = Math.random()
+        a.setScale(Math.random() / 4, Math.random() / 4, 1)
+    }
+
+    w.getScene('s0').addChild('camera1', new Camera());
+    w.getScene('s0')._update = 1
+    w.addRender('s0', 'camera1');
+
+    console.log(w.getScene('s0')._children)
+    console.log(w.getScene('s0')._cameras)
+    LOOP['test '] = function () {
+
+
+        for (var i = 0; i < 100; i++) {
+            var a = w.getScene('s0').getChild('rect' + i)
+            a.rotateX += 0.01
+            a.rotateY += 0.02
+            a.rotateZ += 0.03
+        }
+
+    }
+
+    renders.push(w)
+
+</script>
+</body>
+</html>
