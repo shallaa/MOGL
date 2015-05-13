@@ -177,6 +177,10 @@ var Scene = (function () {
                 this._glIBOs[mesh._geometry._name] = makeIBO(this, mesh._geometry._name, mesh._geometry._index, 1)
             }
         }
+        for (k in this._cameras){
+            var camera = this._cameras[k]
+            if(!camera._renderArea) camera.setRenderArea(0,0,this._cvs.width,this._cvs.height)
+        }
         var checks = this._vertexShaders;
         for (k in checks) makeProgram(this, k)
         console.log('////////////////////////////////////////////'),
@@ -213,10 +217,7 @@ var Scene = (function () {
                     console.log(checks[k]),
                     mesh._material._textures[checks[k]] = this._textures[checks[k]]
                 }
-        if(mesh instanceof Camera) {
-            this._cameras[id] = mesh
-            if(!mesh._renderArea) mesh.setRenderArea(0,0,this._cvs.width,this._cvs.height)
-        }
+        if(mesh instanceof Camera) this._cameras[id] = mesh
         else this._children[id] = mesh
         this._update=1
         return this
