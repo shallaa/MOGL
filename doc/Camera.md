@@ -308,27 +308,27 @@ var cam = Camera().setClipPlane( 10, 200 );
 **param**
 
 1. filter:string - 등록될 필터의 이름 다음과 같은 값이 올 수 있음.
-    * [Filter.anaglyph](Filter.md#anaglyph) or 'anaglyph' - 입체영상을 위한 스테레오를 적용함.
-    * [Filter.bevel](Filter.md#bevel) or 'bevel' - 경사효과를 줄 수 있는 필터.
-    * [Filter.bloom](Filter.md#bloom) or 'bloom' - 일명 뽀샤시효과를 줄 수 있는 필터.
-    * [Filter.blur](Filter.md#blur) or 'blur' - 흐름효과를 줄 수 있는 필터.
-    * [Filter.colorMatrix](Filter.md#colormatrix) or 'colorMatrix' - 행렬변환을 이용해 색상을 변화시키는 필터.
-    * [Filter.convolution](Filter.md#convolution) or 'convolution' - 행렬회선을 이용한 필터 효과.
-    * [Filter.displacementMap](Filter.md#displacementmap) or 'displacementMap' - 지정된 텍스쳐를 이용한 왜곡효과를 주는 필터.
-    * [Filter.fxaa](Filter.md#fxaa) or 'fxaa' - 후처리 안티알리아스 필터를 적용함.
-    * [Filter.glow](Filter.md#glow) or 'glow' - 광선효과를 줄 수 있는 필터.
-    * [Filter.invert](Filter.md#invert) or 'invert' - 반전효과를 줄 수 있는 필터.
-    * [Filter.mono](Filter.md#mono) or 'mono' - 흑백효과를 줄 수 있는 필터.
-    * [Filter.sepia](Filter.md#sepia) or 'sepia' - 세피아효과를 줄 수 있는 필터.
-    * [Filter.shadow](Filter.md#shadow) or 'shadow' - 그림자효과를 줄 수 있는 필터.
+    * [Filter.anaglyph](Filter.md#filteranaglyph) or 'anaglyph' - 입체영상을 위한 스테레오를 적용함.
+    * [Filter.bevel](Filter.md#filterbevel) or 'bevel' - 경사효과를 줄 수 있는 필터.
+    * [Filter.bloom](Filter.md#filterbloom) or 'bloom' - 일명 뽀샤시효과를 줄 수 있는 필터.
+    * [Filter.blur](Filter.md#filterblur) or 'blur' - 흐름효과를 줄 수 있는 필터.
+    * [Filter.colorMatrix](Filter.md#filtercolormatrix) or 'colorMatrix' - 행렬변환을 이용해 색상을 변화시키는 필터.
+    * [Filter.convolution](Filter.md#filterconvolution) or 'convolution' - 행렬회선을 이용한 필터 효과.
+    * [Filter.displacementMap](Filter.md#filterdisplacementmap) or 'displacementMap' - 지정된 텍스쳐를 이용한 왜곡효과를 주는 필터.
+    * [Filter.fxaa](Filter.md#filterfxaa) or 'fxaa' - 후처리 안티알리아스 필터를 적용함.
+    * [Filter.glow](Filter.md#filterglow) or 'glow' - 광선효과를 줄 수 있는 필터.
+    * [Filter.invert](Filter.md#filterinvert) or 'invert' - 반전효과를 줄 수 있는 필터.
+    * [Filter.mono](Filter.md#filtermono) or 'mono' - 흑백효과를 줄 수 있는 필터.
+    * [Filter.sepia](Filter.md#filtersepia) or 'sepia' - 세피아효과를 줄 수 있는 필터.
+    * [Filter.shadow](Filter.md#filtershadow) or 'shadow' - 그림자효과를 줄 수 있는 필터.
 
 2. needle?:Object - 각 필터에 따라 추가로 원하는 다음과 같은 인자가 있음(= 뒤는 기본값을 의미함)
-    * [Filter.anaglyph](Filter.md#anaglyph) - {
+    * [Filter.anaglyph](Filter.md#filteranaglyph) - {
        * ?offsetL:number = 0.008,
        * ?offsetR:number = 0.008,
        * ?gIntensity:number = 0.7,
        * ?bIntensity:number = 0.7 }
-    * [Filter.bevel](Filter.md#bevel) - {
+    * [Filter.bevel](Filter.md#filterbevel) - {
        * ?distance:number = 4.0, 
        * ?angle:number = 45, 
        * ?highlightColor:string = '#FFF', 
@@ -341,18 +341,18 @@ var cam = Camera().setClipPlane( 10, 200 );
        * ?quality:int = 1,
        * ?type:string = "inner", 
        * ?knockout:Boolean = false }
-    * [Filter.bloom](Filter.md#bloom) - {
+    * [Filter.bloom](Filter.md#filterbloom) - {
        * ?threshold:number = 0.3,
        * ?sourceSaturation:number = 1.0,
        * ?bloomSaturation:number = 1.3,
        * ?sourceIntensity:number = 1.0,
        * ?bloomIntensity:number = 1.0 }
-    * [Filter.blur](Filter.md#blur) - {
+    * [Filter.blur](Filter.md#filterblur) - {
        * ?blurX:number = 4.0, 
        * ?blurY:number = 4.0, 
        * ?quality:int = 1 }
-    * [Filter.colorMatrix](Filter.md#colormatrix) - [Matrix](Matrix.md)
-    * [Filter.convolution](Filter.md#convolution) - {
+    * [Filter.colorMatrix](Filter.md#filtercolormatrix) - [Matrix](Matrix.md)
+    * [Filter.convolution](Filter.md#filterconvolution) - {
        * ?matrixX:number = 0,
        * ?matrixY:number = 0,
        * ?matrix:Array = null,
@@ -362,7 +362,7 @@ var cam = Camera().setClipPlane( 10, 200 );
        * ?clamp:Boolean = true,
        * ?color:uint = 0,
        * ?alpha:number = 0.0 }
-    * [Filter.displacementMap](Filter.md#displacementmap) - {
+    * [Filter.displacementMap](Filter.md#filterdisplacementmap) - {
        * ?mapTextureID:string = null,
        * ?mapPoint:Array[x,y] = null,
        * ?componentX:uint = 0,
@@ -372,8 +372,8 @@ var cam = Camera().setClipPlane( 10, 200 );
        * ?mode:string = "wrap",
        * ?color:uint = 0,
        * ?alpha:number = 0.0 }
-    * [Filter.fxaa](Filter.md#fxaa) - 없음.
-    * [Filter.glow](Filter.md#glow) - {
+    * [Filter.fxaa](Filter.md#filterfxaa) - 없음.
+    * [Filter.glow](Filter.md#filterglow) - {
        * ?color:string = '#F00', 
        * ?alpha:number = 1.0, 
        * ?blurX:number = 6.0, 
@@ -382,10 +382,10 @@ var cam = Camera().setClipPlane( 10, 200 );
        * ?quality:int = 1, 
        * ?inner:Boolean = false, 
        * ?knockout:Boolean = false }
-    * [Filter.invert](Filter.md#invert) - 없음.
-    * [Filter.mono](Filter.md#mono) - 없음.
-    * [Filter.sepia](Filter.md#sepia) - 없음.
-    * [Filter.shadow](Filter.md#shadow) - {
+    * [Filter.invert](Filter.md#filterinvert) - 없음.
+    * [Filter.mono](Filter.md#filtermono) - 없음.
+    * [Filter.sepia](Filter.md#filtersepia) - 없음.
+    * [Filter.shadow](Filter.md#filtershadow) - {
        * ?distance:number = 4.0, 
        * ?angle:number = 45,
        * ?color:uint = 0,
