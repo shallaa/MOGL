@@ -307,19 +307,48 @@ var cam = Camera().setClipPlane( 10, 200 );
 
 **param**
 1. filter:string - 등록될 필터의 이름 다음과 같은 값이 올 수 있음.
+    * [Filter.anaglyph](Filter.md#anaglyph) or 'anaglyph' - 입체영상을 위한 스테레오를 적용함.
     * [Filter.bevel](Filter.md#bevel) or 'bevel' - 경사효과를 줄 수 있는 필터.
+    * [Filter.bloom](Filter.md#bloom) or 'bloom' - 일명 뽀샤시효과를 줄 수 있는 필터.
     * [Filter.blur](Filter.md#blur) or 'blur' - 흐름효과를 줄 수 있는 필터.
     * [Filter.colorMatrix](Filter.md#colormatrix) or 'colorMatrix' - 행렬변환을 이용해 색상을 변화시키는 필터.
     * [Filter.convolution](Filter.md#convolution) or 'convolution' - 행렬회선을 이용한 필터 효과.
     * [Filter.displacementMap](Filter.md#displacementmap) or 'displacementMap' - 지정된 텍스쳐를 이용한 왜곡효과를 주는 필터.
-    * [Filter.shadow](Filter.md#shadow) or 'shadow' - 그림자효과를 줄 수 있는 필터.
+    * [Filter.fxaa](Filter.md#fxaa) or 'fxaa' - 후처리 안티알리아스 필터를 적용함.
     * [Filter.glow](Filter.md#glow) or 'glow' - 광선효과를 줄 수 있는 필터.
+    * [Filter.invert](Filter.md#invert) or 'invert' - 반전효과를 줄 수 있는 필터.
     * [Filter.mono](Filter.md#mono) or 'mono' - 흑백효과를 줄 수 있는 필터.
     * [Filter.sepia](Filter.md#sepia) or 'sepia' - 세피아효과를 줄 수 있는 필터.
-    * [Filter.invert](Filter.md#invert) or 'invert' - 반전효과를 줄 수 있는 필터.
+    * [Filter.shadow](Filter.md#shadow) or 'shadow' - 그림자효과를 줄 수 있는 필터.
+
+2. needle?:Object - 각 필터에 따라 추가로 원하는 다음과 같은 인자가 있음(= 뒤는 기본값을 의미함)
+    * [Filter.anaglyph](Filter.md#anaglyph) - {
+       distance:Number = 4.0, 
+       angle:Number = 45, 
+       highlightColor:uint = 0xFFFFFF, 
+       highlightAlpha:Number = 1.0, 
+       shadowColor:uint = 0x000000, 
+       shadowAlpha:Number = 1.0, 
+       blurX:Number = 4.0, 
+       blurY:Number = 4.0, 
+       strength:Number = 1, 
+       quality:int = 1, 
+       type:String = "inner", 
+       knockout:Boolean = false
+       }
+
+    * [Filter.bevel](Filter.md#bevel) or 'bevel' - 경사효과를 줄 수 있는 필터.
     * [Filter.bloom](Filter.md#bloom) or 'bloom' - 일명 뽀샤시효과를 줄 수 있는 필터.
+    * [Filter.blur](Filter.md#blur) or 'blur' - 흐름효과를 줄 수 있는 필터.
+    * [Filter.colorMatrix](Filter.md#colormatrix) or 'colorMatrix' - 행렬변환을 이용해 색상을 변화시키는 필터.
+    * [Filter.convolution](Filter.md#convolution) or 'convolution' - 행렬회선을 이용한 필터 효과.
+    * [Filter.displacementMap](Filter.md#displacementmap) or 'displacementMap' - 지정된 텍스쳐를 이용한 왜곡효과를 주는 필터.
     * [Filter.fxaa](Filter.md#fxaa) or 'fxaa' - 후처리 안티알리아스 필터를 적용함.
-    * [Filter.anaglyph](Filter.md#anaglyph) or 'anaglyph' - 입체영상을 위한 스테레오를 적용함.
+    * [Filter.glow](Filter.md#glow) or 'glow' - 광선효과를 줄 수 있는 필터.
+    * [Filter.invert](Filter.md#invert) or 'invert' - 반전효과를 줄 수 있는 필터.
+    * [Filter.mono](Filter.md#mono) or 'mono' - 흑백효과를 줄 수 있는 필터.
+    * [Filter.sepia](Filter.md#sepia) or 'sepia' - 세피아효과를 줄 수 있는 필터.
+    * [Filter.shadow](Filter.md#shadow) or 'shadow' - 그림자효과를 줄 수 있는 필터.
 
 **return**
 
