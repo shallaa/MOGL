@@ -6,20 +6,21 @@ var Camera = (function () {
     var Camera, fn,a4=[];
     var hex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i, hex_s = /^#?([a-f\d]{1})([a-f\d]{1})([a-f\d]{1})$/i;
     Camera = function Camera() {
+        this._cvs=null
         this._geometry = new Geometry([], [])
         this._material = new Material()
         this._r = 0,
-        this._g = 0,
-        this._b = 0,
-        this._a = 1,
-        this._fov = 55,
-        this._near = 0.1,
-        this._far = 100000,
-        this._renderArea = null,
-        this._visible=1,
-        this._filters ={},
-        this._fog = null,
-        this._antialias = false
+            this._g = 0,
+            this._b = 0,
+            this._a = 1,
+            this._fov = 55,
+            this._near = 0.1,
+            this._far = 100000,
+            this._renderArea = null,
+            this._visible=1,
+            this._filters ={},
+            this._fog = null,
+            this._antialias = false
         this._pixelMatrix = Matrix()
     }
     fn = Camera.prototype
@@ -68,22 +69,22 @@ var Camera = (function () {
             if (t0.charAt(0) == '#') {
                 if (t1 = hex.exec(t0)) {
                     this._r = parseInt(t1[1], 16) / 255,
-                    this._g = parseInt(t1[2], 16) / 255,
-                    this._b = parseInt(t1[3], 16) / 255
+                        this._g = parseInt(t1[2], 16) / 255,
+                        this._b = parseInt(t1[3], 16) / 255
 
                 } else {
                     t1 = hex_s.exec(t0),
-                    this._r = parseInt(t1[1] + t1[1], 16) / 255,
-                    this._g = parseInt(t1[2] + t1[2], 16) / 255,
-                    this._b = parseInt(t1[3] + t1[3], 16) / 255
+                        this._r = parseInt(t1[1] + t1[1], 16) / 255,
+                        this._g = parseInt(t1[2] + t1[2], 16) / 255,
+                        this._b = parseInt(t1[3] + t1[3], 16) / 255
                 }
                 this._a = ta ? ta > 1 ? 1 : ta : 1
             }
         } else {
             this._r = arguments[0],
-            this._g = arguments[1],
-            this._b = arguments[2],
-            this._a = arguments[3] ? arguments[3] : 1
+                this._g = arguments[1],
+                this._b = arguments[2],
+                this._a = arguments[3] ? arguments[3] : 1
         }
         return this
     },
@@ -216,14 +217,14 @@ var Camera = (function () {
             result= {}
             if (t1 = hex.exec(t0)) {
                 result.r = parseInt(t1[1], 16) / 255,
-                result.g = parseInt(t1[2], 16) / 255,
-                result.b = parseInt(t1[3], 16) / 255
+                    result.g = parseInt(t1[2], 16) / 255,
+                    result.b = parseInt(t1[3], 16) / 255
 
             } else {
                 t1 = hex_s.exec(t0),
-                result.r = parseInt(t1[1] + t1[1], 16) / 255,
-                result.g = parseInt(t1[2] + t1[2], 16) / 255,
-                result.b = parseInt(t1[3] + t1[3], 16) / 255
+                    result.r = parseInt(t1[1] + t1[1], 16) / 255,
+                    result.g = parseInt(t1[2] + t1[2], 16) / 255,
+                    result.b = parseInt(t1[3] + t1[3], 16) / 255
             }
             result.a =1
             result.near = near
@@ -253,7 +254,14 @@ var Camera = (function () {
     },
     fn.setRenderArea = function setRenderArea(x,y,w,h){MoGL.isAlive(this);
         // TODO %단위 결정해야함
-        this._renderArea = [x,y,w,h]
+        var tw = this._cvs.clientWidth
+        var th = this._cvs.clientHeight
+        this._renderArea = [
+            typeof x =='string' ? tw * x.replace('%', '') : x,
+            typeof y =='string' ? th * y.replace('%', '') : y,
+            typeof w =='string' ? tw * w.replace('%', '') : w,
+            typeof h =='string' ? th * h.replace('%', '') : h,
+        ]
         return this
     },
     fn.setAntialias = function setAntialias(isAntialias){MoGL.isAlive(this);
