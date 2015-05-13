@@ -6,27 +6,27 @@
 
 **method**
 
-* [getAntialias](#)
-* [getBackgroundColor](#setBackgroundColor)
-* [getClipPlane](#)
-* [getFilters](#)
-* [getFog](#)
-* [getFOV](#)
-* [getProjectionMatrix](#)
-* [getRenderArea](#setBackgroundColor)
-* [getVisible](#)
-* [setAntiAlias](#)
-* [setBackgroundColor](#setBackgroundColor)
-* [setClipPlane](#)
+* [getAntialias](#getantialias)
+* [getBackgroundColor](#getbackgroundcolor)
+* [getClipPlane](#getclipplane)
+* [getFilters](#getfilters)
+* [getFog](#getfog)
+* [getFOV](#getfov)
+* [getProjectionMatrix](#getprojectionmatrix)
+* [getRenderArea](#getrenderarea)
+* [getVisible](#getvisible)
+* [setAntiAlias](#setantialias-isantialiasboolean-)
+* [setBackgroundColor](#setbackgroundcolor-colorstring-)
+* [setClipPlane](#setclipplane-nearnumber-farnumber-)
 * [setFilter](#)
-* [setFog](#)
-* [setFOV](#)
-* [setOthogonal](#)
-* [setPerspective](#)
-* [setProjectionMatrix](#)
-* [setRenderArea](#setBackgroundColor)
-* [setVisible](#)
-* [removeFilter](#)
+* [setFog](#setfog-colorstring-nearnumber-farnumber-)
+* [setFOV](#setfov-fovnumber-)
+* [setOthogonal](#setothogonal)
+* [setPerspective](#setperspective)
+* [setProjectionMatrix](#setprojectionmatrix-matrixmatrix-)
+* [setRenderArea](#setrenderarea-left-top-width-height-)
+* [setVisible](#setvisible-isvisibleboolean-)
+* [removeFilter](#removefilter-filterstring-)
 
 [top](#)
 ## Constructor
@@ -299,13 +299,14 @@ var cam = Camera().setClipPlane( 10, 200 );
 ```
 
 [top](#)
-## setFilter( filter:string[, needle:*...] )
+## setFilter( filter:string[, needle:Object] )
 
 **description**
 
 프레임버퍼레벨에서 수행될 후처리 필터를 등록함. 다수의 필터 등록 가능.
 
 **param**
+
 1. filter:string - 등록될 필터의 이름 다음과 같은 값이 올 수 있음.
     * [Filter.anaglyph](Filter.md#anaglyph) or 'anaglyph' - 입체영상을 위한 스테레오를 적용함.
     * [Filter.bevel](Filter.md#bevel) or 'bevel' - 경사효과를 줄 수 있는 필터.
