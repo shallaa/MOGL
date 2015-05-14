@@ -21,6 +21,12 @@ Geometry( vertexBuffer:Array, indexBuffer:Array[, vertexInfo:Array]  )
 정점배열과 인덱스 배열을 이용하여 기하구조를 정의함.
 * 생성자에서 지정된 버퍼 및 정보는 변경불가로 생성 이후는 읽기만 가능함.
 
+**exception**
+
+* 'Geometry.constructor:0' - vertexBuffer가 Array이나 Float32Array가 아닐때.
+* 'Geometry.constructor:1' - indexBuffer가 Array이나 Uint16Array or Uint32Array가 아닐때
+* 'Geometry.constructor:2' - 버텍스 구성정보와 버텍스 배열의 길이가 안맞을때
+* 
 **param**
 
 1. vertexBuffer:Array or TypedArray - 정점 배열.
@@ -183,88 +189,4 @@ cube.addVertexShader('waffle').removeVertexShader('waffle');
 ```
 
 [top](#)
-## Geometry.x
 
-**description**
-
-개별 정점요소의 정보. x좌표. 'x'
-
-[top](#)
-## Geometry.y
-
-**description**
-
-개별 정점요소의 정보. y좌표. 'y'
-
-[top](#)
-## Geometry.z
-
-**description**
-
-개별 정점요소의 정보. z좌표. 'z'
-
-[top](#)
-## Geometry.r
-
-**description**
-
-개별 정점요소의 정보. 색상 Red값. 'r'
-
-[top](#)
-## Geometry.g
-
-**description**
-
-개별 정점요소의 정보. 색상 Green값. 'g'
-
-[top](#)
-## Geometry.b
-
-**description**
-
-개별 정점요소의 정보. 색상 Blue값. 'b'
-
-[top](#)
-## Geometry.a
-
-**description**
-
-개별 정점요소의 정보. 색상 Alpha값. 'a'
-
-[top](#)
-## Geometry.normalX
-
-**description**
-
-개별 정점요소의 정보. 법선 벡터의 x값. 'nx'
-
-[top](#)
-## Geometry.normalY
-
-**description**
-
-개별 정점요소의 정보. 법선 벡터의 y값. 'ny'
-
-[top](#)
-## Geometry.normalZ
-
-**description**
-
-개별 정점요소의 정보. 법선 벡터의 z값. 'nz'
-
-
-[top](#)
-## Geometry.u
-
-**description**
-
-개별 정점요소의 정보. uv의 u좌표. 'u'
-
-[top](#)
-## Geometry.v
-
-**description**
-
-개별 정점요소의 정보. uv의 v좌표. 'v'
-
-[top](#)

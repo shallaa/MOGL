@@ -90,7 +90,7 @@ lobby.addTexture( 'floor', document.getElementById('img0') );
 lobby.addTexture( 'scratch', document.getElementById('img1') );
 
 // Material 생성 및 Scene에 등록
-var mat = lobby.addMaterial( 'floor', new Material() );
+var mat = lobby.addMaterial( 'floor', new Material()).getMaterial('floor');
 
 try{
     //이미 Scene에 등록된 Material이므로 메서드 호출시점에 평가

@@ -65,6 +65,7 @@ var scene2 = Scene();
 * 'Scene.addChild:1' - [Mesh](Mesh.md)가 아닌 객체.
 * 'Scene.addChild:2' - [Mesh](Mesh.md)안의 [Geometry](Geometry.md)에 지정된 vertex shader의 id가 존재하지 않음.
 * 'Scene.addChild:3' - [Mesh](Mesh.md)안의 [Material](Material.md)에 지정된 fragment shader의 id가 존재하지 않음.
+* 'Scene.addChild:4' - [Mesh](Mesh.md)안의 [Material](Material.md)에 지정된 texture의 id가 존재하지 않음.
 
 **return**
 
@@ -224,6 +225,7 @@ try{
 * 'Scene.addMaterial:0' - 이미 존재하는 id를 등록하려할 때.
 * 'Scene.addMaterial:1' - [Material](Material.md) 아닌 객체를 등록하려할 때.
 * 'Scene.addMaterial:2' - [Material](Material.md)에 선언된 fragment shader의 id가 없을 때.
+* 'Scene.addMaterial:3' - [Material](Material.md)에 선언된 texture의 id가 없을 때.
 
 **return**
 
@@ -486,7 +488,7 @@ console.log( normal.src ); //dataURL 형식으로 보여짐.
 
 **param**
 
-1. id:string - addMesh에서 사용한 id.
+1. id:string - addChild에서 사용한 id.
 
 **return**
 

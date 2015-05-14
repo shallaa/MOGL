@@ -7,6 +7,7 @@
 
 * [BlendMode](BlendMode.md)
 * [Camera](Camera.md)
+* [Filter](Filter.md)
 * [Geometry](Geometry.md)
 * [Group](Group.md)
 * [Light](Light.md)

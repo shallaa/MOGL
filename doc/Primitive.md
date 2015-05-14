@@ -25,7 +25,7 @@
 **sample**
 
 ```javascript
-scene.addMesh( 'cube1', new Mesh( Primitive.cube( 2, 3, 1 ), new Material() );
+scene.addChild( 'cube1', new Mesh( Primitive.cube( 2, 3, 1 ), new Material() );
 ```
 
 [top](#)
@@ -43,7 +43,7 @@ scene.addMesh( 'cube1', new Mesh( Primitive.cube( 2, 3, 1 ), new Material() );
 **sample**
 
 ```javascript
-scene.addMesh( 'geo0', new Mesh( Primitive.geodesic(30), new Material() );
+scene.addChild( 'geo0', new Mesh( Primitive.geodesic(30), new Material() );
 ```
 
 [top](#)
@@ -62,7 +62,7 @@ scene.addMesh( 'geo0', new Mesh( Primitive.geodesic(30), new Material() );
 **sample**
 
 ```javascript
-scene.addMesh( 'l', new Mesh( Primitive.line( 0,0,0, 10,10,10, 2 ), new Material() );
+scene.addChild( 'l', new Mesh( Primitive.line( 0,0,0, 10,10,10, 2 ), new Material() );
 ```
 
 [top](#)
@@ -80,7 +80,7 @@ scene.addMesh( 'l', new Mesh( Primitive.line( 0,0,0, 10,10,10, 2 ), new Material
 **sample**
 
 ```javascript
-scene.addMesh( 'pl', new Mesh( Primitive.plane(5,5), new Material() );
+scene.addChild( 'pl', new Mesh( Primitive.plane(5,5), new Material() );
 ```
 
 [top](#)
@@ -99,7 +99,7 @@ scene.addMesh( 'pl', new Mesh( Primitive.plane(5,5), new Material() );
 **sample**
 
 ```javascript
-scene.addMesh( 'p', new Mesh( Primitive.point(5), new Material() );
+scene.addChild( 'p', new Mesh( Primitive.point(5), new Material() );
 ```
 
 [top](#)
@@ -118,7 +118,7 @@ scene.addMesh( 'p', new Mesh( Primitive.point(5), new Material() );
 **sample**
 
 ```javascript
-scene.addMesh( 's1', new Mesh( Primitive.sphere(50), new Material() );
+scene.addChild( 's1', new Mesh( Primitive.sphere(50), new Material() );
 ```
 
 [top](#)
@@ -137,7 +137,7 @@ scene.addMesh( 's1', new Mesh( Primitive.sphere(50), new Material() );
 **sample**
 
 ```javascript
-scene.addMesh( 'box', new Mesh( Primitive.skybox( 5, 5, 5 ), new Material() );
+scene.addChild( 'box', new Mesh( Primitive.skybox( 5, 5, 5 ), new Material() );
 ```
 
 [top](#)
