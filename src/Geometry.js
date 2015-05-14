@@ -81,7 +81,7 @@ var Geometry = (function () {
     fn.removeVertexShader = function removeVertexShader(id) { MoGL.isAlive(this);
         // TODO 마일스톤0.2
         return delete this._vertexShaders[id], this
-    },
-    Geometry = MoGL.ext(Geometry, MoGL)
-    return Geometry
+    };
+
+    return MoGL.ext(Geometry, MoGL);
 })();
