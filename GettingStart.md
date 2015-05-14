@@ -88,7 +88,7 @@ var white = new Material( '#ffffff' );
 여태 만든 기하구조와 재질을 이용해 메쉬를 만들고 이 메쉬를 장면에 포함시키겠습니다.
 
 ```javascript
-var mesh = new Mesh( triangle, while );
+var mesh = new Mesh( triangle, white );
 scene.addChild( 'whiteTriangle', mesh );
 ```
 
